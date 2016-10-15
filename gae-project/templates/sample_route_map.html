@@ -29,8 +29,14 @@
 </head>
 
 <body>
-  <h1>Sample Map: {{ sampleMap }}</h1>
-  <h1>Sample Directions Map: {{ sampleDirections }}</h1>
+  <iframe
+  	width="600"
+  	height="450"
+ 	frameborder="0" style="border:0"
+ 	src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyA3vmnzLodVlnS0tIbty8tduEaKs4TF-BY&origin=Rose-Hulman Institute of Technology&destination=Terre Haute+Indiana">
+	</iframe>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3vmnzLodVlnS0tIbty8tduEaKs4TF-BY"
+    async defer></script>
 </body>
 
 </html>
