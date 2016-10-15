@@ -22,10 +22,23 @@ class MainHandler(webapp2.RequestHandler):
         # self.response.write("Hello world!")
         
         template = jinja_env.get_template("templates/base_page.html")
-        values = {"title": "Hello, world!"}
+        values = {"sampleMap": "Visit '/sampleMap' to view a Sample Map",
+                  "sampleDirections": "Visit '/sampleRoute' to view a Sample Route"}
         self.response.out.write(template.render(values))
-    
 
+class SampleMapHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template("templates/sample_map.html")
+        self.response.out.write(template.render())
+
+class SampleRouteHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_env.get_template("templates/sample_route_map.html")
+        self.response.out.write(template.render())
+        
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', MainHandler),
+    ('/sampleMap', SampleMapHandler),
+    ('/sampleRoute', SampleRouteHandler),
+    
 ], debug=True)
