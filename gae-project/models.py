@@ -2,42 +2,37 @@ from google.appengine.ext import ndb
 from google.appengine.ext.ndb import msgprop
 from protorpc.messages import Enum
 
-
-# TODO: Implement
-
-
-
-
-# Potentially helpful (or not) NDB Snippets - For reference only (delete or comment out)
-class AccountInfo(ndb.Model):
-    """ Information about this user.  There is only 1 of these per user. """
-
-    # Example property for this example model object.
-    name = ndb.StringProperty(default="")
-
-
-class MyObjectClassName(ndb.Model):
-    """ Another example model object. """
+class Route(ndb.Model):
+    """ 
+         The Route Entity will be the essential starting place for the web app.
+         The Route will belong to a user and will have different types inclucing:
+         Recent, Saved, Both Recent and Saved, as well as Daily or Not
+    """
+    created_by = ndb.StringProperty()
+    name = ndb.StringProperty()
+    type = ndb.IntegerProperty()
+    daily = ndb.IntegerProperty()
+    start_time = ndb.DateTimeProperty()
+    last_touch_date_time = ndb.DateTimeProperty(auto_now=True)
     
-    # Examples of some different property types.
-    someProperty = ndb.StringProperty(default="")
-    non_indexed_string = ndb.TextProperty()
-    datetime = ndb.DateTimeProperty(auto_now_add=True, auto_now=False)
-    boolean = ndb.BooleanProperty(default=False)
-    someNumericfieldName = ndb.IntegerProperty()
-    float = ndb.FloatProperty()
-    repeatedField = ndb.StringProperty(repeated=True)
+class Stop(ndb.Model):
+    """
+        The Stop Entity will be a destination, belonging to a Route Entity.
+    """
+    route_key = ndb.KeyProperty(kind=Route)
+    order_number = ndb.IntegerProperty()
+    streetOne = ndb.StringProperty()
+    streetTwo = ndb.StringProperty()
+    city = ndb.StringProperty()
+    state = ndb.StringProperty()
+    zip = ndb.StringProperty()
     
-    class ExampleEnum(Enum):
-        """ Properties that can only have a few values."""
-        OPTION_1 = 1
-        OPTION_2 = 2
-        OPTION_3 = 3
-    recipient_type = msgprop.EnumProperty(ExampleEnum, default=ExampleEnum.OPTION_1)
-    
-class MyOtherClassName(ndb.Model):
-    """ Yet another example model object. """
-  
-    single_key = ndb.KeyProperty(kind=MyObjectClassName)
-    list_of_keys = ndb.KeyProperty(kind=MyObjectClassName, repeated=True)
-    
+class Notification(ndb.Model):
+    """
+        The Notification Entity will be used to send messages between two users
+    """
+    creator = ndb.StringProperty()
+    receiver = ndb.StringProperty()
+    time = ndb.DateTimeProperty()
+    type = ndb.IntegerProperty()
+    message = ndb.StringProperty()
