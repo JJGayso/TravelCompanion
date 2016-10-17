@@ -1,57 +1,6 @@
-<!DOCTYPE html>
-<html>
- 	<head>
-	  <meta charset="utf-8">
-	  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-	  <title>Project name</title>
-	
-	  <!-- Font Awesome has a bunch of handy icons that are easy to use (optional) -->
-	  <!-- 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css"> -->
-	
-	  <!-- Bootstrap CSS -->
-	  <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-	  <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css"> <!-- Optional -->
-	
-	  <!-- Custom CSS -->
-	  <link rel="stylesheet" href="/static/css/style.css">
-	
-	  <!-- Note many developers load js last. I like to cheat and put little script snippets in my html sometimes,
-	       so I load my JS in the header and use the $(document).ready() jQuery approach for any running JS code. -->
-	
-	  <!-- Bootstrap and jQuery JS -->
-	  <script src="/static/js/jquery-2.2.3.min.js"></script>
-	  <script src="/static/js/bootstrap.min.js"></script>
-	
-	  <!-- Custom JS -->
-	  <script src="/static/js/main.js"></script>
-	</head>
-	
-    <title>Simple Map</title>
-    <meta name="viewport" content="initial-scale=1.0">
-    <meta charset="utf-8">
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #map {
-        height: 100%;
-      }
-    </style>
-  </head>
-  <body>
+{% extends "templates/base_page.html" %} {% block content %}
     <div id="map"></div>
-    <script>
-      var map;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 39.465542, lng: -87.375924},
-          zoom: 11
-        });
-      }
-    </script>
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3vmnzLodVlnS0tIbty8tduEaKs4TF-BY&callback=initMap"
-    async defer></script>
-  </body>
-</html>
+        async defer></script>
+{% endblock %}
