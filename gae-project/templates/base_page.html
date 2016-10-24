@@ -9,9 +9,6 @@
     <!-- Font Awesome has a bunch of handy icons that are easy to use (optional) -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/static/css/style.css">
-
     <!-- jQuery JS -->
     <script src="/static/js/jquery-2.2.3.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -20,6 +17,9 @@
 
     <!-- Custom JS -->
     <script src="/static/js/main.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
 
 </head>
 
@@ -37,7 +37,7 @@
             </nav>
         </div>
     </header>
-    <div class="mdl-layout__drawer">
+    <div class="mdl-layout__drawer mdl-layout--small-screen-only">
         <span class="mdl-layout-title">Travel Companion</span>
         <nav class="mdl-navigation">
             <a class="mdl-navigation__link" href="">Save Route</a>
@@ -52,7 +52,16 @@
     <main class="container mdl-layout__content">
         {% block content %}{% endblock %}
     </main>
-
+    <footer id="footer" class="mdl-mini-footer">
+        <div id="footer_content" class="mdl-mini-footer__middle-section">
+            <ul class="mdl-mini-footer__link-list center">
+                <a href="#"><li><i class="fa fa-file-text-o" aria-hidden="true"></i><br/>Create Route</li></a>
+                <a href="#"><li><i class="fa fa-pencil" aria-hidden="true"></i><br/>Edit Route</li></a>
+                <a href="#"><li><i class="fa fa-clock-o" aria-hidden="true"></i><br/>Recent Routes</li></a>
+                <a href="#"><li><i class="fa fa-share-square-o" aria-hidden="true"></i><br/>Share Route</li></a>
+            </ul>
+        </div>
+    </footer>
 </div>
 <div class="fab-width-container container">
     {% block fab %}{% endblock %}
