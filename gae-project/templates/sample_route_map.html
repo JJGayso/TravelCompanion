@@ -1,10 +1,222 @@
-{% extends "templates/base_page.html" %} {% block content %}
-<iframe
-  	width="600"
-  	height="450"
- 	frameborder="0" style="border:0"
- 	src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyA3vmnzLodVlnS0tIbty8tduEaKs4TF-BY&origin=Rose-Hulman Institute of Technology&destination=Terre Haute+Indiana">
-	</iframe>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3vmnzLodVlnS0tIbty8tduEaKs4TF-BY"
-    async defer></script>
-{% endblock %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Project name</title>
+
+    <!-- Font Awesome has a bunch of handy icons that are easy to use (optional) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+
+    <!-- jQuery JS -->
+    <script src="/static/js/jquery-2.2.3.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.teal-indigo.min.css"/>
+
+    <!-- Custom JS -->
+    <script src="/static/js/main.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+
+</head>
+
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Travel Companion</span>
+            <div class="mdl-layout-spacer"></div>
+            <nav class="mdl-navigation mdl-layout--large-screen-only">
+                <a class="mdl-navigation__link" href="/sampleMap">Sample Map</a>
+                <a class="mdl-navigation__link" href="/sampleRoute">Sample Route</a>
+                <a class="mdl-navigation__link" href="">Save Route</a>
+                <a class="mdl-navigation__link" href="">My Routes</a>
+                <a class="mdl-navigation__link" href="">Notifications</a>
+                <a class="mdl-navigation__link" href="">Sign Out</a>
+            </nav>
+        </div>
+    </header>
+    <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+        <span class="mdl-layout-title">Travel Companion</span>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="">Save Route</a>
+            <a class="mdl-navigation__link" href="">My Routes</a>
+            <a class="mdl-navigation__link" href="">Notifications</a>
+            <a class="mdl-navigation__link" href="">Sign Out</a>
+            <hr>
+            <a class="mdl-navigation__link" href="/sampleMap">Sample Map</a>
+            <a class="mdl-navigation__link" href="/sampleRoute">Sample Route</a>
+        </nav>
+    </div>
+    <main class="container mdl-layout__content">
+        
+        
+        <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+      #right-panel {
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+
+      #right-panel select, #right-panel input {
+        font-size: 15px;
+      }
+
+      #right-panel select {
+        width: 100%;
+      }
+
+      #right-panel i {
+        font-size: 12px;
+      }
+      #right-panel {
+        height: 100%;
+        float: right;
+        width: 390px;
+        overflow: auto;
+      }
+      #map {
+        margin-right: 400px;
+      }
+      #floating-panel {
+        background: #fff;
+        padding: 5px;
+        font-size: 14px;
+        font-family: Arial;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+        display: none;
+      }
+      @media print {
+        #map {
+          height: 500px;
+          margin: 0;
+        }
+        #right-panel {
+          float: none;
+          width: auto;
+        }
+      }
+    </style>
+    <div id="floating-panel">
+      <strong>Start:</strong>
+      <select id="start">
+        <option value="chicago, il">Chicago</option>
+        <option value="st louis, mo">St Louis</option>
+        <option value="joplin, mo">Joplin, MO</option>
+        <option value="oklahoma city, ok">Oklahoma City</option>
+        <option value="amarillo, tx">Amarillo</option>
+        <option value="gallup, nm">Gallup, NM</option>
+        <option value="flagstaff, az">Flagstaff, AZ</option>
+        <option value="winona, az">Winona</option>
+        <option value="kingman, az">Kingman</option>
+        <option value="barstow, ca">Barstow</option>
+        <option value="san bernardino, ca">San Bernardino</option>
+        <option value="los angeles, ca">Los Angeles</option>
+      </select>
+      <br>
+      <strong>End:</strong>
+      <select id="end">
+        <option value="chicago, il">Chicago</option>
+        <option value="st louis, mo">St Louis</option>
+        <option value="joplin, mo">Joplin, MO</option>
+        <option value="oklahoma city, ok">Oklahoma City</option>
+        <option value="amarillo, tx">Amarillo</option>
+        <option value="gallup, nm">Gallup, NM</option>
+        <option value="flagstaff, az">Flagstaff, AZ</option>
+        <option value="winona, az">Winona</option>
+        <option value="kingman, az">Kingman</option>
+        <option value="barstow, ca">Barstow</option>
+        <option value="san bernardino, ca">San Bernardino</option>
+        <option value="los angeles, ca">Los Angeles</option>
+      </select>
+    </div>
+    <div id="right-panel">
+    <h1>Directions:</h1>
+    </div>
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        var directionsService = new google.maps.DirectionsService;
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 7,
+          center: {lat: 41.85, lng: -87.65}
+        });
+        directionsDisplay.setMap(map);
+        directionsDisplay.setPanel(document.getElementById('right-panel'));
+
+        var control = document.getElementById('floating-panel');
+        control.style.display = 'block';
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
+
+        var onChangeHandler = function() {
+          calculateAndDisplayRoute(directionsService, directionsDisplay);
+        };
+        document.getElementById('start').addEventListener('change', onChangeHandler);
+        document.getElementById('end').addEventListener('change', onChangeHandler);
+      }
+
+      function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        var start = document.getElementById('start').value;
+        var end = document.getElementById('end').value;
+        directionsService.route({
+          origin: start,
+          destination: end,
+          travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3vmnzLodVlnS0tIbty8tduEaKs4TF-BY&callback=initMap">
+    </script>
+        
+        
+        
+    </main>
+    <footer id="footer" class="mdl-mini-footer">
+        <div id="footer_content" class="mdl-mini-footer__middle-section">
+            <ul class="mdl-mini-footer__link-list center">
+                <a href="#"><li><i class="fa fa-file-text-o" aria-hidden="true"></i><br/>Create Route</li></a>
+                <a href="#"><li><i class="fa fa-pencil" aria-hidden="true"></i><br/>Edit Route</li></a>
+                <a href="#"><li><i class="fa fa-clock-o" aria-hidden="true"></i><br/>Recent Routes</li></a>
+                <a href="#"><li><i class="fa fa-share-square-o" aria-hidden="true"></i><br/>Share Route</li></a>
+            </ul>
+        </div>
+    </footer>
+</div>
+<div class="fab-width-container container">
+    {% block fab %}{% endblock %}
+</div>
+{% block dialogs %}{% endblock %}
+</body>
