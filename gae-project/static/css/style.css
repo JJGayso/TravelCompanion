@@ -46,7 +46,6 @@ html, body {
 #right-panel {
     font-family: 'Roboto','sans-serif';
     line-height: 30px;
-    padding-left: 10px;
 }
 
 #right-panel select, #right-panel input {
@@ -67,7 +66,7 @@ html, body {
     overflow: auto;
 }
 #map {
-    margin-right: 400px;
+    margin-right: 390px;
 }
 #floating-panel {
     background: #fff;

@@ -23,9 +23,11 @@ function initMap() {
     document.getElementById('start').addEventListener('change', onChangeHandler);
     document.getElementById('end').addEventListener('change', onChangeHandler);
     $("#map").css("height", $(".mdl-layout__content").height());
+    $("#right-panel").css("height", $(".mdl-layout__content").height());
 
     $(window).resize(function() {
         $("#map").css("height", $(".mdl-layout__content").height());
+        $("#right-panel").css("height", $(".mdl-layout__content").height());
         google.maps.event.trigger(map, "resize");
     });
 }
