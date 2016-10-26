@@ -9,10 +9,38 @@
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+    cursor: pointer;
+    cursor: hand;
 }
 
 #footer {
     padding: 5px 5px;
+}
+
+.fa-trash{
+    color: red;
+}
+
+#edit-route-dialog{
+    width: 500px;
+}
+
+.route-ordered{
+    width: auto;
+    margin-left: 70px;
+}
+
+.route-delete{
+    padding-right: 15px;
+}
+
+#destinations_label{
+    display: inline-block;
+}
+
+#ordered_label{
+    display: inline-block;
+    float: right;
 }
 
 .mdl-mini-footer--link-list li, .mdl-mini-footer__link-list li {
