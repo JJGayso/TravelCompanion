@@ -1,12 +1,47 @@
 $(document).ready(function() {
-
+    $(window).off("resize");
 });
 
 var map;
 function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 39.465542, lng: -87.375924},
-        zoom: 11
+    var directionsDisplay = new google.maps.DirectionsRenderer;
+    var directionsService = new google.maps.DirectionsService;
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 7,
+        center: {lat: 41.85, lng: -87.65}
     });
-    google.maps.event.trigger(map, "resize");
+    directionsDisplay.setMap(map);
+    directionsDisplay.setPanel(document.getElementById('right-panel'));
+
+    var control = document.getElementById('floating-panel');
+    control.style.display = 'block';
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
+
+    var onChangeHandler = function() {
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
+    };
+    document.getElementById('start').addEventListener('change', onChangeHandler);
+    document.getElementById('end').addEventListener('change', onChangeHandler);
+    $("#map").css("height", $(".mdl-layout__content").height());
+
+    $(window).resize(function() {
+        $("#map").css("height", $(".mdl-layout__content").height());
+        google.maps.event.trigger(map, "resize");
+    });
+}
+
+function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+    var start = document.getElementById('start').value;
+    var end = document.getElementById('end').value;
+    directionsService.route({
+        origin: start,
+        destination: end,
+        travelMode: 'DRIVING'
+    }, function(response, status) {
+        if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+        } else {
+            window.alert('Directions request failed due to ' + status);
+        }
+    });
 }
