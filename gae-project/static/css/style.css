@@ -43,6 +43,14 @@
     float: right;
 }
 
+#text-toggle, #email-toggle{
+    display: inline-block;
+}
+
+#share-buttons{
+    text-align: center;
+}
+
 .mdl-mini-footer--link-list li, .mdl-mini-footer__link-list li {
     margin: 0px 16px;
     line-height: 24px;
