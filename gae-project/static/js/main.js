@@ -62,6 +62,17 @@ enableButtons = function() {
             $("#contact-label").text("Email Address");
         }
     });
+
+    $(".recent-btn")
+        .click(
+            function() {
+                document.querySelector('#recent-dialog').showModal();
+            });
+
+    // Password cancel button to close the insert-password-dialog
+    $('.close-recent-dialog').click(function() {
+        document.querySelector('#recent-dialog').close();
+    });
 }
 
 mdlInitializations = function() {

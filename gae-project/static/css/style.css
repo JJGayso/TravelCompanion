@@ -47,8 +47,12 @@
     display: inline-block;
 }
 
-#share-buttons{
+#share-buttons, #recent-close-btn{
     text-align: center;
+}
+
+#recent-dialog{
+    width: 500px;
 }
 
 .mdl-mini-footer--link-list li, .mdl-mini-footer__link-list li {

@@ -105,7 +105,7 @@
                 <a  class="edit-route-btn">
                     <li><i class="fa fa-pencil edit-route-btn" aria-hidden="true"></i><br/>Edit Route</li>
                 </a>
-                <a href="#">
+                <a class="recent-btn">
                     <li><i class="fa fa-clock-o" aria-hidden="true"></i><br/>Recent Routes</li>
                 </a>
                 <a class="share-btn">
@@ -182,6 +182,41 @@
             </button>
         </div>
     </form>
+</dialog>
+<dialog id='recent-dialog' class="mdl-dialog">
+    <h4 class="mdl-dialog__title">Recent Routes</h4>
+    <div class="mdl-dialog__content">
+        <ul class="demo-list-item mdl-list">
+            <a href="#">
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">
+                      5500 Wabash Ave to 123 Test St
+                    </span>
+                </li>
+            </a>
+            <hr/>
+            <a href="#">
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">
+                      123 Sesame Street to 1600 Pennsylvania Ave
+                    </span>
+                </li>
+            </a>
+            <hr/>
+            <a href="#">
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">
+                      Assembly Hall to Wrigley Field
+                    </span>
+                </li>
+            </a>
+        </ul>
+    </div>
+    <div class="mdl-dialog__actions">
+        <button id="recent-close-btn" type="button" class="mdl-button mdl-js-button mdl-button--raised close-recent-dialog">
+            Cancel
+        </button>
+    </div>
 </dialog>
 </body>
 </html>
