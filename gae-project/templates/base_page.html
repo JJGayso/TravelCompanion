@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -14,6 +14,13 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.teal-indigo.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.4/dialog-polyfill.css">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.4/dialog-polyfill.js"></script>
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3vmnzLodVlnS0tIbty8tduEaKs4TF-BY&callback=initMap">
+    </script>
 
     <!-- Custom JS -->
     <script src="/static/js/main.js"></script>
@@ -24,6 +31,7 @@
 </head>
 
 <body>
+{% block header %}
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
@@ -35,7 +43,7 @@
                 <a class="mdl-navigation__link" href="">Save Route</a>
                 <a class="mdl-navigation__link" href="">My Routes</a>
                 <a class="mdl-navigation__link" href="">Notifications</a>
-                <a class="mdl-navigation__link" href="">Sign Out</a>
+                <a class="mdl-navigation__link" href="{{ logout_url }}">Sign Out</a>
             </nav>
         </div>
     </header>
@@ -45,15 +53,17 @@
             <a class="mdl-navigation__link" href="">Save Route</a>
             <a class="mdl-navigation__link" href="">My Routes</a>
             <a class="mdl-navigation__link" href="">Notifications</a>
-            <a class="mdl-navigation__link" href="">Sign Out</a>
+            <a class="mdl-navigation__link" href="{{ logout_url }}">Sign Out</a>
             <hr>
             <a class="mdl-navigation__link" href="/sampleMap">Sample Map</a>
             <a class="mdl-navigation__link" href="/sampleRoute">Sample Route</a>
         </nav>
     </div>
+{% endblock %}
     <main class="container mdl-layout__content">
         {% block content %}{% endblock %}
     </main>
+{% block footer %}
     <footer id="footer" class="mdl-mini-footer">
         <div id="footer_content" class="mdl-mini-footer__middle-section">
             <ul class="mdl-mini-footer__link-list center">
@@ -64,6 +74,7 @@
             </ul>
         </div>
     </footer>
+{% endblock %}
 </div>
 <div class="fab-width-container container">
     {% block fab %}{% endblock %}
