@@ -1,7 +1,10 @@
 import os
 
+from google.appengine.api import users
 import jinja2
 import webapp2
+import email
+
 
 # Jinja environment instance necessary to use Jinja templates.
 def __init_jinja_env():
@@ -20,10 +23,14 @@ class MainHandler(webapp2.RequestHandler):
     def get(self):
         # A basic template could just send text out the response stream, but we use Jinja
         # self.response.write("Hello world!")
-        
+        user = users.get_current_user()
         template = jinja_env.get_template("templates/base_page.html")
-        values = {"sampleMap": "Visit '/sampleMap' to view a Sample Map",
-                  "sampleDirections": "Visit '/sampleRoute' to view a Sample Route"}
+        if user:
+            email = user.email().lower()
+            values = {"user_email": email, "logout_url": users.create_logout_url('/login')}
+        else:
+            self.redirect('/login')
+            return
         self.response.out.write(template.render(values))
 
 class SampleMapHandler(webapp2.RequestHandler):
@@ -36,9 +43,18 @@ class SampleRouteHandler(webapp2.RequestHandler):
         template = jinja_env.get_template("templates/sample_route_map.html")
         self.response.out.write(template.render())
         
+class LoginPage(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        
+        template = jinja_env.get_template("templates/login.html")
+        values = {"login_url": users.create_login_url("/")}
+        self.response.out.write(template.render(values))
+        
 app = webapp2.WSGIApplication([
+    ('/login', LoginPage),
     ('/', MainHandler),
     ('/sampleMap', SampleMapHandler),
-    ('/sampleRoute', SampleRouteHandler),
+    ('/sampleRoute', SampleRouteHandler)
     
 ], debug=True)
