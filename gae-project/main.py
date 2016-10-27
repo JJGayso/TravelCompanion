@@ -2,10 +2,13 @@ import email
 import os
 
 from google.appengine.api import users
+from google.appengine.ext import ndb
 import jinja2
 import webapp2
 
 from handlers import base_handlers
+from models import Route
+import utils
 
 
 # Jinja environment instance necessary to use Jinja templates.
@@ -43,8 +46,34 @@ class LoginPage(webapp2.RequestHandler):
         values = {"login_url": users.create_login_url("/")}
         self.response.out.write(template.render(values))
         
+class CreateRouteAction(webapp2.RequestHandler):
+    def post(self):
+        if self.request.get('entity_key'):
+            route_key = ndb.Key(urlsafe=self.request.get('entity_key'))
+            route = route_key.get();
+            
+            #Update Route Info
+            route.name = self.request.get('name')
+            route.type = self.request.get('saved')
+            route.daily = self.request.get('daily')
+            route.put();
+        else:
+            user = users.get_current_user()
+            email = user.email().lower()
+            #TODO: Name will change when modal has dynamic number of routes
+            #NOTE: Created routes start with type = 0 (not saved)
+            #NOTE: Created routes start with daily = 0 (non-recurring)
+            new_route = Route(parent=utils.get_parent_key_for_email(email),
+                                   created_by = user,
+                                   name = self.request.get('stop1') + "to" + self.request.get('stop3'),
+                                   type = 0,                                
+                                   daily = 0,
+                                   last_touch_date_time = ndb.DateTimeProperty())
+        self.redirect(self.request.referrer)
+        
 app = webapp2.WSGIApplication([
     ('/login', LoginPage),
-    ('/', HomeHandler)
+    ('/', HomeHandler),
+    ('/edit-route', CreateRouteAction)
     
 ], debug=True)
