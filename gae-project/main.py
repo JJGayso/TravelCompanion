@@ -33,14 +33,9 @@ class MainHandler(webapp2.RequestHandler):
             return
         self.response.out.write(template.render(values))
 
-class SampleMapHandler(webapp2.RequestHandler):
+class HomeHandler(webapp2.RequestHandler):
     def get(self):
-        template = jinja_env.get_template("templates/sample_map.html")
-        self.response.out.write(template.render())
-
-class SampleRouteHandler(webapp2.RequestHandler):
-    def get(self):
-        template = jinja_env.get_template("templates/sample_route_map.html")
+        template = jinja_env.get_template("templates/home.html")
         self.response.out.write(template.render())
         
 class LoginPage(webapp2.RequestHandler):
@@ -53,8 +48,6 @@ class LoginPage(webapp2.RequestHandler):
         
 app = webapp2.WSGIApplication([
     ('/login', LoginPage),
-    ('/', MainHandler),
-    ('/sampleMap', SampleMapHandler),
-    ('/sampleRoute', SampleRouteHandler)
+    ('/', HomeHandler)
     
 ], debug=True)
