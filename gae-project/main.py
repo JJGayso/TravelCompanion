@@ -7,7 +7,7 @@ import jinja2
 import webapp2
 
 from handlers import base_handlers
-from models import Route
+from models import Route, Notification
 import utils
 
 
@@ -71,9 +71,35 @@ class CreateRouteAction(webapp2.RequestHandler):
                                    last_touch_date_time = ndb.DateTimeProperty())
         self.redirect(self.request.referrer)
         
+class ShareRouteAction(webapp2.RequestHandler):
+    def post(self):
+        if self.request.get('entity_key'):
+            notification = ndb.Key(urlsafe=self.request.get('entity_key'))
+            notification = notification.get();
+            
+            #Update Route Info
+            notification.name = self.request.get('time')
+            notification.type = self.request.get('type')
+            notification.daily = self.request.get('message')
+            notification.put();
+        else:
+            user = users.get_current_user()
+            email = user.email().lower()
+            #NOTE: Created notifications start with type = 0 (email)
+            notification = Notification(parent=utils.get_parent_key_for_email(email),
+                                   creator = user,
+                                   receiver = self.request.get('receiver'),
+                                   time = self.request.get('time'),                                
+                                   type = 0,
+                                   message = self.request.get('message'))
+        self.redirect(self.request.referrer)
+     
+    
+    
 app = webapp2.WSGIApplication([
     ('/login', LoginPage),
     ('/', HomeHandler),
-    ('/edit-route', CreateRouteAction)
+    ('/edit-route', CreateRouteAction),
+    ('/share', ShareRouteAction),
     
 ], debug=True)
