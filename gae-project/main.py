@@ -1,9 +1,11 @@
+import email
 import os
 
 from google.appengine.api import users
 import jinja2
 import webapp2
-import email
+
+from handlers import base_handlers
 
 
 # Jinja environment instance necessary to use Jinja templates.
@@ -19,24 +21,19 @@ def __init_jinja_env():
 jinja_env = __init_jinja_env()
 
 
-class MainHandler(webapp2.RequestHandler):
-    def get(self):
-        # A basic template could just send text out the response stream, but we use Jinja
-        # self.response.write("Hello world!")
-        user = users.get_current_user()
-        template = jinja_env.get_template("templates/base_page.html")
-        if user:
-            email = user.email().lower()
-            values = {"user_email": email, "logout_url": users.create_logout_url('/login')}
-        else:
-            self.redirect('/login')
-            return
-        self.response.out.write(template.render(values))
+class MainHandler(base_handlers.BasePage):
+    def update_values(self, values):
+        pass
+    
+    def get_template(self):
+        return jinja_env.get_template("templates/base_page.html")
 
-class HomeHandler(webapp2.RequestHandler):
-    def get(self):
-        template = jinja_env.get_template("templates/home.html")
-        self.response.out.write(template.render())
+class HomeHandler(base_handlers.BasePage):
+    def update_values(self, values):
+        pass
+    
+    def get_template(self):
+        return jinja_env.get_template("templates/home.html")
         
 class LoginPage(webapp2.RequestHandler):
     def get(self):
