@@ -96,7 +96,7 @@ function initMap() {
         center: {lat: 41.85, lng: -87.65}
     });
     directionsDisplay.setMap(map);
-    directionsDisplay.setPanel(document.getElementById('right-panel'));
+    directionsDisplay.setPanel(document.getElementById('directions-panel'));
 
     if(window.location.href.split('/').pop() == "login"){
         var control = document.getElementById('floating-panel');
@@ -107,6 +107,18 @@ function initMap() {
         };
         document.getElementById('start').addEventListener('change', onChangeHandler);
         document.getElementById('end').addEventListener('change', onChangeHandler);
+    } else {
+        directionsService.route({
+            origin: "chicago, il",
+            destination: "st louis, mo",
+            travelMode: 'DRIVING'
+        }, function(response, status) {
+            if (status === 'OK') {
+                directionsDisplay.setDirections(response);
+            } else {
+                window.alert('Directions request failed due to ' + status);
+            }
+        });
     }
 
     $("#map").css("height", $(".mdl-layout__content").height());
