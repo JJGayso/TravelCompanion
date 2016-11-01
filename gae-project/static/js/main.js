@@ -4,6 +4,15 @@ $(document).ready(function() {
     enableButtons();
 });
 
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds){
+            break;
+        }
+    }
+}
+
 enableButtons = function() {
     $(".edit-route-btn")
         .click(
@@ -120,7 +129,7 @@ function initMap() {
             }
         });
     }
-
+    sleep(0);
     $("#map").css("height", $(".mdl-layout__content").height());
     $("#right-panel").css("height", $(".mdl-layout__content").height());
 
