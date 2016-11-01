@@ -5,7 +5,7 @@
     position: relative !important;
 }
 
-.save-route-btn {
+.save-route-btn, #title{
     cursor: pointer;
     cursor: hand;
 }
@@ -180,4 +180,23 @@ background: rgb(0, 128, 120);
 
 .dtp .dtp-actual-meridien a.selected {
     background: rgb(83,109,254);
+}
+
+.saved-route{
+    font-size: 24px;
+    border-bottom: solid black .5px;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.edit-saved-route, .delete-saved-route{
+    font-size: 24px;
+    height: 50px;
+    width: 50px;
+    min-height: 50px;
+    min-width: 50px;
+}
+
+#saved-routes-list{
+    overflow: auto;
 }

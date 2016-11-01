@@ -37,6 +37,13 @@ class HomeHandler(base_handlers.BasePage):
     
     def get_template(self):
         return jinja_env.get_template("templates/home.html")
+
+class MyRoutesHandler(base_handlers.BasePage):
+    def update_values(self, values):
+        pass
+
+    def get_template(self):
+        return jinja_env.get_template("templates/my_routes.html")
         
 class LoginPage(webapp2.RequestHandler):
     def get(self):
@@ -101,5 +108,6 @@ app = webapp2.WSGIApplication([
     ('/', HomeHandler),
     ('/edit-route', CreateRouteAction),
     ('/share', ShareRouteAction),
+    ('/routes', MyRoutesHandler)
     
 ], debug=True)

@@ -2,6 +2,11 @@ $(document).ready(function() {
     $(window).off("resize");
     mdlInitializations();
     enableButtons();
+    $(".mdl-layout-title").on("click", function() {
+        if(window.location.href.split('/').pop() !== "") {
+            window.location.href = '/';
+        }
+    });
 });
 
 function sleep(milliseconds) {
