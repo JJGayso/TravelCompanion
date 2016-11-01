@@ -18,15 +18,35 @@
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.4/dialog-polyfill.js"></script>
 
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3vmnzLodVlnS0tIbty8tduEaKs4TF-BY&callback=initMap">
-    </script>
+    <!-- From for Date time pickers https://github.com/T00rk/bootstrap-material-datetimepicker -->
+    <!-- License: https://github.com/T00rk/bootstrap-material-datetimepicker/blob/gh-pages/LICENSE.md -->
+    <!-- The MIT License (MIT)
+        Copyright (c) 2015 Romain America
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+        documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+        the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+        to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+        The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+        the Software.
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+        THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+        CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+        DEALINGS IN THE SOFTWARE. -->
+    <!-- Used with modifications -->
+    <link rel="stylesheet" href="/static/css/bootstrap-material-datetimepicker.css"/>
+    <script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap-material-datetimepicker.js"></script>
 
     <!-- Custom JS -->
     <script src="/static/js/main.js"></script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/style.css">
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3vmnzLodVlnS0tIbty8tduEaKs4TF-BY&callback=initMap">
+    </script>
 
 </head>
 
@@ -38,7 +58,7 @@
             <span class="mdl-layout-title">Travel Companion</span>
             <div class="mdl-layout-spacer"></div>
             <nav class="mdl-navigation mdl-layout--large-screen-only">
-                <a class="mdl-navigation__link" href="">Save Route</a>
+                <a class="mdl-navigation__link save-route-btn">Save Route</a>
                 <a class="mdl-navigation__link" href="">My Routes</a>
                 <a class="mdl-navigation__link" href="">Notifications</a>
                 <a class="mdl-navigation__link" href="{{ logout_url }}">Sign Out</a>
@@ -48,24 +68,24 @@
     <div class="mdl-layout__drawer mdl-layout--small-screen-only">
         <span class="mdl-layout-title">Travel Companion</span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" href="">Save Route</a>
+            <a class="mdl-navigation__link save-route-btn">Save Route</a>
             <a class="mdl-navigation__link" href="">My Routes</a>
             <a class="mdl-navigation__link" href="">Notifications</a>
             <a class="mdl-navigation__link" href="{{ logout_url }}">Sign Out</a>
         </nav>
     </div>
-{% endblock %}
+    {% endblock %}
     <main class="container mdl-layout__content">
         {% block content %}{% endblock %}
     </main>
-{% block footer %}
+    {% block footer %}
     <footer id="footer" class="mdl-mini-footer">
         <div id="footer_content" class="mdl-mini-footer__middle-section">
             <ul class="mdl-mini-footer__link-list center">
                 <a class="edit-route-btn">
                     <li><i class="fa fa-file-text-o" aria-hidden="true"></i><br/>Create Route</li>
                 </a>
-                <a  class="edit-route-btn">
+                <a class="edit-route-btn">
                     <li><i class="fa fa-pencil edit-route-btn" aria-hidden="true"></i><br/>Edit Route</li>
                 </a>
                 <a class="recent-btn">
@@ -77,7 +97,7 @@
             </ul>
         </div>
     </footer>
-{% endblock %}
+    {% endblock %}
 </div>
 <div class="fab-width-container container">
     {% block fab %}{% endblock %}
@@ -86,10 +106,11 @@
 <dialog id='edit-route-dialog' class="mdl-dialog">
     <h4 class="mdl-dialog__title">Create Route</h4>
     <form action="/edit-route" method="POST">
-    	<input type="text" name="entity_key" class="hidden">
+        <input type="text" name="entity_key" class="hidden">
         <div class="mdl-dialog__content">
             <h5 id="destinations_label">Destinations</h5>
             <h5 id="ordered_label">Ordered?</h5>
+            <br/>
             <br/>
             <i id="stop1-delete" class="fa fa-trash route-delete" aria-hidden="true"></i>
             <div id="stop1-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -119,7 +140,8 @@
             </label>
         </div>
         <div class="mdl-dialog__actions">
-            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Create Route</button>
+            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Create Route
+            </button>
             <button type="button" class="mdl-button mdl-js-button mdl-button--raised close-edit-route-dialog">
                 Cancel
             </button>
@@ -131,7 +153,8 @@
     <form action="/share" method="POST">
         <div class="mdl-dialog__content">
             <div id="share-buttons">
-                <button id="email-toggle" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                <button id="email-toggle" type="button"
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
                     Email
                 </button>
                 <button id="text-toggle" type="button" class="mdl-button mdl-js-button mdl-button--raised">
@@ -182,10 +205,44 @@
         </ul>
     </div>
     <div class="mdl-dialog__actions">
-        <button id="recent-close-btn" type="button" class="mdl-button mdl-js-button mdl-button--raised close-recent-dialog">
+        <button id="recent-close-btn" type="button"
+                class="mdl-button mdl-js-button mdl-button--raised close-recent-dialog">
             Cancel
         </button>
     </div>
+</dialog>
+<dialog id='save-route-dialog' class="mdl-dialog">
+    <h4 class="mdl-dialog__title">Save Route</h4>
+    <form action="/save" method="POST">
+        <div class="mdl-dialog__content">
+            <div id="name-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input id="name" class="mdl-textfield__input" type="text" name="name">
+                <label id="name-label" class="mdl-textfield__label" for="name">Name</label>
+            </div>
+            <span class="mdl-switch__label save-route-switch-label">Email Notifications</span>
+            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect save-route-switch" for="email-switch">
+                <input type="checkbox" id="email-switch" class="mdl-switch__input">
+            </label>
+            <span class="mdl-switch__label save-route-switch-label">Text Notifications</span>
+            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect save-route-switch" for="text-switch">
+                <input type="checkbox" id="text-switch" class="mdl-switch__input">
+            </label>
+            <div class="scheduled-picker">
+                <div id="notification-time-field"
+                     class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input id="notification-time" class="mdl-textfield__input" type="text" name="notification-time">
+                    <label id="notification-time-label" class="mdl-textfield__label" for="notification-time">Notification
+                        Time</label>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-dialog__actions">
+            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save</button>
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised close-save-route-dialog">
+                Cancel
+            </button>
+        </div>
+    </form>
 </dialog>
 {% endblock %}
 </body>

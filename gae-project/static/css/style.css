@@ -5,6 +5,11 @@
     position: relative !important;
 }
 
+.save-route-btn {
+    cursor: pointer;
+    cursor: hand;
+}
+
 #footer_content {
     text-align: center;
     margin-left: auto;
@@ -17,41 +22,41 @@
     padding: 5px 5px;
 }
 
-.fa-trash{
+.fa-trash {
     color: red;
 }
 
-#edit-route-dialog{
+#edit-route-dialog {
     width: 500px;
 }
 
-.route-ordered{
+.route-ordered {
     width: auto;
     margin-left: 70px;
 }
 
-.route-delete{
+.route-delete {
     padding-right: 15px;
 }
 
-#destinations_label{
+#destinations_label {
     display: inline-block;
 }
 
-#ordered_label{
+#ordered_label {
     display: inline-block;
     float: right;
 }
 
-#text-toggle, #email-toggle{
+#text-toggle, #email-toggle {
     display: inline-block;
 }
 
-#share-buttons, #recent-close-btn{
+#share-buttons, #recent-close-btn {
     text-align: center;
 }
 
-#recent-dialog{
+#recent-dialog {
     width: 500px;
 }
 
@@ -59,17 +64,20 @@
     margin: 0px 16px;
     line-height: 24px;
 }
+
 /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
 #map {
     height: 100%;
 }
+
 /* Optional: Makes the sample page fill the window. */
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
 }
+
 #floating-panel {
     position: absolute;
     top: 10px;
@@ -79,12 +87,13 @@ html, body {
     padding: 5px;
     border: 1px solid #999;
     text-align: center;
-    font-family: 'Roboto','sans-serif';
+    font-family: 'Roboto', 'sans-serif';
     line-height: 30px;
     padding-left: 10px;
 }
+
 #right-panel {
-    font-family: 'Roboto','sans-serif';
+    font-family: 'Roboto', 'sans-serif';
     line-height: 30px;
 }
 
@@ -99,15 +108,18 @@ html, body {
 #right-panel i {
     font-size: 12px;
 }
+
 #right-panel {
     height: 100%;
     float: right;
     width: 390px;
     overflow: auto;
 }
+
 #map {
     margin-right: 390px;
 }
+
 #floating-panel {
     background: #fff;
     padding: 5px;
@@ -117,29 +129,55 @@ html, body {
     box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
     display: none;
 }
+
 #directions_header {
     position: fixed;
-    background-color: rgb(0,150,136);
+    background-color: rgb(0, 150, 136);
     width: 100%;
     margin: 0px;
     padding: 24px 0px;
     z-index: -1;
     color: white;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
-#directions-panel{
+
+#directions-panel {
     position: relative;
     top: 113px;
     overflow: auto;
     z-index: -2;
 }
+
 @media print {
     #map {
         height: 500px;
         margin: 0;
     }
+
     #right-panel {
         float: none;
         width: auto;
     }
+}
+
+.save-route-switch {
+    display: inline-block;
+    width: initial;
+    float: right;
+}
+
+.save-route-switch-label {
+    left: 0;
+    display: inline-block;
+}
+
+.dtp div.dtp-date, .dtp div.dtp-time {
+    background: rgb(0, 150, 136);
+}
+.dtp > .dtp-content > .dtp-date-view > header.dtp-header {
+background: rgb(0, 128, 120);
+}
+
+.dtp .dtp-actual-meridien a.selected {
+    background: rgb(83,109,254);
 }

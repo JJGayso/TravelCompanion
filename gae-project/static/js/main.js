@@ -82,6 +82,43 @@ enableButtons = function() {
     $('.close-recent-dialog').click(function() {
         document.querySelector('#recent-dialog').close();
     });
+
+    $(".save-route-btn")
+        .click(
+            function() {
+                document.querySelector('#save-route-dialog').showModal();
+                var name = $(this).find(".name").html();
+                var time = $(this).find(".notification-time").html();
+
+                // Note that I had to use change the mdl way to get the input label to float up.
+                // See: https://github.com/google/material-design-lite/issues/1287
+                document.querySelector('#name-field').MaterialTextfield
+                    .change(name);
+                document.querySelector('#notification-time-field').MaterialTextfield
+                    .change(time);
+
+                var dateinput= $('input[name=notification-time]');
+                dateinput.bootstrapMaterialDatePicker({
+                    format : 'hh:mm A',
+                    shortTime : true,
+                    date : false
+                });
+                dateinput.on("click", function(){
+                    document.querySelector('#save-route-dialog').close();
+                });
+                dateinput.on("beforeChange", function(){
+                    document.querySelector('#save-route-dialog').showModal();
+                    $("#notification-time-field").addClass("is-dirty");
+                });
+                $(".dtp-close").on("click", function(){
+                    document.querySelector('#save-route-dialog').showModal();
+                });
+            });
+
+    // Password cancel button to close the insert-password-dialog
+    $('.close-save-route-dialog').click(function() {
+        document.querySelector('#save-route-dialog').close();
+    });
 }
 
 mdlInitializations = function() {
