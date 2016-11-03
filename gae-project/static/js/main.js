@@ -87,14 +87,14 @@ enableButtons = function() {
     $('.close-recent-dialog').click(function() {
         document.querySelector('#recent-dialog').close();
     });
-
+    function showSaveModal(){ document.querySelector('#save-route-dialog').showModal(); }
+    function closeSaveModal() { document.querySelector('#save-route-dialog').close();}
     $(".save-route-btn")
         .click(
             function() {
                 document.querySelector('#save-route-dialog').showModal();
                 var name = $(this).find(".name").html();
                 var time = $(this).find(".notification-time").html();
-
                 // Note that I had to use change the mdl way to get the input label to float up.
                 // See: https://github.com/google/material-design-lite/issues/1287
                 document.querySelector('#name-field').MaterialTextfield
@@ -108,21 +108,23 @@ enableButtons = function() {
                     shortTime : true,
                     date : false
                 });
-                dateinput.on("click", function(){
-                    document.querySelector('#save-route-dialog').close();
-                });
+                dateinput.on("click", closeSaveModal);
                 dateinput.on("beforeChange", function(){
                     document.querySelector('#save-route-dialog').showModal();
                     $("#notification-time-field").addClass("is-dirty");
                 });
-                $(".dtp-close").on("click", function(){
-                    document.querySelector('#save-route-dialog').showModal();
-                });
+                $(".dtp-close").on("click", showSaveModal);
+                $(".dtp-btn-cancel").on("click", showSaveModal);
             });
 
     // Password cancel button to close the insert-password-dialog
     $('.close-save-route-dialog').click(function() {
         document.querySelector('#save-route-dialog').close();
+        var dateInput = $('input[name=notification-time]');
+        dateInput.off("click", closeSaveModal);
+        dateInput.off("beforeChange");
+        $(".dtp-btn-cancel").off("click", showSaveModal);
+        $(".dtp-close").off("click", showSaveModal);
     });
 }
 
