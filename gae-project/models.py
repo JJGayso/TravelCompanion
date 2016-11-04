@@ -21,11 +21,12 @@ class Stop(ndb.Model):
     """
     route_key = ndb.KeyProperty(kind=Route)
     order_number = ndb.IntegerProperty()
-    streetOne = ndb.StringProperty()
-    streetTwo = ndb.StringProperty()
-    city = ndb.StringProperty()
-    state = ndb.StringProperty()
-    zip = ndb.StringProperty()
+    stop_name = ndb.StringProperty()
+#     streetOne = ndb.StringProperty()
+#     streetTwo = ndb.StringProperty()
+#     city = ndb.StringProperty()
+#     state = ndb.StringProperty()
+#     zip = ndb.StringProperty()
     
 class Notification(ndb.Model):
     """
