@@ -35,8 +35,19 @@ class MainHandler(base_handlers.BasePage):
 
 class HomeHandler(base_handlers.BasePage):
     def update_values(self, values):
-        pass
-    
+        values["user_email"] = users.get_current_user().email().lower()
+        
+        stop1 = self.request.get('stop1')
+        stop2 = self.request.get('stop2')
+        stop3 = self.request.get('stop3')
+        stop4 = self.request.get('stop4')
+        stop5 = self.request.get('stop5')
+        values["stop1"] = stop1
+        values["stop2"] = stop2
+        values["stop3"] = stop3
+        values["stop4"] = stop4
+        values["stop5"] = stop5
+        
     def get_template(self):
         return jinja_env.get_template("templates/home.html")
 
@@ -68,24 +79,23 @@ class CreateRouteAction(webapp2.RequestHandler):
             route.put();
         else:
             firstStop = self.request.get('stop1')
-            
             lastStop = self.request.get('stop2')
             secondStop = lastStop
+            thirdStop = ""
+            fourthStop = ""
+            fifthStop = ""
+            
             if self.request.get('stop3'):
                 lastStop = self.request.get('stop3')
                 thirdStop = lastStop
-            else:
-                thirdStop = ""
+                
             if self.request.get('stop4'):
                 lastStop = self.request.get('stop4')
                 fourthStop = lastStop
-            else:
-                fourthStop = ""
+
             if self.request.get('stop5'):
                 lastStop = self.request.get('stop5')
                 fifthStop = lastStop
-            else:
-                fifthStop = ""
 
             user = users.get_current_user()
             email = user.email().lower()
@@ -131,7 +141,9 @@ class CreateRouteAction(webapp2.RequestHandler):
                                  stop_name = self.request.get('stop5'))
                 new_stop5.put()
             
-        self.redirect(self.request.referrer)
+        self.redirect(self.request.referrer + "?stop1=" + str(firstStop) +
+                       "&stop2=" + str(secondStop) + "&stop3=" + str(thirdStop) +
+                        "&stop4=" + str(fourthStop) + "&stop5=" + str(fifthStop))
         
 class ShareRouteAction(webapp2.RequestHandler):
     def post(self):
