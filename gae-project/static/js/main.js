@@ -36,30 +36,6 @@ enableButtons = function() {
                 document.querySelector('#stop3-field').MaterialTextfield
                     .change(stop3);
             });
-
-    // Create Route and Place on Map
-    $('#create-route-button').click(function() {
-    	var stop1 = $('#edit-route-dialog input[name=stop1]').val();
-    	var stop2 = $('#edit-route-dialog input[name=stop2]').val();
-    	var stop3 = $('#edit-route-dialog input[name=stop3]').val();
-    	var stop4 = $('#edit-route-dialog input[name=stop4]').val();
-    	var stop5 = $('#edit-route-dialog input[name=stop5]').val();
-    	
-    	var stops = [];
-    	stops.push(stop1);
-    	stops.push(stop2);
-    	if (stop3 != "" && stop3 != undefined) {
-    		stops.push(stop3);
-    	}
-    	if (stop4 != "" && stop4 != undefined) {
-    		stops.push(stop4);
-    	}
-    	if (stop5 != "" && stop5 != undefined) {
-    		stops.push(stop5);
-    	}
-    	
-    	initMap(stops);
-    });
     
     // Password cancel button to close the insert-password-dialog
     $('.close-edit-route-dialog').click(function() {
