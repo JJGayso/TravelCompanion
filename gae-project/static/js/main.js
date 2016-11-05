@@ -337,25 +337,8 @@ function initMap() {
                 });
             }
         } else {
-            directionsService.route({
-                origin: 'Rose-Hulman',
-                destination: 'Oklahoma City, OK',
-                waypoints: [
-                    {
-                        location: 'st louis, mo',
-                        stopover: true
-                    }, {
-                        location: 'Joplin, MO',
-                        stopover: true
-                    }],
-                travelMode: 'DRIVING'
-            }, function (response, status) {
-                if (status === 'OK') {
-                    directionsDisplay.setDirections(response);
-                } else {
-                    window.alert('Directions request failed due to ' + status);
-                }
-            });
+            $("#right-panel").addClass("hidden");
+            $("#map").css("width", "100%");
         }
     }
     sleep(0);
