@@ -19,9 +19,10 @@ function sleep(milliseconds) {
 }
 
 enableButtons = function() {
-    $(".edit-route-btn")
+    $(".create-route-btn")
         .click(
             function() {
+            	console.log("Create");
                 document.querySelector('#edit-route-dialog').showModal();
                 var stop1 = $(this).find(".stop1").html();
                 var stop2 = $(this).find(".stop2").html();
@@ -36,6 +37,67 @@ enableButtons = function() {
                 document.querySelector('#stop3-field').MaterialTextfield
                     .change(stop3);
             });
+    
+    //var stop1 = $('div[name=stop1').html();
+    $(".edit-route-btn")
+    .click(
+        function() {
+        	console.log("Edit");
+        	$('#create-route-button').html("Edit Route");
+        	var entity_key = $('div[name=entity_key]').html()
+        	console.log(entity_key);
+        	
+            document.querySelector('#edit-route-dialog').showModal();
+            console.log(this);
+            var stop1 = $(this).find(".stop1").html();
+            var stop2 = $(this).find(".stop2").html();
+            var stop3 = $(this).find(".stop3").html();
+            var stop4 = $(this).find(".stop4").html();
+            var stop5 = $(this).find(".stop5").html();
+            
+            document.querySelector('#stop1-field').MaterialTextfield
+            .change(stop1);
+            document.querySelector('#stop2-field').MaterialTextfield
+            .change(stop2);
+            document.querySelector('#stop3-field').MaterialTextfield
+            .change(stop3);
+            document.querySelector('#stop4-field').MaterialTextfield
+        	.change(stop4);
+            document.querySelector('#stop5-field').MaterialTextfield
+        	.change(stop5);
+            
+         // Note that I had to use change the mdl way to get the input label to float up.
+            // See: https://github.com/google/material-design-lite/issues/1287
+            
+            
+            if (entity_key != "") {
+            	var stop1_text = $('div[name=stop1]').html();
+            	var stop2_text = $('div[name=stop2]').html();
+            	var stop3_text = $('div[name=stop3]').html();
+            	var stop4_text = $('div[name=stop4]').html();
+            	var stop5_text = $('div[name=stop5]').html();
+            	console.log(stop1_text);
+            	
+//            	$("#edit-route-dialog input[name=stop1]").val(stop1_text);
+//            	$("#edit-route-dialog input[name=stop2]").val(stop2_text);
+//            	$("#edit-route-dialog input[name=stop3]").val(stop3_text);
+//            	$("#edit-route-dialog input[name=stop4]").val(stop4_text);
+//            	$("#edit-route-dialog input[name=stop5]").val(stop5_text);
+            	
+            	 var stop1 = $(document).find("input[name=stop1]").html();
+            	
+            	document.querySelector('#stop1-field').MaterialTextfield
+                .change(stop1);
+            	document.querySelector('#stop2-field').MaterialTextfield
+                .change(stop2);
+            	document.querySelector('#stop3-field').MaterialTextfield
+                .change(stop3);
+            	document.querySelector('#stop4-field').MaterialTextfield
+            	.change(stop4);
+            	document.querySelector('#stop5-field').MaterialTextfield
+            	.change(stop5);
+            }
+        });
     
     // Password cancel button to close the insert-password-dialog
     $('.close-edit-route-dialog').click(function() {
@@ -153,11 +215,11 @@ mdlInitializations = function() {
 var map;
 function initMap() {
 	var user_email = $('div[name=user_email').html();
-	var stop1 = $('div[name=stop1').html();
-	var stop2 = $('div[name=stop2').html();
-	var stop3 = $('div[name=stop3').html();
-	var stop4 = $('div[name=stop4').html();
-	var stop5 = $('div[name=stop5').html();
+	var stop1 = $('div[name=stop1]').html();
+	var stop2 = $('div[name=stop2]').html();
+	var stop3 = $('div[name=stop3]').html();
+	var stop4 = $('div[name=stop4]').html();
+	var stop5 = $('div[name=stop5]').html();
 
 	var stops = [];
 	if (stop1 != "" && stop1 != undefined) {
