@@ -97,6 +97,14 @@ enableButtons = function () {
                 }
             });
 
+    //Save Route
+    $('a[name=save-route-link]').click(function() {
+    	var entity_key = $('div[name=entity_key]').html()
+    	if (entity_key != "") {
+    		$('input[name=save_entity_key]').val(entity_key);
+    	}
+    });
+    
     // Password cancel button to close the insert-password-dialog
     $('.close-edit-route-dialog').click(function () {
         document.querySelector('#edit-route-dialog').close();
