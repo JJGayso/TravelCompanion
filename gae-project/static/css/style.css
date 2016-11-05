@@ -182,20 +182,12 @@ background: rgb(0, 128, 120);
     background: rgb(83,109,254);
 }
 
-.saved-route{
-    font-size: 24px;
-    border-bottom: solid black .5px;
+.saved-route, .recent-route{
     cursor: pointer;
     cursor: hand;
 }
 
-.edit-saved-route, .delete-saved-route{
-    font-size: 24px;
-    height: 50px;
-    width: 50px;
-    min-height: 50px;
-    min-width: 50px;
-}
+
 
 #saved-routes-list{
     overflow: auto;

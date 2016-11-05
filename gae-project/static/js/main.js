@@ -126,7 +126,17 @@ enableButtons = function() {
         $(".dtp-btn-cancel").off("click", showSaveModal);
         $(".dtp-close").off("click", showSaveModal);
     });
-}
+
+    $(".my-routes-btn")
+        .click(
+            function() {
+                document.querySelector('#my-routes-dialog').showModal();
+            });
+
+    $('.close-my-routes-dialog').click(function() {
+        document.querySelector('#my-routes-dialog').close();
+    });
+};
 
 mdlInitializations = function() {
     // Polyfill for browsers that don't support the dialog tag.

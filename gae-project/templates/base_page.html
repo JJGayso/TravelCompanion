@@ -59,7 +59,7 @@
             <div class="mdl-layout-spacer"></div>
             <nav class="mdl-navigation mdl-layout--large-screen-only">
                 <a class="mdl-navigation__link save-route-btn">Save Route</a>
-                <a class="mdl-navigation__link" href="/routes">My Routes</a>
+                <a class="mdl-navigation__link my-routes-btn">My Routes</a>
                 <a class="mdl-navigation__link" href="">Notifications</a>
                 <a class="mdl-navigation__link" href="{{ logout_url }}">Sign Out</a>
             </nav>
@@ -69,7 +69,7 @@
         <span class="mdl-layout-title">Travel Companion</span>
         <nav class="mdl-navigation">
             <a class="mdl-navigation__link save-route-btn">Save Route</a>
-            <a class="mdl-navigation__link" href="/routes">My Routes</a>
+            <a class="mdl-navigation__link my-routes-btn">My Routes</a>
             <a class="mdl-navigation__link" href="">Notifications</a>
             <a class="mdl-navigation__link" href="{{ logout_url }}">Sign Out</a>
         </nav>
@@ -112,7 +112,6 @@
             <h5 id="ordered_label">Ordered?</h5>
             <br/>
             <br/>
-            <i id="stop1-delete" class="fa fa-trash route-delete" aria-hidden="true"></i>
             <div id="stop1-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input id="stop1" class="mdl-textfield__input" type="text" name="stop1">
                 <label class="mdl-textfield__label" for="stop1">Stop 1</label>
@@ -121,7 +120,6 @@
                 <input type="checkbox" id="stop1-checkbox" class="mdl-checkbox__input" checked>
             </label>
             <br/>
-            <i id="stop2-delete" class="fa fa-trash route-delete" aria-hidden="true"></i>
             <div id="stop2-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input id="stop2" class="mdl-textfield__input" type="text" name="stop2">
                 <label class="mdl-textfield__label" for="stop2">Stop 2</label>
@@ -130,13 +128,28 @@
                 <input type="checkbox" id="stop2-checkbox" class="mdl-checkbox__input" checked>
             </label>
             <br/>
-            <i id="stop3-delete" class="fa fa-trash route-delete" aria-hidden="true"></i>
             <div id="stop3-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input id="stop3" class="mdl-textfield__input" type="text" name="stop3">
                 <label class="mdl-textfield__label" for="stop3">Stop 3</label>
             </div>
             <label class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop3-checkbox">
                 <input type="checkbox" id="stop3-checkbox" class="mdl-checkbox__input" checked>
+            </label>
+            <br/>
+            <div id="stop4-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input id="stop4" class="mdl-textfield__input" type="text" name="stop4">
+                <label class="mdl-textfield__label" for="stop4">Stop 4</label>
+            </div>
+            <label class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop4-checkbox">
+                <input type="checkbox" id="stop4-checkbox" class="mdl-checkbox__input" checked>
+            </label>
+            <br/>
+            <div id="stop5-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input id="stop5" class="mdl-textfield__input" type="text" name="stop5">
+                <label class="mdl-textfield__label" for="stop5">Stop 3</label>
+            </div>
+            <label class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop5-checkbox">
+                <input type="checkbox" id="stop5-checkbox" class="mdl-checkbox__input" checked>
             </label>
         </div>
         <div class="mdl-dialog__actions">
@@ -180,7 +193,7 @@
     <div class="mdl-dialog__content">
         <ul class="demo-list-item mdl-list">
             <a href="#">
-                <li class="mdl-list__item">
+                <li class="mdl-list__item recent-route">
                     <span class="mdl-list__item-primary-content">
                       5500 Wabash Ave to 123 Test St
                     </span>
@@ -188,7 +201,7 @@
             </a>
             <hr/>
             <a href="#">
-                <li class="mdl-list__item">
+                <li class="mdl-list__item recent-route">
                     <span class="mdl-list__item-primary-content">
                       123 Sesame Street to 1600 Pennsylvania Ave
                     </span>
@@ -196,7 +209,7 @@
             </a>
             <hr/>
             <a href="#">
-                <li class="mdl-list__item">
+                <li class="mdl-list__item recent-route">
                     <span class="mdl-list__item-primary-content">
                       Assembly Hall to Wrigley Field
                     </span>
@@ -243,6 +256,59 @@
             </button>
         </div>
     </form>
+</dialog>
+<dialog id='my-routes-dialog' class="mdl-dialog">
+    <h4 class="mdl-dialog__title">My Routes</h4>
+    <div class="mdl-dialog__content">
+        <div id="saved-routes-list" class="mdl-list">
+            <div class="mdl-list__item saved-route">
+            <span class="mdl-list__item-primary-content">
+              <span>Wrigley Field to Rose-Hulman</span>
+            </span>
+                <button type="button" class="mdl-button mdl-js-button mdl-button--icon edit-saved-route">
+                    <a class="mdl-list__item-secondary-action">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                </button>
+                <button type="button" class="mdl-button mdl-js-button mdl-button--icon delete-saved-route">
+                    <a class="mdl-list__item-secondary-action"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                </button>
+            </div>
+            <hr/>
+            <div class="mdl-list__item saved-route">
+            <span class="mdl-list__item-primary-content">
+              <span>Work Route</span>
+            </span>
+                <button type="button" class="mdl-button mdl-js-button mdl-button--icon edit-saved-route">
+                    <a class="mdl-list__item-secondary-action">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                </button>
+                <button type="button" class="mdl-button mdl-js-button mdl-button--icon delete-saved-route">
+                    <a class="mdl-list__item-secondary-action"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                </button>
+            </div>
+            <hr/>
+            <div class="mdl-list__item saved-route">
+            <span class="mdl-list__item-primary-content">
+              <span>To Hilton Head</span>
+            </span>
+                <button type="button" class="mdl-button mdl-js-button mdl-button--icon edit-saved-route">
+                    <a class="mdl-list__item-secondary-action">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                </button>
+                <button type="button" class="mdl-button mdl-js-button mdl-button--icon delete-saved-route">
+                    <a class="mdl-list__item-secondary-action"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="mdl-dialog__actions">
+        <button type="button" class="mdl-button mdl-js-button mdl-button--raised close-my-routes-dialog">
+            Close
+        </button>
+    </div>
 </dialog>
 {% endblock %}
 </body>
