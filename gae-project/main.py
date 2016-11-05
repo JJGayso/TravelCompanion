@@ -38,16 +38,23 @@ class MainHandler(base_handlers.BasePage):
 class HomeHandler(base_handlers.BasePage):
     def update_values(self, values):
         values["user_email"] = users.get_current_user().email().lower()
+        url_route_key = self.request.get('route')
+        if url_route_key != "":
+            route_key = ndb.Key(urlsafe=url_route_key)
+        else:
+            route_key = ""
         stop1 = self.request.get('stop1')
         stop2 = self.request.get('stop2')
         stop3 = self.request.get('stop3')
         stop4 = self.request.get('stop4')
         stop5 = self.request.get('stop5')
+        values["entity_key"] = route_key
         values["stop1"] = stop1
         values["stop2"] = stop2
         values["stop3"] = stop3
         values["stop4"] = stop4
         values["stop5"] = stop5
+        
     def get_template(self):
         return jinja_env.get_template("templates/home.html")
 
@@ -136,9 +143,11 @@ class CreateRouteAction(webapp2.RequestHandler):
                                  stop_name = self.request.get('stop5'))
                 new_stop5.put()
 
-        self.redirect('/'.join(self.request.referer.split("/")[:3]) + "/?stop1=" + str(firstStop) +
+
+        self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(new_route.key.urlsafe()) + "&stop1=" + str(firstStop) +
                        "&stop2=" + str(secondStop) + "&stop3=" + str(thirdStop) +
                         "&stop4=" + str(fourthStop) + "&stop5=" + str(fifthStop))
+        
 class ShareRouteAction(webapp2.RequestHandler):
     def post(self):
         if self.request.get('entity_key'):

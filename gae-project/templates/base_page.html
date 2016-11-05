@@ -82,7 +82,7 @@
     <footer id="footer" class="mdl-mini-footer">
         <div id="footer_content" class="mdl-mini-footer__middle-section">
             <ul class="mdl-mini-footer__link-list center">
-                <a class="edit-route-btn">
+                <a class="create-route-btn">
                     <li><i class="fa fa-file-text-o" aria-hidden="true"></i><br/>Create Route</li>
                 </a>
                 <a class="edit-route-btn">
@@ -106,7 +106,6 @@
 <dialog id='edit-route-dialog' class="mdl-dialog">
     <h4 class="mdl-dialog__title">Create Route</h4>
     <form action="/edit-route" method="POST">
-        <input type="text" name="entity_key" class="hidden">
         <div class="mdl-dialog__content">
             <h5 id="destinations_label">Destinations</h5>
             <h5 id="ordered_label">Ordered?</h5>
