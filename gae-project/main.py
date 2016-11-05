@@ -135,8 +135,8 @@ class CreateRouteAction(webapp2.RequestHandler):
                                  order_number = 5,
                                  stop_name = self.request.get('stop5'))
                 new_stop5.put()
-            
-        self.redirect("http://travel-companion-146516.appspot.com/" + "?stop1=" + str(firstStop) +
+
+        self.redirect('/'.join(self.request.referer.split("/")[:3]) + "/?stop1=" + str(firstStop) +
                        "&stop2=" + str(secondStop) + "&stop3=" + str(thirdStop) +
                         "&stop4=" + str(fourthStop) + "&stop5=" + str(fifthStop))
 class ShareRouteAction(webapp2.RequestHandler):
