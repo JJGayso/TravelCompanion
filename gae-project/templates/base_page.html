@@ -191,29 +191,16 @@
     <h4 class="mdl-dialog__title">Recent Routes</h4>
     <div class="mdl-dialog__content">
         <ul class="demo-list-item mdl-list">
-            <a href="#">
+            {% for route in recent_routes %}
+            <a href="/?route={{route.key.urlsafe()}}">
                 <li class="mdl-list__item recent-route">
                     <span class="mdl-list__item-primary-content">
-                      5500 Wabash Ave to 123 Test St
+                      {{ route.name }}
                     </span>
                 </li>
             </a>
             <hr/>
-            <a href="#">
-                <li class="mdl-list__item recent-route">
-                    <span class="mdl-list__item-primary-content">
-                      123 Sesame Street to 1600 Pennsylvania Ave
-                    </span>
-                </li>
-            </a>
-            <hr/>
-            <a href="#">
-                <li class="mdl-list__item recent-route">
-                    <span class="mdl-list__item-primary-content">
-                      Assembly Hall to Wrigley Field
-                    </span>
-                </li>
-            </a>
+            {% endfor %}
         </ul>
     </div>
     <div class="mdl-dialog__actions">

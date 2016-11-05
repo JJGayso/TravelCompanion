@@ -41,19 +41,27 @@ class HomeHandler(base_handlers.BasePage):
         url_route_key = self.request.get('route')
         if url_route_key != "":
             route_key = ndb.Key(urlsafe=url_route_key)
+            stops_query = Stop.query(ancestor=route_key).order(Stop.order_number).fetch()
+            stop1 = stops_query[0].stop_name
+            values["stop1"] = stop1
+            if(len(stops_query) > 1):
+                stop2 = stops_query[1].stop_name
+                values["stop2"] = stop2
+            if(len(stops_query) > 2):
+                stop3 = stops_query[2].stop_name
+                values["stop3"] = stop3
+            if(len(stops_query) > 3):
+                stop4 = stops_query[3].stop_name
+                values["stop4"] = stop4
+            if(len(stops_query) > 4):
+                stop5 = stops_query[4].stop_name
+                values["stop5"] = stop5
+            values["entity_key"] = route_key
         else:
             route_key = ""
-        stop1 = self.request.get('stop1')
-        stop2 = self.request.get('stop2')
-        stop3 = self.request.get('stop3')
-        stop4 = self.request.get('stop4')
-        stop5 = self.request.get('stop5')
-        values["entity_key"] = route_key
-        values["stop1"] = stop1
-        values["stop2"] = stop2
-        values["stop3"] = stop3
-        values["stop4"] = stop4
-        values["stop5"] = stop5
+        recent_routes_query = Route.query(ancestor=utils.get_parent_key_for_email(users.get_current_user().email())).order(-Route.last_touch_date_time)
+        values["recent_routes"] = recent_routes_query.fetch(5)
+        values["temp"]="Bob"
         
     def get_template(self):
         return jinja_env.get_template("templates/home.html")
@@ -144,9 +152,7 @@ class CreateRouteAction(webapp2.RequestHandler):
                 new_stop5.put()
 
 
-        self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(new_route.key.urlsafe()) + "&stop1=" + str(firstStop) +
-                       "&stop2=" + str(secondStop) + "&stop3=" + str(thirdStop) +
-                        "&stop4=" + str(fourthStop) + "&stop5=" + str(fifthStop))
+        self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(new_route.key.urlsafe()))
         
 class ShareRouteAction(webapp2.RequestHandler):
     def post(self):
