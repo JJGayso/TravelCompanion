@@ -52,6 +52,10 @@
     display: inline-block;
 }
 
+#email-toggle{
+    margin-right: 15px;
+}
+
 #share-buttons, #recent-close-btn {
     text-align: center;
 }
@@ -182,7 +186,7 @@ background: rgb(0, 128, 120);
     background: rgb(83,109,254);
 }
 
-.saved-route, .recent-route{
+.saved-route, .recent-route, .my-routes-btn{
     cursor: pointer;
     cursor: hand;
 }
@@ -191,4 +195,8 @@ background: rgb(0, 128, 120);
 
 #saved-routes-list{
     overflow: auto;
+}
+
+#my-routes-dialog{
+    width: 450px;
 }
