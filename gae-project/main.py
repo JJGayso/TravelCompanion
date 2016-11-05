@@ -1,3 +1,5 @@
+from datetime import date
+import datetime
 import email
 import os
 
@@ -7,7 +9,7 @@ import jinja2
 import webapp2
 
 from handlers import base_handlers
-from models import Route, Notification
+from models import Route, Notification, Stop
 import utils
 
 
@@ -35,8 +37,17 @@ class MainHandler(base_handlers.BasePage):
 
 class HomeHandler(base_handlers.BasePage):
     def update_values(self, values):
-        pass
-
+        values["user_email"] = users.get_current_user().email().lower()
+        stop1 = self.request.get('stop1')
+        stop2 = self.request.get('stop2')
+        stop3 = self.request.get('stop3')
+        stop4 = self.request.get('stop4')
+        stop5 = self.request.get('stop5')
+        values["stop1"] = stop1
+        values["stop2"] = stop2
+        values["stop3"] = stop3
+        values["stop4"] = stop4
+        values["stop5"] = stop5
     def get_template(self):
         return jinja_env.get_template("templates/home.html")
 
@@ -62,20 +73,72 @@ class CreateRouteAction(webapp2.RequestHandler):
             route.daily = self.request.get('daily')
             route.put();
         else:
+            firstStop = self.request.get('stop1')
+            lastStop = self.request.get('stop2')
+            secondStop = lastStop
+            thirdStop = ""
+            fourthStop = ""
+            fifthStop = ""
+            
+            if self.request.get('stop3'):
+                lastStop = self.request.get('stop3')
+                thirdStop = lastStop
+                
+            if self.request.get('stop4'):
+                lastStop = self.request.get('stop4')
+                fourthStop = lastStop
+
+            if self.request.get('stop5'):
+                lastStop = self.request.get('stop5')
+                fifthStop = lastStop
+
             user = users.get_current_user()
             email = user.email().lower()
             # TODO: Name will change when modal has dynamic number of routes
             # NOTE: Created routes start with type = 0 (not saved)
             # NOTE: Created routes start with daily = 0 (non-recurring)
             new_route = Route(parent=utils.get_parent_key_for_email(email),
-                              created_by=user,
-                              name=self.request.get('stop1') + "to" + self.request.get('stop3'),
-                              type=0,
-                              daily=0,
-                              last_touch_date_time=ndb.DateTimeProperty())
-        self.redirect(self.request.referrer)
-
-
+                                   created_by = email,
+                                   name = firstStop + " to " + lastStop,
+                                   type = 0,                                
+                                   daily = 0,
+                                   start_time = datetime.datetime.now())
+            new_route.put()
+            
+            
+            
+            new_stop1 = Stop(parent=new_route.key,
+                             route_key = new_route.key,
+                             order_number = 1,
+                             stop_name = self.request.get('stop1'))
+            new_stop1.put()
+            new_stop2 = Stop(parent=new_route.key,
+                             route_key = new_route.key,
+                             order_number = 2,
+                             stop_name = self.request.get('stop2'))
+            new_stop2.put()
+            if thirdStop != "":
+                new_stop3 = Stop(parent=new_route.key,
+                                 route_key = new_route.key,
+                                 order_number = 3,
+                                 stop_name = self.request.get('stop3'))
+                new_stop3.put()
+            if fourthStop != "":
+                new_stop4 = Stop(parent=new_route.key,
+                                 route_key = new_route.key,
+                                 order_number = 4,
+                                 stop_name = self.request.get('stop4'))
+                new_stop4.put()
+            if fifthStop != "":
+                new_stop5 = Stop(parent=new_route.key,
+                                 route_key = new_route.key,
+                                 order_number = 5,
+                                 stop_name = self.request.get('stop5'))
+                new_stop5.put()
+            
+        self.redirect(self.request.referrer + "?stop1=" + str(firstStop) +
+                       "&stop2=" + str(secondStop) + "&stop3=" + str(thirdStop) +
+                        "&stop4=" + str(fourthStop) + "&stop5=" + str(fifthStop))
 class ShareRouteAction(webapp2.RequestHandler):
     def post(self):
         if self.request.get('entity_key'):

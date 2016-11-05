@@ -117,7 +117,7 @@
                 <label class="mdl-textfield__label" for="stop1">Stop 1</label>
             </div>
             <label class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop1-checkbox">
-                <input type="checkbox" id="stop1-checkbox" class="mdl-checkbox__input" checked>
+                <input type="checkbox" id="stop1-checkbox" class="mdl-checkbox__input" name="stop1" checked>
             </label>
             <br/>
             <div id="stop2-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -153,7 +153,7 @@
             </label>
         </div>
         <div class="mdl-dialog__actions">
-            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Create Route
+            <button id="create-route-button" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Create Route
             </button>
             <button type="button" class="mdl-button mdl-js-button mdl-button--raised close-edit-route-dialog">
                 Cancel
@@ -232,14 +232,6 @@
                 <input id="name" class="mdl-textfield__input" type="text" name="name">
                 <label id="name-label" class="mdl-textfield__label" for="name">Name</label>
             </div>
-            <span class="mdl-switch__label save-route-switch-label">Email Notifications</span>
-            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect save-route-switch" for="email-switch">
-                <input type="checkbox" id="email-switch" class="mdl-switch__input">
-            </label>
-            <span class="mdl-switch__label save-route-switch-label">Text Notifications</span>
-            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect save-route-switch" for="text-switch">
-                <input type="checkbox" id="text-switch" class="mdl-switch__input">
-            </label>
             <div class="scheduled-picker">
                 <div id="notification-time-field"
                      class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -248,6 +240,15 @@
                         Time</label>
                 </div>
             </div>
+            <span class="mdl-switch__label save-route-switch-label">Email Notifications</span>
+            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect save-route-switch" for="email-switch">
+                <input type="checkbox" id="email-switch" class="mdl-switch__input">
+            </label>
+            <span class="mdl-switch__label save-route-switch-label">Text Notifications</span>
+            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect save-route-switch" for="text-switch">
+                <input type="checkbox" id="text-switch" class="mdl-switch__input">
+            </label>
+            
         </div>
         <div class="mdl-dialog__actions">
             <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save</button>

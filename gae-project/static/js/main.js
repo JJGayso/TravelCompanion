@@ -36,7 +36,7 @@ enableButtons = function() {
                 document.querySelector('#stop3-field').MaterialTextfield
                     .change(stop3);
             });
-
+    
     // Password cancel button to close the insert-password-dialog
     $('.close-edit-route-dialog').click(function() {
         document.querySelector('#edit-route-dialog').close();
@@ -152,6 +152,30 @@ mdlInitializations = function() {
 
 var map;
 function initMap() {
+	var user_email = $('div[name=user_email').html();
+	var stop1 = $('div[name=stop1').html();
+	var stop2 = $('div[name=stop2').html();
+	var stop3 = $('div[name=stop3').html();
+	var stop4 = $('div[name=stop4').html();
+	var stop5 = $('div[name=stop5').html();
+
+	var stops = [];
+	if (stop1 != "" && stop1 != undefined) {
+		stops.push(stop1);
+	}
+	if (stop2 != "" && stop2 != undefined) {
+		stops.push(stop2);
+	}
+	if (stop3 != "" && stop3 != undefined) {
+		stops.push(stop3);
+	}
+	if (stop4 != "" && stop4 != undefined) {
+		stops.push(stop4);
+	}
+	if (stop5 != "" && stop5 != undefined) {
+		stops.push(stop5);
+	}
+	
     var directionsDisplay = new google.maps.DirectionsRenderer;
     var directionsService = new google.maps.DirectionsService;
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -171,17 +195,104 @@ function initMap() {
         document.getElementById('start').addEventListener('change', onChangeHandler);
         document.getElementById('end').addEventListener('change', onChangeHandler);
     } else {
-        directionsService.route({
-            origin: "chicago, il",
-            destination: "st louis, mo",
-            travelMode: 'DRIVING'
-        }, function(response, status) {
-            if (status === 'OK') {
-                directionsDisplay.setDirections(response);
-            } else {
-                window.alert('Directions request failed due to ' + status);
-            }
-        });
+    	if (stops.length != 0) {
+    		if (stops.length == 2) {
+	    		directionsService.route({
+	                origin: stops[0],
+	                destination: stops[1],
+	                travelMode: 'DRIVING'
+	            }, function(response, status) {
+	                if (status === 'OK') {
+	                    directionsDisplay.setDirections(response);
+	                } else {
+	                    window.alert('Directions request failed due to ' + status);
+	                }
+	            });
+    		}
+    		else if (stops.length == 3) {
+    			directionsService.route({
+	                origin: stops[0],
+	                destination: stops[2],
+	                waypoints: [
+	                            {
+	                              location: stops[1],
+	                              stopover: true
+	                            }],
+	                travelMode: 'DRIVING'
+	            }, function(response, status) {
+	                if (status === 'OK') {
+	                    directionsDisplay.setDirections(response);
+	                } else {
+	                    window.alert('Directions request failed due to ' + status);
+	                }
+	            });
+    		}
+    		else if (stops.length == 4) {
+    			directionsService.route({
+	                origin: stops[0],
+	                destination: stops[3],
+	                waypoints: [
+	                            {
+	                              location: stops[1],
+	                              stopover: true
+	                            },{
+	                              location: stops[2],
+	                              stopover: true
+	                            }],
+	                travelMode: 'DRIVING'
+	            }, function(response, status) {
+	                if (status === 'OK') {
+	                    directionsDisplay.setDirections(response);
+	                } else {
+	                    window.alert('Directions request failed due to ' + status);
+	                }
+	            });
+    		}
+    		else if (stops.length == 5) {
+    			directionsService.route({
+	                origin: stops[0],
+	                destination: stops[4],
+	                waypoints: [
+	                            {
+	                              location: stops[1],
+	                              stopover: true
+	                            },{
+	                              location: stops[2],
+	                              stopover: true
+	                            },{
+	                            	location: stops[3],
+		                            stopover: true
+	                            }],
+	                travelMode: 'DRIVING'
+	            }, function(response, status) {
+	                if (status === 'OK') {
+	                    directionsDisplay.setDirections(response);
+	                } else {
+	                    window.alert('Directions request failed due to ' + status);
+	                }
+	            });
+    		}
+    	} else {
+	        directionsService.route({
+	            origin: 'Rose-Hulman',
+	            destination: 'Oklahoma City, OK',
+	            waypoints: [
+	                        {
+	                          location: 'st louis, mo',
+	                          stopover: true
+	                        },{
+	                          location: 'Joplin, MO',
+	                          stopover: true
+	                        }],
+	            travelMode: 'DRIVING'
+	        }, function(response, status) {
+	            if (status === 'OK') {
+	                directionsDisplay.setDirections(response);
+	            } else {
+	                window.alert('Directions request failed due to ' + status);
+	            }
+	        });
+    	}
     }
     sleep(0);
     $("#map").css("height", $(".mdl-layout__content").height());
