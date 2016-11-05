@@ -71,4 +71,4 @@ local.properties
 .recommenders/
 
 .idea
-/*.pyc
+*.pyc
