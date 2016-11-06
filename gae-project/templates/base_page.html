@@ -152,7 +152,8 @@
             </label>
         </div>
         <div class="mdl-dialog__actions">
-            <button id="create-route-button" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Create Route
+            <button id="create-route-button" type="submit"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Create Route
             </button>
             <button type="button" class="mdl-button mdl-js-button mdl-button--raised close-edit-route-dialog">
                 Cancel
@@ -213,7 +214,7 @@
 <dialog id='save-route-dialog' class="mdl-dialog">
     <h4 class="mdl-dialog__title">Save Route</h4>
     <form action="/save" method="POST">
-    	<input id="save-entity-key" class="hidden" name="save_entity_key">
+        <input id="save-entity-key" class="hidden" name="save_entity_key">
         <div class="mdl-dialog__content">
             <div id="name-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input id="name" class="mdl-textfield__input" type="text" name="name">
@@ -235,10 +236,12 @@
             <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect save-route-switch" for="text-switch">
                 <input type="checkbox" id="text-switch" class="mdl-switch__input" name="text-notification">
             </label>
-            
+
         </div>
         <div class="mdl-dialog__actions">
-            <button id="save-route-button" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save</button>
+            <button id="save-route-button" type="submit"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save
+            </button>
             <button type="button" class="mdl-button mdl-js-button mdl-button--raised close-save-route-dialog">
                 Cancel
             </button>
@@ -249,10 +252,12 @@
     <h4 class="mdl-dialog__title">My Routes</h4>
     <div class="mdl-dialog__content">
         <div id="saved-routes-list" class="mdl-list">
+            {% for route in my_routes %}
             <div class="mdl-list__item saved-route">
-            <span class="mdl-list__item-primary-content">
-              <span>Wrigley Field to Rose-Hulman</span>
-            </span>
+                <div class="hidden" name="entity_key">{{ route.key.urlsafe() }}</div>
+                <span class="mdl-list__item-primary-content">
+                  <span>{{ route.name }}</span>
+                </span>
                 <button type="button" class="mdl-button mdl-js-button mdl-button--icon edit-saved-route">
                     <a class="mdl-list__item-secondary-action">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -263,33 +268,7 @@
                 </button>
             </div>
             <hr/>
-            <div class="mdl-list__item saved-route">
-            <span class="mdl-list__item-primary-content">
-              <span>Work Route</span>
-            </span>
-                <button type="button" class="mdl-button mdl-js-button mdl-button--icon edit-saved-route">
-                    <a class="mdl-list__item-secondary-action">
-                        <i class="fa fa-pencil" aria-hidden="true"></i>
-                    </a>
-                </button>
-                <button type="button" class="mdl-button mdl-js-button mdl-button--icon delete-saved-route">
-                    <a class="mdl-list__item-secondary-action"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                </button>
-            </div>
-            <hr/>
-            <div class="mdl-list__item saved-route">
-            <span class="mdl-list__item-primary-content">
-              <span>To Hilton Head</span>
-            </span>
-                <button type="button" class="mdl-button mdl-js-button mdl-button--icon edit-saved-route">
-                    <a class="mdl-list__item-secondary-action">
-                        <i class="fa fa-pencil" aria-hidden="true"></i>
-                    </a>
-                </button>
-                <button type="button" class="mdl-button mdl-js-button mdl-button--icon delete-saved-route">
-                    <a class="mdl-list__item-secondary-action"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                </button>
-            </div>
+            {% endfor %}
         </div>
     </div>
     <div class="mdl-dialog__actions">

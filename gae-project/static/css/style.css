@@ -201,6 +201,6 @@ background: rgb(0, 128, 120);
     width: 450px;
 }
 
-.recent-route-link{
+.recent-route-link, .my-route-link{
     text-decoration: none;
 }

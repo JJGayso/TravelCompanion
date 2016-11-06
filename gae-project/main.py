@@ -41,31 +41,36 @@ class HomeHandler(base_handlers.BasePage):
         url_route_key = self.request.get('route')
         if url_route_key != "":
             route_key = ndb.Key(urlsafe=url_route_key)
-            #Next two lines are so that the recent routes list populates correctly.
+            # Next two lines are so that the recent routes list populates correctly.
             route = route_key.get()
             route.put()
             stops_query = Stop.query(ancestor=route_key).order(Stop.order_number).fetch()
             stop1 = stops_query[0].stop_name
             values["stop1"] = stop1
-            if(len(stops_query) > 1):
+            if (len(stops_query) > 1):
                 stop2 = stops_query[1].stop_name
                 values["stop2"] = stop2
-            if(len(stops_query) > 2):
+            if (len(stops_query) > 2):
                 stop3 = stops_query[2].stop_name
                 values["stop3"] = stop3
-            if(len(stops_query) > 3):
+            if (len(stops_query) > 3):
                 stop4 = stops_query[3].stop_name
                 values["stop4"] = stop4
-            if(len(stops_query) > 4):
+            if (len(stops_query) > 4):
                 stop5 = stops_query[4].stop_name
                 values["stop5"] = stop5
             values["entity_key"] = url_route_key
         else:
             route_key = ""
-        recent_routes_query = Route.query(ancestor=utils.get_parent_key_for_email(users.get_current_user().email())).order(-Route.last_touch_date_time)
+        recent_routes_query = Route.query(
+            ancestor=utils.get_parent_key_for_email(users.get_current_user().email())).order(
+            -Route.last_touch_date_time)
         values["recent_routes"] = recent_routes_query.fetch(5)
-        values["temp"]="Bob"
-        
+        my_routes_query = Route.query(ancestor=utils.get_parent_key_for_email(users.get_current_user().email())).filter(
+            Route.type == 1).order(Route.name)
+        values["my_routes"] = my_routes_query.fetch()
+        values["temp"] = "Bob"
+
     def get_template(self):
         return jinja_env.get_template("templates/home.html")
 
@@ -97,11 +102,11 @@ class CreateRouteAction(webapp2.RequestHandler):
             thirdStop = ""
             fourthStop = ""
             fifthStop = ""
-            
+
             if self.request.get('stop3'):
                 lastStop = self.request.get('stop3')
                 thirdStop = lastStop
-                
+
             if self.request.get('stop4'):
                 lastStop = self.request.get('stop4')
                 fourthStop = lastStop
@@ -116,47 +121,45 @@ class CreateRouteAction(webapp2.RequestHandler):
             # NOTE: Created routes start with type = 0 (not saved)
             # NOTE: Created routes start with daily = 0 (non-recurring)
             new_route = Route(parent=utils.get_parent_key_for_email(email),
-                                   created_by = email,
-                                   name = firstStop + " to " + lastStop,
-                                   type = 0,                                
-                                   daily = 0,
-                                   start_time = datetime.datetime.now())
+                              created_by=email,
+                              name=firstStop + " to " + lastStop,
+                              type=0,
+                              daily=0,
+                              start_time=datetime.datetime.now())
             new_route.put()
-            
-            
-            
+
             new_stop1 = Stop(parent=new_route.key,
-                             route_key = new_route.key,
-                             order_number = 1,
-                             stop_name = self.request.get('stop1'))
+                             route_key=new_route.key,
+                             order_number=1,
+                             stop_name=self.request.get('stop1'))
             new_stop1.put()
             new_stop2 = Stop(parent=new_route.key,
-                             route_key = new_route.key,
-                             order_number = 2,
-                             stop_name = self.request.get('stop2'))
+                             route_key=new_route.key,
+                             order_number=2,
+                             stop_name=self.request.get('stop2'))
             new_stop2.put()
             if thirdStop != "":
                 new_stop3 = Stop(parent=new_route.key,
-                                 route_key = new_route.key,
-                                 order_number = 3,
-                                 stop_name = self.request.get('stop3'))
+                                 route_key=new_route.key,
+                                 order_number=3,
+                                 stop_name=self.request.get('stop3'))
                 new_stop3.put()
             if fourthStop != "":
                 new_stop4 = Stop(parent=new_route.key,
-                                 route_key = new_route.key,
-                                 order_number = 4,
-                                 stop_name = self.request.get('stop4'))
+                                 route_key=new_route.key,
+                                 order_number=4,
+                                 stop_name=self.request.get('stop4'))
                 new_stop4.put()
             if fifthStop != "":
                 new_stop5 = Stop(parent=new_route.key,
-                                 route_key = new_route.key,
-                                 order_number = 5,
-                                 stop_name = self.request.get('stop5'))
+                                 route_key=new_route.key,
+                                 order_number=5,
+                                 stop_name=self.request.get('stop5'))
                 new_stop5.put()
 
-
         self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(new_route.key.urlsafe()))
-        
+
+
 class ShareRouteAction(webapp2.RequestHandler):
     def post(self):
         if self.request.get('entity_key'):
@@ -180,6 +183,7 @@ class ShareRouteAction(webapp2.RequestHandler):
                                         message=self.request.get('message'))
         self.redirect(self.request.referrer)
 
+
 class SaveRouteAction(webapp2.RequestHandler):
     def post(self):
         if self.request.get('save_entity_key'):
@@ -188,7 +192,7 @@ class SaveRouteAction(webapp2.RequestHandler):
             route.name = self.request.get('name')
             route.type = 1
             route.put()
-            
+
             user = users.get_current_user()
             email = user.email().lower()
             notification_type = 0
@@ -196,16 +200,18 @@ class SaveRouteAction(webapp2.RequestHandler):
                 notification_type += 1
             if self.request.get('text-notification'):
                 notification_type += 1
-                
+
             new_notification = Notification(parent=utils.get_parent_key_for_email(email),
-                                            creator = email,
-                                            receiver = email,
-                                            time = datetime.datetime.strptime(self.request.get('notification-time'), '%I:%M %p'),
-                                            type = notification_type,
-                                            message = "")
+                                            creator=email,
+                                            receiver=email,
+                                            time=datetime.datetime.strptime(self.request.get('notification-time'),
+                                                                            '%I:%M %p'),
+                                            type=notification_type,
+                                            message="")
             new_notification.put()
-        
+
         self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(route.key.urlsafe()))
+
 
 app = webapp2.WSGIApplication([
     ('/login', LoginPage),
