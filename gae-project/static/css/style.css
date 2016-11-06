@@ -200,3 +200,7 @@ background: rgb(0, 128, 120);
 #my-routes-dialog{
     width: 450px;
 }
+
+.recent-route-link{
+    text-decoration: none;
+}

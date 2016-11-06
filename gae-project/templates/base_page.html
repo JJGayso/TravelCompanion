@@ -192,7 +192,7 @@
     <div class="mdl-dialog__content">
         <ul class="demo-list-item mdl-list">
             {% for route in recent_routes %}
-            <a href="/?route={{route.key.urlsafe()}}">
+            <a href="/?route={{route.key.urlsafe()}}" class="recent-route-link">
                 <li class="mdl-list__item recent-route">
                     <span class="mdl-list__item-primary-content">
                       {{ route.name }}

@@ -41,6 +41,9 @@ class HomeHandler(base_handlers.BasePage):
         url_route_key = self.request.get('route')
         if url_route_key != "":
             route_key = ndb.Key(urlsafe=url_route_key)
+            #Next two lines are so that the recent routes list populates correctly.
+            route = route_key.get()
+            route.put()
             stops_query = Stop.query(ancestor=route_key).order(Stop.order_number).fetch()
             stop1 = stops_query[0].stop_name
             values["stop1"] = stop1
