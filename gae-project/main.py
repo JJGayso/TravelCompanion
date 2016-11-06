@@ -59,7 +59,7 @@ class HomeHandler(base_handlers.BasePage):
             if(len(stops_query) > 4):
                 stop5 = stops_query[4].stop_name
                 values["stop5"] = stop5
-            values["entity_key"] = route_key
+            values["entity_key"] = url_route_key
         else:
             route_key = ""
         recent_routes_query = Route.query(ancestor=utils.get_parent_key_for_email(users.get_current_user().email())).order(-Route.last_touch_date_time)
@@ -180,11 +180,24 @@ class ShareRouteAction(webapp2.RequestHandler):
                                         message=self.request.get('message'))
         self.redirect(self.request.referrer)
 
+class SaveRouteAction(webapp2.RequestHandler):
+    def post(self):
+        if self.request.get('save_entity_key'):
+            route_key = ndb.Key(urlsafe=self.request.get('save_entity_key'))
+            route = route_key.get()
+            route.name = self.request.get('name')
+            route.type = 1
+            route.put()
+            
+            
+        
+        self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(route.key.urlsafe()))
 
 app = webapp2.WSGIApplication([
     ('/login', LoginPage),
     ('/', HomeHandler),
     ('/edit-route', CreateRouteAction),
-    ('/share', ShareRouteAction)
+    ('/share', ShareRouteAction),
+    ('/save', SaveRouteAction)
 
 ], debug=True)

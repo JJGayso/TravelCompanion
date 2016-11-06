@@ -58,7 +58,7 @@
             <span id="title" class="mdl-layout-title">Travel Companion</span>
             <div class="mdl-layout-spacer"></div>
             <nav class="mdl-navigation mdl-layout--large-screen-only">
-                <a class="mdl-navigation__link save-route-btn">Save Route</a>
+                <a name="save-route-link" class="mdl-navigation__link save-route-btn">Save Route</a>
                 <a class="mdl-navigation__link my-routes-btn">My Routes</a>
                 <a class="mdl-navigation__link" href="">Notifications</a>
                 <a class="mdl-navigation__link" href="{{ logout_url }}">Sign Out</a>
@@ -68,7 +68,7 @@
     <div class="mdl-layout__drawer mdl-layout--small-screen-only">
         <span class="mdl-layout-title">Travel Companion</span>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link save-route-btn">Save Route</a>
+            <a name="save-route-link" class="mdl-navigation__link save-route-btn">Save Route</a>
             <a class="mdl-navigation__link my-routes-btn">My Routes</a>
             <a class="mdl-navigation__link" href="">Notifications</a>
             <a class="mdl-navigation__link" href="{{ logout_url }}">Sign Out</a>
@@ -213,6 +213,7 @@
 <dialog id='save-route-dialog' class="mdl-dialog">
     <h4 class="mdl-dialog__title">Save Route</h4>
     <form action="/save" method="POST">
+    	<input id="save-entity-key" class="hidden" name="save_entity_key">
         <div class="mdl-dialog__content">
             <div id="name-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input id="name" class="mdl-textfield__input" type="text" name="name">
@@ -237,7 +238,7 @@
             
         </div>
         <div class="mdl-dialog__actions">
-            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save</button>
+            <button id="save-route-button" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save</button>
             <button type="button" class="mdl-button mdl-js-button mdl-button--raised close-save-route-dialog">
                 Cancel
             </button>
