@@ -189,7 +189,21 @@ class SaveRouteAction(webapp2.RequestHandler):
             route.type = 1
             route.put()
             
-            
+            user = users.get_current_user()
+            email = user.email().lower()
+            notification_type = 0
+            if self.request.get('email-notification'):
+                notification_type += 1
+            if self.request.get('text-notification'):
+                notification_type += 1
+                
+            new_notification = Notification(parent=utils.get_parent_key_for_email(email),
+                                            creator = email,
+                                            receiver = email,
+                                            time = datetime.datetime.strptime(self.request.get('notification-time'), '%I:%M %p'),
+                                            type = notification_type,
+                                            message = "")
+            new_notification.put()
         
         self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(route.key.urlsafe()))
 
