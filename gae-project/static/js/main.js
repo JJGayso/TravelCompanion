@@ -31,8 +31,8 @@ enableButtons = function () {
                 var stop3 = $(this).find(".stop3").html();
                 var stop4 = $("#stop4").html();
                 var stop5 = $("#stop5").html();
-                
-                
+
+
                 // Note that I had to use change the mdl way to get the input label to float up.
                 // See: https://github.com/google/material-design-lite/issues/1287
                 document.querySelector('#stop1-field').MaterialTextfield
@@ -42,10 +42,10 @@ enableButtons = function () {
                 document.querySelector('#stop3-field').MaterialTextfield
                     .change(stop3);
                 document.querySelector('#stop4-field').MaterialTextfield
-                	.change(stop4);
+                    .change(stop4);
                 document.querySelector('#stop5-field').MaterialTextfield
-                	.change(stop5);
-                
+                    .change(stop5);
+
             }
         );
 
@@ -105,60 +105,60 @@ enableButtons = function () {
                 }
             });
 
-    $('#create-route-form').submit(function() {
-    	var stop1_ordered = $('input[name=stop1-checkbox]').is(':checked');
+    $('#create-route-form').submit(function () {
+        var stop1_ordered = $('input[name=stop1-checkbox]').is(':checked');
         var stop2_ordered = $('input[name=stop2-checkbox]').is(':checked');
         var stop3_ordered = $('input[name=stop3-checkbox]').is(':checked');
         var stop4_ordered = $('input[name=stop4-checkbox]').is(':checked');
         var stop5_ordered = $('input[name=stop5-checkbox]').is(':checked');
         console.log("Status " + stop1_ordered);
-    	
-    	var ordered = [];
-    	ordered.push(stop1_ordered);
-    	ordered.push(stop2_ordered);
-    	ordered.push(stop3_ordered);
-    	ordered.push(stop4_ordered);
-    	ordered.push(stop5_ordered);
-    	
-    	var route = [];
-    	stop1_val = $('input[name=stop1]').val();
-    	stop2_val = $('input[name=stop2]').val();
-    	stop3_val = $('input[name=stop3]').val();
-    	stop4_val = $('input[name=stop4]').val();
-    	stop5_val = $('input[name=stop5]').val();
-    	
+
+        var ordered = [];
+        ordered.push(stop1_ordered);
+        ordered.push(stop2_ordered);
+        ordered.push(stop3_ordered);
+        ordered.push(stop4_ordered);
+        ordered.push(stop5_ordered);
+
+        var route = [];
+        stop1_val = $('input[name=stop1]').val();
+        stop2_val = $('input[name=stop2]').val();
+        stop3_val = $('input[name=stop3]').val();
+        stop4_val = $('input[name=stop4]').val();
+        stop5_val = $('input[name=stop5]').val();
+
         route.push(stop1_val);
         route.push(stop2_val);
         if (stop3_val != "") {
-        	route.push(stop3_val);
+            route.push(stop3_val);
         }
-		if (stop4_val != "") {
-			route.push(stop4_val);
-		}
-		if (stop5_val != "") {
-			route.push(stop5_val);
-		}
-		
-		var permutations = findPermutations(route, ordered);
-		var times = [];
-		for (var perm_index in permutations) {
-			console.log(permutations[perm_index]);
-			calculateRoute(times, permutations[perm_index], setTime);
+        if (stop4_val != "") {
+            route.push(stop4_val);
+        }
+        if (stop5_val != "") {
+            route.push(stop5_val);
+        }
 
-		}
-		sleep(3);
-		return true;
+        var permutations = findPermutations(route, ordered);
+        var times = [];
+        for (var perm_index in permutations) {
+            console.log(permutations[perm_index]);
+            calculateRoute(times, permutations[perm_index], setTime);
+
+        }
+        sleep(3);
+        return true;
     });
-    
-    
+
+
     //Save Route
-    $('a[name=save-route-link]').click(function() {
-    	var entity_key = $('div[name=entity_key]').html()
-    	if (entity_key != "") {
-    		$('input[name=save_entity_key]').val(entity_key);
-    	}
+    $('a[name=save-route-link]').click(function () {
+        var entity_key = $('div[name=entity_key]').html()
+        if (entity_key != "") {
+            $('input[name=save_entity_key]').val(entity_key);
+        }
     });
-    
+
     // Password cancel button to close the insert-password-dialog
     $('.close-edit-route-dialog').click(function () {
         document.querySelector('#edit-route-dialog').close();
@@ -261,6 +261,24 @@ enableButtons = function () {
 
     $('.close-my-routes-dialog').click(function () {
         document.querySelector('#my-routes-dialog').close();
+    });
+
+    $(".saved-route .mdl-list__item-primary-content").click(function () {
+        var entity_key = $(this).find(".my_route_entity_key").html();
+        window.location.href = "/?route=" + entity_key;
+    });
+
+    $(".saved-route .route-delete").click(function() {
+        document.querySelector('#my-routes-dialog').close();
+        document.querySelector('#confirmation-dialog').showModal();
+        $(".to_delete_entity_key").html($(this).find(".my_route_entity_key").html());
+    });
+    $(".close-confirmation-dialog").click(function() {
+        document.querySelector("#confirmation-dialog").close();
+        document.querySelector("#my-routes-dialog").showModal();
+    });
+    $(".confirm-delete").click(function(){
+       window.location.href = "/delete-route?key="+$(".to_delete_entity_key").html()+"&current="+$(".current_entity_key").html()
     });
 };
 
@@ -434,150 +452,149 @@ function calculateRoute(times, route, callback) {
 //	var origin = new google.maps.LatLng( location.latitude, location.longitude ); // using google.maps.LatLng class
 //	var destination = target.latitude + ', ' + target.longitude; // using string
 
-	
-	
-	if (route.length < 3) {
-		var request = {
-		    origin: route[0], // LatLng|string
-		    destination: route[route.length - 1], // LatLng|string
-		    travelMode: google.maps.DirectionsTravelMode.DRIVING
-		};
-	} else if (route.length == 3) {
-		var request = {
-			    origin: route[0], // LatLng|string
-			    destination: route[route.length - 1], // LatLng|string
-			    waypoints: [
-	                        {
-	                            location: route[1],
-	                            stopover: true
-	                        }],
-			    travelMode: google.maps.DirectionsTravelMode.DRIVING
-			};
-	} else if (route.length == 4) {
-		var request = {
-			    origin: route[0], // LatLng|string
-			    destination: route[route.length - 1], // LatLng|string
-			    waypoints: [
-	                        {
-	                            location: route[1],
-	                            stopover: true
-	                        }, {
-	                            location: route[2],
-	                            stopover: true
-	                        }],
-			    travelMode: google.maps.DirectionsTravelMode.DRIVING
-			};
-	} else {
-		var request = {
-			    origin: route[0], // LatLng|string
-			    destination: route[route.length - 1], // LatLng|string
-			    waypoints: [
-	                        {
-	                            location: route[1],
-	                            stopover: true
-	                        }, {
-	                            location: route[2],
-	                            stopover: true
-	                        }, {
-	                            location: route[3],
-	                            stopover: true
-	                        }],
-			    travelMode: google.maps.DirectionsTravelMode.DRIVING
-			};
-	}
-	getTime(route, times, request, callback);
 
-	
+    if (route.length < 3) {
+        var request = {
+            origin: route[0], // LatLng|string
+            destination: route[route.length - 1], // LatLng|string
+            travelMode: google.maps.DirectionsTravelMode.DRIVING
+        };
+    } else if (route.length == 3) {
+        var request = {
+            origin: route[0], // LatLng|string
+            destination: route[route.length - 1], // LatLng|string
+            waypoints: [
+                {
+                    location: route[1],
+                    stopover: true
+                }],
+            travelMode: google.maps.DirectionsTravelMode.DRIVING
+        };
+    } else if (route.length == 4) {
+        var request = {
+            origin: route[0], // LatLng|string
+            destination: route[route.length - 1], // LatLng|string
+            waypoints: [
+                {
+                    location: route[1],
+                    stopover: true
+                }, {
+                    location: route[2],
+                    stopover: true
+                }],
+            travelMode: google.maps.DirectionsTravelMode.DRIVING
+        };
+    } else {
+        var request = {
+            origin: route[0], // LatLng|string
+            destination: route[route.length - 1], // LatLng|string
+            waypoints: [
+                {
+                    location: route[1],
+                    stopover: true
+                }, {
+                    location: route[2],
+                    stopover: true
+                }, {
+                    location: route[3],
+                    stopover: true
+                }],
+            travelMode: google.maps.DirectionsTravelMode.DRIVING
+        };
+    }
+    getTime(route, times, request, callback);
+
+
 }
 
 function findPermutations(route, ordered) {
-	console.log(ordered);
-	var ordered_count = 0;
-	for (var i = 0; i < route.length; i++) {
-		if (ordered[i] == true) {
-			ordered_count += 1;
-		}
-	}
-	console.log(ordered_count);
-	
-	var perms = [];
-	
-	if (ordered_count == route.length) {
-		perms.push(route);
-		return perms;
-	} else {
-		perms = permutator(route);
-		var final_perms = [];
-		for (var perm_num in perms) {
-			var meet_check = true;
-			for (var index = 0; index < route.length; index++) {
-				if (ordered[index] == true && perms[perm_num][index] != route[index]) {
-					meet_check = false;
-				}
-			}
-			if (meet_check) {
-				final_perms.push(perms[perm_num]);
-			}
-		}
-		console.log("DONE");
-		return final_perms;
-	}
+    console.log(ordered);
+    var ordered_count = 0;
+    for (var i = 0; i < route.length; i++) {
+        if (ordered[i] == true) {
+            ordered_count += 1;
+        }
+    }
+    console.log(ordered_count);
+
+    var perms = [];
+
+    if (ordered_count == route.length) {
+        perms.push(route);
+        return perms;
+    } else {
+        perms = permutator(route);
+        var final_perms = [];
+        for (var perm_num in perms) {
+            var meet_check = true;
+            for (var index = 0; index < route.length; index++) {
+                if (ordered[index] == true && perms[perm_num][index] != route[index]) {
+                    meet_check = false;
+                }
+            }
+            if (meet_check) {
+                final_perms.push(perms[perm_num]);
+            }
+        }
+        console.log("DONE");
+        return final_perms;
+    }
 }
 
 function permutator(inputArr) {
-	  var results = [];
+    var results = [];
 
-	  function permute(arr, memo) {
-	    var cur, memo = memo || [];
+    function permute(arr, memo) {
+        var cur, memo = memo || [];
 
-	    for (var i = 0; i < arr.length; i++) {
-	      cur = arr.splice(i, 1);
-	      if (arr.length === 0) {
-	        results.push(memo.concat(cur));
-	      }
-	      permute(arr.slice(), memo.concat(cur));
-	      arr.splice(i, 0, cur[0]);
-	    }
+        for (var i = 0; i < arr.length; i++) {
+            cur = arr.splice(i, 1);
+            if (arr.length === 0) {
+                results.push(memo.concat(cur));
+            }
+            permute(arr.slice(), memo.concat(cur));
+            arr.splice(i, 0, cur[0]);
+        }
 
-	    return results;
-	  }
+        return results;
+    }
 
-	  return permute(inputArr);
+    return permute(inputArr);
 }
 
 function getTime(route, times, request, callback) {
-	var directionsService = new google.maps.DirectionsService();
-	var value  = 0;
-	directionsService.route( request, function( response, status ) {
-		console.log(status);
-	    if ( status === 'OK' ) {
-	        var point = response.routes[ 0 ].legs[ 0 ];
-	        console.log(point.duration.text);
-	        console.log(point.distance.value);
-	        value = point.distance.value;
-	        callback(route, times, value);
-	    }
-	})
+    var directionsService = new google.maps.DirectionsService();
+    var value = 0;
+    directionsService.route(request, function (response, status) {
+        console.log(status);
+        if (status === 'OK') {
+            var point = response.routes[0].legs[0];
+            console.log(point.duration.text);
+            console.log(point.distance.value);
+            value = point.distance.value;
+            callback(route, times, value);
+        }
+    })
 }
 
 function setTime(route, times, time) {
-	times.push(time);
-	if (times.length == route.length) {
-		finishCalculation()
-	}
+    times.push(time);
+    if (times.length == route.length) {
+        finishCalculation()
+    }
 }
 
 function finishCalculation(times) {
-	var index = 0;
-	var smallest = times[0];
-	for (var i = 1; i < times.length; i++) {
-	  if (times[i] < smallest) {
-	    smallest = times[i];
-	    index = i;
-	  }
-	}
-	
-	console.log(index);
+    var index = 0;
+    var smallest = times[0];
+    for (var i = 1; i < times.length; i++) {
+        if (times[i] < smallest) {
+            smallest = times[i];
+            index = i;
+        }
+    }
+
+    console.log(index);
 }
 
 
