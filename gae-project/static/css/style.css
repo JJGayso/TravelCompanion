@@ -204,3 +204,7 @@ background: rgb(0, 128, 120);
 .recent-route-link, .my-route-link{
     text-decoration: none;
 }
+
+#confirmation-dialog{
+    width: 340px;
+}

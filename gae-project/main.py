@@ -69,7 +69,6 @@ class HomeHandler(base_handlers.BasePage):
         my_routes_query = Route.query(ancestor=utils.get_parent_key_for_email(users.get_current_user().email())).filter(
             Route.type == 1).order(Route.name)
         values["my_routes"] = my_routes_query.fetch()
-        values["temp"] = "Bob"
 
     def get_template(self):
         return jinja_env.get_template("templates/home.html")
@@ -212,12 +211,24 @@ class SaveRouteAction(webapp2.RequestHandler):
 
         self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(route.key.urlsafe()))
 
+class DeleteRouteAction(webapp2.RequestHandler):
+    def get(self):
+        current = self.request.get("current")
+        to_delete = self.request.get("key")
+        to_delete_key = ndb.Key(urlsafe=to_delete)
+        to_delete_key.delete()
+        if current == to_delete:
+            self.redirect('/')
+        else:
+            self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(current))
+
 
 app = webapp2.WSGIApplication([
     ('/login', LoginPage),
     ('/', HomeHandler),
     ('/edit-route', CreateRouteAction),
     ('/share', ShareRouteAction),
-    ('/save', SaveRouteAction)
+    ('/save', SaveRouteAction),
+    ('/delete-route', DeleteRouteAction)
 
 ], debug=True)

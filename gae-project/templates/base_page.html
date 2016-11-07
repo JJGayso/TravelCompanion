@@ -254,7 +254,6 @@
         <div id="saved-routes-list" class="mdl-list">
             {% for route in my_routes %}
             <div class="mdl-list__item saved-route">
-                <div class="hidden" name="entity_key">{{ route.key.urlsafe() }}</div>
                 <span class="mdl-list__item-primary-content">
                   <span>{{ route.name }}</span>
                 </span>
@@ -264,7 +263,7 @@
                     </a>
                 </button>
                 <button type="button" class="mdl-button mdl-js-button mdl-button--icon delete-saved-route">
-                    <a class="mdl-list__item-secondary-action"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    <span class="mdl-list__item-secondary-action route-delete"><span class="hidden my_route_entity_key">{{ route.key.urlsafe() }}</span><i class="fa fa-trash" aria-hidden="true"></i></span>
                 </button>
             </div>
             <hr/>
@@ -276,6 +275,21 @@
             Close
         </button>
     </div>
+</dialog>
+<dialog id='confirmation-dialog' class="mdl-dialog">
+    <h4 class="mdl-dialog__title">Share Route</h4>
+        <div class="mdl-dialog__content">
+            <div class="hidden to_delete_entity_key"></div>
+            <div class="hidden current_entity_key">{{entity_key}}</div>
+            <p>Are you sure you want to delete this route? This can not be undone!</p>
+        </div>
+        <div class="mdl-dialog__actions">
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored confirm-delete">I'm Sure!</button>
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised close-confirmation-dialog">
+                Cancel
+            </button>
+        </div>
+    </form>
 </dialog>
 {% endblock %}
 </body>
