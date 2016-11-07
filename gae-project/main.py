@@ -195,15 +195,11 @@ class SaveRouteAction(webapp2.RequestHandler):
             user = users.get_current_user()
             email = user.email().lower()
             notification_type = 0
-            if self.request.get('email-notification'):
-                notification_type += 1
-            if self.request.get('text-notification'):
-                notification_type += 1
 
             new_notification = Notification(parent=utils.get_parent_key_for_email(email),
                                             creator=email,
                                             receiver=email,
-                                            time=datetime.datetime.strptime(self.request.get('notification-time'),
+                                            time=datetime.datetime.strptime(self.request.get('route-time'),
                                                                             '%I:%M %p'),
                                             type=notification_type,
                                             message="")

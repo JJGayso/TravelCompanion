@@ -218,15 +218,15 @@ enableButtons = function () {
             function () {
                 document.querySelector('#save-route-dialog').showModal();
                 var name = $(".name").html();
-                var time = $(".notification-time").html();
+                var time = $(".route-time").html();
                 // Note that I had to use change the mdl way to get the input label to float up.
                 // See: https://github.com/google/material-design-lite/issues/1287
                 document.querySelector('#name-field').MaterialTextfield
                     .change(name);
-                document.querySelector('#notification-time-field').MaterialTextfield
+                document.querySelector('#route-time-field').MaterialTextfield
                     .change(time);
 
-                var dateinput = $('input[name=notification-time]');
+                var dateinput = $('input[name=route-time]');
                 dateinput.bootstrapMaterialDatePicker({
                     format: 'hh:mm A',
                     shortTime: true,
@@ -235,7 +235,7 @@ enableButtons = function () {
                 dateinput.on("click", closeSaveModal);
                 dateinput.on("beforeChange", function () {
                     document.querySelector('#save-route-dialog').showModal();
-                    $("#notification-time-field").addClass("is-dirty");
+                    $("#route-time-field").addClass("is-dirty");
                 });
                 $(".dtp-close").on("click", showSaveModal);
                 $(".dtp-btn-cancel").on("click", showSaveModal);
@@ -244,7 +244,7 @@ enableButtons = function () {
     // Password cancel button to close the insert-password-dialog
     $('.close-save-route-dialog').click(function () {
         document.querySelector('#save-route-dialog').close();
-        var dateInput = $('input[name=notification-time]');
+        var dateInput = $('input[name=route-time]');
         dateInput.off("click", closeSaveModal);
         dateInput.off("beforeChange");
         $(".dtp-btn-cancel").off("click", showSaveModal);
