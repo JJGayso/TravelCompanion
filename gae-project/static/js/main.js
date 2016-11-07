@@ -217,8 +217,8 @@ enableButtons = function () {
         .click(
             function () {
                 document.querySelector('#save-route-dialog').showModal();
-                var name = $(this).find(".name").html();
-                var time = $(this).find(".notification-time").html();
+                var name = $(".name").html();
+                var time = $(".notification-time").html();
                 // Note that I had to use change the mdl way to get the input label to float up.
                 // See: https://github.com/google/material-design-lite/issues/1287
                 document.querySelector('#name-field').MaterialTextfield
