@@ -69,6 +69,7 @@ class HomeHandler(base_handlers.BasePage):
         my_routes_query = Route.query(ancestor=utils.get_parent_key_for_email(users.get_current_user().email())).filter(
             Route.type == 1).order(Route.name)
         values["my_routes"] = my_routes_query.fetch()
+        values["temp"] = "bob"
 
     def get_template(self):
         return jinja_env.get_template("templates/home.html")
@@ -190,20 +191,9 @@ class SaveRouteAction(webapp2.RequestHandler):
             route = route_key.get()
             route.name = self.request.get('name')
             route.type = 1
+            route.start_time = datetime.datetime.strptime(str(self.request.get('route-time')),
+                                                          '%I:%M %p')
             route.put()
-
-            user = users.get_current_user()
-            email = user.email().lower()
-            notification_type = 0
-
-            new_notification = Notification(parent=utils.get_parent_key_for_email(email),
-                                            creator=email,
-                                            receiver=email,
-                                            time=datetime.datetime.strptime(self.request.get('route-time'),
-                                                                            '%I:%M %p'),
-                                            type=notification_type,
-                                            message="")
-            new_notification.put()
 
         self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(route.key.urlsafe()))
 

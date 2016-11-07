@@ -148,15 +148,6 @@ enableButtons = function () {
 		}
     });
 
-
-    //Save Route
-    $('a[name=save-route-link]').click(function () {
-        var entity_key = $('div[name=entity_key]').html()
-        if (entity_key != "") {
-            $('input[name=save_entity_key]').val(entity_key);
-        }
-    });
-
     // Password cancel button to close the insert-password-dialog
     $('.close-edit-route-dialog').click(function () {
         document.querySelector('#edit-route-dialog').close();
@@ -217,6 +208,13 @@ enableButtons = function () {
         .click(
             function () {
                 document.querySelector('#save-route-dialog').showModal();
+                $("#save-route-dialog .mdl-dialog__title").html("Save Route");
+                var entity_key = $('div[name=entity_key]').html();
+                if (entity_key != "") {
+                    $('input[name=save_entity_key]').val(entity_key);
+                }
+                $("#name").val("");
+                $("#route-time").val("");
                 var name = $(".name").html();
                 var time = $(".route-time").html();
                 // Note that I had to use change the mdl way to get the input label to float up.
@@ -270,6 +268,31 @@ enableButtons = function () {
         document.querySelector('#my-routes-dialog').close();
         document.querySelector('#confirmation-dialog').showModal();
         $(".to_delete_entity_key").html($(this).find(".my_route_entity_key").html());
+    });
+    $(".saved-route .route-edit").click(function() {
+        document.querySelector('#my-routes-dialog').close();
+        document.querySelector('#save-route-dialog').showModal();
+        $("#save-route-dialog .mdl-dialog__title").html("Edit Route");
+        $("#name").val($(this).find(".my_route_name").html());
+        $("#route-time").val($.trim($(this).find(".my_route_time_hour").html()) + ":" + $.trim($(this).find(".my_route_time_minute").html()) + " " + $.trim($(this).find(".my_route_time_half").html()));
+        $("#save-entity-key").val($(this).find(".my_route_entity_key").html());
+        document.querySelector('#name-field').MaterialTextfield
+            .change($("#name").val());
+        document.querySelector('#route-time-field').MaterialTextfield
+            .change($("#route-time").val());
+        var dateinput = $('input[name=route-time]');
+        dateinput.bootstrapMaterialDatePicker({
+            format: 'hh:mm A',
+            shortTime: true,
+            date: false
+        });
+        dateinput.on("click", closeSaveModal);
+        dateinput.on("beforeChange", function () {
+            document.querySelector('#save-route-dialog').showModal();
+            $("#route-time-field").addClass("is-dirty");
+        });
+        $(".dtp-close").on("click", showSaveModal);
+        $(".dtp-btn-cancel").on("click", showSaveModal);
     });
     $(".close-confirmation-dialog").click(function() {
         document.querySelector("#confirmation-dialog").close();

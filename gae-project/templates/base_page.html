@@ -248,10 +248,23 @@
             <div class="mdl-list__item saved-route">
                 <span class="mdl-list__item-primary-content">
                     <span class="hidden my_route_entity_key">{{ route.key.urlsafe() }}</span>
-                    <span>{{ route.name }}</span>
+                    <span class="my_route_name">{{ route.name }}</span>
                 </span>
                 <button type="button" class="mdl-button mdl-js-button mdl-button--icon edit-saved-route">
-                    <a class="mdl-list__item-secondary-action">
+                    <a class="mdl-list__item-secondary-action route-edit">
+                        <span class="hidden my_route_entity_key">{{ route.key.urlsafe() }}</span>
+                        <span class="hidden my_route_time_hour">
+                            {% if route.start_time.hour == 0%}
+                                {{route.start_time.hour + 1}}
+                            {% elif route.start_time.hour > 12%}
+                                {{route.start_time.hour - 12}}
+                            {% else %}
+                                {{route.start_time.hour}}
+                            {% endif %}
+                        </span>
+                        <span class="hidden my_route_time_minute">{{ route.start_time.minute}}</span>
+                        <span class="hidden my_route_time_half">{% if route.start_time.hour > 11%}PM{% else %}AM{% endif %}</span>
+                        <span class=" hidden my_route_name">{{ route.name }}</span>
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                     </a>
                 </button>
