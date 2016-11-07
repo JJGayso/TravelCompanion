@@ -449,8 +449,6 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 function calculateRoute(permutations, times, route, callback) {
 //	var origin = new google.maps.LatLng( location.latitude, location.longitude ); // using google.maps.LatLng class
 //	var destination = target.latitude + ', ' + target.longitude; // using string
-
-<<<<<<< HEAD
 	
 	
 	if (route.length < 3) {
@@ -503,9 +501,6 @@ function calculateRoute(permutations, times, route, callback) {
 			};
 	}
 	getTime(permutations, route, times, request, callback);
-
-	
-=======
 
     if (route.length < 3) {
         var request = {
@@ -615,7 +610,6 @@ function permutator(inputArr) {
     return permute(inputArr);
 }
 
-<<<<<<< HEAD
 function getTime(permutations, route, times, request, callback) {
 	var directionsService = new google.maps.DirectionsService();
 	var value  = 0;
@@ -670,7 +664,8 @@ function finishCalculation(permutations, times) {
 		
 		return true;
 	});
-=======
+}
+	
 function getTime(route, times, request, callback) {
     var directionsService = new google.maps.DirectionsService();
     var value = 0;
@@ -702,7 +697,6 @@ function finishCalculation(times) {
             index = i;
         }
     }
-
     console.log(index);
 }
 
