@@ -301,6 +301,30 @@ enableButtons = function () {
     $(".confirm-delete").click(function(){
        window.location.href = "/delete-route?key="+$(".to_delete_entity_key").html()+"&current="+$(".current_entity_key").html()
     });
+
+    $("#notification-text-toggle").click(function () {
+        if (!$(this).hasClass("mdl-button--colored")) {
+            $(this).addClass("mdl-button--colored");
+            $("#notification-email-toggle").removeClass("mdl-button--colored");
+            $("#notification-contact-label").text("Phone Number");
+        }
+    });
+
+    $("#notification-email-toggle").click(function () {
+        if (!$(this).hasClass("mdl-button--colored")) {
+            $(this).addClass("mdl-button--colored");
+            $("#notification-text-toggle").removeClass("mdl-button--colored");
+            $("#notification-contact-label").text("Email Address");
+        }
+    });
+
+    $(".notification-btn").click(function(){
+        document.querySelector("#notification-dialog").showModal();
+    });
+    $(".close-notification-dialog").click(function(){
+        document.querySelector("#notification-dialog").close();
+    });
+
 };
 
 mdlInitializations = function () {

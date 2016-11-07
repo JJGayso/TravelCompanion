@@ -60,7 +60,7 @@
             <nav class="mdl-navigation mdl-layout--large-screen-only">
                 <a name="save-route-link" class="mdl-navigation__link save-route-btn">Save Route</a>
                 <a class="mdl-navigation__link my-routes-btn">My Routes</a>
-                <a class="mdl-navigation__link" href="">Notifications</a>
+                <a class="mdl-navigation__link notification-btn">Notifications</a>
                 <a class="mdl-navigation__link" href="{{ logout_url }}">Sign Out</a>
             </nav>
         </div>
@@ -70,7 +70,7 @@
         <nav class="mdl-navigation">
             <a name="save-route-link" class="mdl-navigation__link save-route-btn">Save Route</a>
             <a class="mdl-navigation__link my-routes-btn">My Routes</a>
-            <a class="mdl-navigation__link" href="">Notifications</a>
+            <a class="mdl-navigation__link notification-btn">Notifications</a>
             <a class="mdl-navigation__link" href="{{ logout_url }}">Sign Out</a>
         </nav>
     </div>
@@ -298,6 +298,33 @@
             Cancel
         </button>
     </div>
+    </form>
+</dialog>
+<dialog id='notification-dialog' class="mdl-dialog">
+    <h4 class="mdl-dialog__title">Create Notification</h4>
+    <form action="/create-notification" method="POST">
+        <div class="mdl-dialog__content">
+            <div id="type-buttons">
+                <button id="notification-email-toggle" type="button"
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                    Email
+                </button>
+                <button id="notification-text-toggle" type="button" class="mdl-button mdl-js-button mdl-button--raised">
+                    Text
+                </button>
+            </div>
+            <br/>
+            <div id="notification-contact-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input id="notification-contact" class="mdl-textfield__input" type="text" name="contact">
+                <label id="notification-contact-label" class="mdl-textfield__label" for="contact">Email Address</label>
+            </div>
+        </div>
+        <div class="mdl-dialog__actions">
+            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save Notificatoin</button>
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised close-notification-dialog">
+                Cancel
+            </button>
+        </div>
     </form>
 </dialog>
 {% endblock %}

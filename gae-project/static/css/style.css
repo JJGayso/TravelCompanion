@@ -48,15 +48,15 @@
     float: right;
 }
 
-#text-toggle, #email-toggle {
+#text-toggle, #email-toggle, #notification-text-toggle, #notification-email-toggle {
     display: inline-block;
 }
 
-#email-toggle{
+#email-toggle, #notification-email-toggle{
     margin-right: 15px;
 }
 
-#share-buttons, #recent-close-btn {
+#share-buttons, #recent-close-btn, #type-buttons {
     text-align: center;
 }
 
@@ -186,7 +186,7 @@ background: rgb(0, 128, 120);
     background: rgb(83,109,254);
 }
 
-.saved-route, .recent-route, .my-routes-btn{
+.saved-route, .recent-route, .my-routes-btn, .notification-btn{
     cursor: pointer;
     cursor: hand;
 }
