@@ -588,12 +588,18 @@ function getTime(permutations, route, times, request, callback) {
 		console.log(status);
 	    if ( status === 'OK' ) {
 	        var point = response.routes[ 0 ].legs[ 0 ];
-	        console.log(point.duration.text);
-	        console.log(point.distance.value);
-	        value = point.duration.value;
+	        console.log(route);
+//	        console.log(point.duration.text);
+//	        console.log(point.distance.value);
+	        for (var rt in response.routes) {
+		        for (var leg in response.routes[rt].legs) {
+		        	value += response.routes[rt].legs[leg].duration.value;
+		        }
+	        }
+	        console.log(value);
 	        callback(permutations, route, times, value);
 	    }
-	})
+	});
 }
 
 function setTime(permutations, route, times, time) {
