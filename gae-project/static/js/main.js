@@ -466,7 +466,7 @@ function initMap() {
             $("#map").css("width", "100%");
         }
     }
-    sleep(0);
+    sleep(0.005);
     $("#map").css("height", $(".mdl-layout__content").height());
     $("#right-panel").css("height", $(".mdl-layout__content").height());
 
