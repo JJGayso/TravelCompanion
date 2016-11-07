@@ -105,7 +105,7 @@ enableButtons = function () {
                 }
             });
 
-    $('#create-route-form').submit(function() {
+    $('#create-route-button').click(function() {
     	var stop1_ordered = $('input[name=stop1-checkbox]').is(':checked');
         var stop2_ordered = $('input[name=stop2-checkbox]').is(':checked');
         var stop3_ordered = $('input[name=stop3-checkbox]').is(':checked');
@@ -139,15 +139,13 @@ enableButtons = function () {
 			route.push(stop5_val);
 		}
 		
-		var permutations = findPermutations(route, ordered);
+		var all_permutations = findPermutations(route, ordered);
 		var times = [];
-		for (var perm_index in permutations) {
-			console.log(permutations[perm_index]);
-			calculateRoute(times, permutations[perm_index], setTime);
+		for (var perm_index in all_permutations) {
+			console.log(all_permutations[perm_index]);
+			calculateRoute(all_permutations, times, all_permutations[perm_index], setTime);
 
 		}
-		sleep(3);
-		return true;
     });
     
     
@@ -430,7 +428,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
     });
 }
 
-function calculateRoute(times, route, callback) {
+function calculateRoute(permutations, times, route, callback) {
 //	var origin = new google.maps.LatLng( location.latitude, location.longitude ); // using google.maps.LatLng class
 //	var destination = target.latitude + ', ' + target.longitude; // using string
 
@@ -485,7 +483,7 @@ function calculateRoute(times, route, callback) {
 			    travelMode: google.maps.DirectionsTravelMode.DRIVING
 			};
 	}
-	getTime(route, times, request, callback);
+	getTime(permutations, route, times, request, callback);
 
 	
 }
@@ -545,7 +543,7 @@ function permutator(inputArr) {
 	  return permute(inputArr);
 }
 
-function getTime(route, times, request, callback) {
+function getTime(permutations, route, times, request, callback) {
 	var directionsService = new google.maps.DirectionsService();
 	var value  = 0;
 	directionsService.route( request, function( response, status ) {
@@ -554,20 +552,20 @@ function getTime(route, times, request, callback) {
 	        var point = response.routes[ 0 ].legs[ 0 ];
 	        console.log(point.duration.text);
 	        console.log(point.distance.value);
-	        value = point.distance.value;
-	        callback(route, times, value);
+	        value = point.duration.value;
+	        callback(permutations, route, times, value);
 	    }
 	})
 }
 
-function setTime(route, times, time) {
+function setTime(permutations, route, times, time) {
 	times.push(time);
-	if (times.length == route.length) {
-		finishCalculation()
+	if (times.length == permutations.length) {
+		finishCalculation(permutations, times)
 	}
 }
 
-function finishCalculation(times) {
+function finishCalculation(permutations, times) {
 	var index = 0;
 	var smallest = times[0];
 	for (var i = 1; i < times.length; i++) {
@@ -578,6 +576,27 @@ function finishCalculation(times) {
 	}
 	
 	console.log(index);
+	var bestRoute = permutations[index];
+	$('input[name=stop1]').val(bestRoute[0]);
+	$('input[name=stop2]').val(bestRoute[1]);
+	if (bestRoute.length > 2) {
+		$('#edit-route-dialog input[name=stop3]').html(bestRoute[2]);
+	}
+	if (bestRoute.length > 3) {
+		$('#edit-route-dialog input[name=stop4]').html(bestRoute[3]);
+	}
+	if (bestRoute.length > 4) {
+		$('#edit-route-dialog input[name=stop5]').html(bestRoute[4]);
+	}
+	
+	$('#create-route-form').submit(function() {
+		console.log("YESSS");
+		console.log(bestRoute);
+		
+		
+		
+		return true;
+	});
 }
 
 
