@@ -105,7 +105,7 @@ enableButtons = function () {
                 }
             });
 
-    $('#create-route-form').submit(function () {
+    $('#create-route-button').click(function () {
         var stop1_ordered = $('input[name=stop1-checkbox]').is(':checked');
         var stop2_ordered = $('input[name=stop2-checkbox]').is(':checked');
         var stop3_ordered = $('input[name=stop3-checkbox]').is(':checked');
@@ -595,13 +595,13 @@ function finishCalculation(permutations, times) {
 	$('input[name=stop1]').val(bestRoute[0]);
 	$('input[name=stop2]').val(bestRoute[1]);
 	if (bestRoute.length > 2) {
-		$('#edit-route-dialog input[name=stop3]').html(bestRoute[2]);
+		$('#edit-route-dialog input[name=stop3]').val(bestRoute[2]);
 	}
 	if (bestRoute.length > 3) {
-		$('#edit-route-dialog input[name=stop4]').html(bestRoute[3]);
+		$('#edit-route-dialog input[name=stop4]').val(bestRoute[3]);
 	}
 	if (bestRoute.length > 4) {
-		$('#edit-route-dialog input[name=stop5]').html(bestRoute[4]);
+		$('#edit-route-dialog input[name=stop5]').val(bestRoute[4]);
 	}
 	
 	$('#create-route-form').submit(function() {
