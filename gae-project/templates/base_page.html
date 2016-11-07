@@ -105,7 +105,7 @@
 {% block dialogs %}
 <dialog id='edit-route-dialog' class="mdl-dialog">
     <h4 class="mdl-dialog__title" id="edit-route-title">Create Route</h4>
-    <form action="/edit-route" method="POST">
+    <form id="create-route-form" action="/edit-route" method="POST">
         <div class="mdl-dialog__content">
             <h5 id="destinations_label">Destinations</h5>
             <h5 id="ordered_label">Ordered?</h5>
@@ -116,7 +116,7 @@
                 <label class="mdl-textfield__label" for="stop1">Stop 1</label>
             </div>
             <label class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop1-checkbox">
-                <input type="checkbox" id="stop1-checkbox" class="mdl-checkbox__input" name="stop1" checked>
+                <input type="checkbox" id="stop1-checkbox" class="mdl-checkbox__input" name="stop1-checkbox" checked>
             </label>
             <br/>
             <div id="stop2-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -124,7 +124,7 @@
                 <label class="mdl-textfield__label" for="stop2">Stop 2</label>
             </div>
             <label class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop2-checkbox">
-                <input type="checkbox" id="stop2-checkbox" class="mdl-checkbox__input" checked>
+                <input type="checkbox" id="stop2-checkbox" class="mdl-checkbox__input" name="stop2-checkbox" checked>
             </label>
             <br/>
             <div id="stop3-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -132,7 +132,7 @@
                 <label class="mdl-textfield__label" for="stop3">Stop 3</label>
             </div>
             <label class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop3-checkbox">
-                <input type="checkbox" id="stop3-checkbox" class="mdl-checkbox__input" checked>
+                <input type="checkbox" id="stop3-checkbox" class="mdl-checkbox__input" name="stop3-checkbox" checked>
             </label>
             <br/>
             <div id="stop4-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -140,7 +140,7 @@
                 <label class="mdl-textfield__label" for="stop4">Stop 4</label>
             </div>
             <label class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop4-checkbox">
-                <input type="checkbox" id="stop4-checkbox" class="mdl-checkbox__input" checked>
+                <input type="checkbox" id="stop4-checkbox" class="mdl-checkbox__input" name="stop4-checkbox" checked>
             </label>
             <br/>
             <div id="stop5-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -148,7 +148,7 @@
                 <label class="mdl-textfield__label" for="stop5">Stop 3</label>
             </div>
             <label class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop5-checkbox">
-                <input type="checkbox" id="stop5-checkbox" class="mdl-checkbox__input" checked>
+                <input type="checkbox" id="stop5-checkbox" class="mdl-checkbox__input" name="stop5-checkbox" checked>
             </label>
         </div>
         <div class="mdl-dialog__actions">
