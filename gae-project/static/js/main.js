@@ -609,6 +609,7 @@ function finishCalculation(permutations, times) {
 		console.log(bestRoute);
 		return true;
 	});
+    $("#create-route-form").trigger("submit");
 }
 
 
