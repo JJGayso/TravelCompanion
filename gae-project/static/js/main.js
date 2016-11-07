@@ -501,58 +501,6 @@ function calculateRoute(permutations, times, route, callback) {
 			};
 	}
 	getTime(permutations, route, times, request, callback);
-
-    if (route.length < 3) {
-        var request = {
-            origin: route[0], // LatLng|string
-            destination: route[route.length - 1], // LatLng|string
-            travelMode: google.maps.DirectionsTravelMode.DRIVING
-        };
-    } else if (route.length == 3) {
-        var request = {
-            origin: route[0], // LatLng|string
-            destination: route[route.length - 1], // LatLng|string
-            waypoints: [
-                {
-                    location: route[1],
-                    stopover: true
-                }],
-            travelMode: google.maps.DirectionsTravelMode.DRIVING
-        };
-    } else if (route.length == 4) {
-        var request = {
-            origin: route[0], // LatLng|string
-            destination: route[route.length - 1], // LatLng|string
-            waypoints: [
-                {
-                    location: route[1],
-                    stopover: true
-                }, {
-                    location: route[2],
-                    stopover: true
-                }],
-            travelMode: google.maps.DirectionsTravelMode.DRIVING
-        };
-    } else {
-        var request = {
-            origin: route[0], // LatLng|string
-            destination: route[route.length - 1], // LatLng|string
-            waypoints: [
-                {
-                    location: route[1],
-                    stopover: true
-                }, {
-                    location: route[2],
-                    stopover: true
-                }, {
-                    location: route[3],
-                    stopover: true
-                }],
-            travelMode: google.maps.DirectionsTravelMode.DRIVING
-        };
-    }
-    getTime(route, times, request, callback);
-
 }
 
 function findPermutations(route, ordered) {
@@ -659,45 +607,8 @@ function finishCalculation(permutations, times) {
 	$('#create-route-form').submit(function() {
 		console.log("YESSS");
 		console.log(bestRoute);
-		
-		
-		
 		return true;
 	});
-}
-	
-function getTime(route, times, request, callback) {
-    var directionsService = new google.maps.DirectionsService();
-    var value = 0;
-    directionsService.route(request, function (response, status) {
-        console.log(status);
-        if (status === 'OK') {
-            var point = response.routes[0].legs[0];
-            console.log(point.duration.text);
-            console.log(point.distance.value);
-            value = point.distance.value;
-            callback(route, times, value);
-        }
-    })
-}
-
-function setTime(route, times, time) {
-    times.push(time);
-    if (times.length == route.length) {
-        finishCalculation()
-    }
-}
-
-function finishCalculation(times) {
-    var index = 0;
-    var smallest = times[0];
-    for (var i = 1; i < times.length; i++) {
-        if (times[i] < smallest) {
-            smallest = times[i];
-            index = i;
-        }
-    }
-    console.log(index);
 }
 
 
