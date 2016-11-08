@@ -461,7 +461,7 @@ enableButtons = function () {
         document.querySelector("#my-notifications-dialog").close();
     });
     $(".notification-delete").click(function(){
-        window.location.href = "/delete-route?key="+$(this).find(".my_notification_entity_key").html()+"&current="+$(this).find(".current_entity_key").html()
+        window.location.href = "/delete-notification?key="+$(this).find(".my_notification_entity_key").html()+"&current="+$(this).find(".current_entity_key").html()
     });
 };
 

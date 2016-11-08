@@ -354,15 +354,6 @@ class DeleteNotificationAction(webapp2.RequestHandler):
         to_delete = self.request.get("key")
         to_delete_key = ndb.Key(urlsafe=to_delete)
         being_deleted = to_delete_key.get()
-        extra = being_deleted.get_task_name() + being_deleted.time.strftime("%m%d%Y%I%M")
-        logging.info(extra)
-        new_notification = Notification(parent=current,
-                                        creator=extra,
-                                        receiver=extra,
-                                        time=being_deleted.time,
-                                        type=1,
-                                        message="")
-        new_notification.put()
         taskqueue.Queue().delete_tasks_by_name(being_deleted.get_task_name() + being_deleted.time.strftime("%m%d%Y%I%M"))
         to_delete_key.delete()
         self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(current))
