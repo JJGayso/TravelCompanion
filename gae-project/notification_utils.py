@@ -44,7 +44,7 @@ def get_sent_notifications_for_user(user, limit=20):
 
 def send_notification(notification):
     # Get the Twilio account information needed to send this text message event.
-    creators_email = notification.creator
+    creators_email = str(notification.creator)
     body = "TEST NOTIFICATION"
 
     account_sid = "AC56dcdc34222550e22aa248491d16af63"
@@ -55,7 +55,7 @@ def send_notification(notification):
 
     # Send the message only to the appropriate contacts.
     if not '@' in notification.receiver:
-        to_number = "+1" + notification.receiver
+        to_number = "+1" + str(notification.receiver)
         # Twilio library code:  https://github.com/twilio/twilio-python
         # Twilio library docs: http://twilio-python.readthedocs.io/en/latest/
         rv = client.messages.create(to=to_number,
