@@ -7,6 +7,14 @@ $(document).ready(function () {
             window.location.href = '/';
         }
     });
+    
+    $(window).resize(function() {
+    	  //resize just happened, pixels changed
+    	var windowWidth = $(window).width();
+    	if (windowWidth > 500) {
+    		initMap();
+    	}
+    });
 });
 
 function sleep(milliseconds) {
