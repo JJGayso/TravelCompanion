@@ -304,7 +304,7 @@
 </dialog>
 <dialog id='notification-dialog' class="mdl-dialog">
     <h4 class="mdl-dialog__title">Create Notification</h4>
-    <form action="/create-notification" method="POST">
+    <form id="create-notification-form" action="/create-notification" method="POST">
         <div class="mdl-dialog__content">
             <input type="hidden" name="notification-route-entity-key" id="notification-route-entity-key" value="{{ entity_key }}"/>
             <input type="hidden" name="notification-type" id="notification-type"/>
@@ -336,9 +336,10 @@
                 <input id="notification-minute" class="mdl-textfield__input" type="text" name="notification-minute">
                 <label id="notification-minute-label" class="mdl-textfield__label" for="notification-minute">Minutes Before</label>
             </div>
+            <p id="notification-error-msg" class="hidden" style="color: red;">Fill Out All Fields!</p>
         </div>
         <div class="mdl-dialog__actions" id="notification-action-buttons">
-            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save Notification</button>
+            <button id="create-notification-button" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save Notification</button>
             <button type="button" class="mdl-button mdl-js-button mdl-button--raised close-notification-dialog">
                 Cancel
             </button>

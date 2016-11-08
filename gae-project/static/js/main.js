@@ -379,6 +379,21 @@ enableButtons = function () {
     $(".close-notification-dialog").click(function(){
         document.querySelector("#notification-dialog").close();
     });
+    
+    $('#create-notification-button').on("click", function() {
+    	var notificationContact = $('#notification-contact').val();
+    	var notificationHour = $('#notification-hour').val();
+    	var notificationMinute = $('#notification-minute').val();
+    	
+    	if (notificationContact == "" || notificationHour == "" || notificationMinute == "") {
+    		$('#notification-error-msg').removeClass("hidden");
+    	} else {
+    		$('#notification-error-msg').submit(function() {
+    			console.log("Saving Form");
+    		});
+    		$('#create-notification-form').trigger("submit");
+    	}
+    });
 
 };
 
