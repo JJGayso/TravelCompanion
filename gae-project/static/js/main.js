@@ -237,7 +237,21 @@ enableButtons = function () {
                 });
                 $(".dtp-close").on("click", showSaveModal);
                 $(".dtp-btn-cancel").on("click", showSaveModal);
+                
+                $('#save-route-button').on("click", function() {
+                	var routeName = $('#save-route-name').val();
+                	var routeTime = $('#route-time').val();
+                	if (routeTime == "" || routeName == "") {
+                		$('#save-error-msg').removeClass("hidden");
+                	} else {
+                		$('#save-route-form').submit(function() {
+                			console.log("Saving Form");
+                		});
+                		$('#save-route-form').trigger("submit");
+                	}
+                });
             });
+    
 
     // Password cancel button to close the insert-password-dialog
     $('.close-save-route-dialog').click(function () {
