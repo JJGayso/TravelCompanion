@@ -9,6 +9,7 @@ from google.appengine.ext import ndb
 import jinja2
 import webapp2
 
+import notification_utils
 from handlers import base_handlers
 from models import Route, Notification, Stop
 import utils
@@ -241,21 +242,16 @@ class CreateNotificationAction(webapp2.RequestHandler):
         else:
             self.redirect('/')
 
-CRON_JOB_INTERVAL_H = 24
 
 class CronCheckNotificationsForSends(webapp2.RequestHandler):
     """ Daily cron job to check for messages that need to be queued up for the day."""
     def get(self):
-        now = datetime.now()
-        next_check = now + datetime.timedelta(hours=(CRON_JOB_INTERVAL_H + 1))
-        query = Notification.query(ndb.AND(Notification.type != 2,
-                                               ndb.AND(Notification.time >= now,
-                                                       Notification.time < next_check))).order(Notification.time)
+        query = Notification.query(Notification.type != 2).order(Notification.time)
         num_notification_events_scheduled = 0
         for notification in query.fetch():
             num_notification_events_scheduled += 1
             # Originally we just sent the message during the cron job now we'll schedule a task.
-            message_utils.add_text_message_event_to_task_queue(text_message_event)
+            notification_utils.add_notification_to_task_queue(notification)
 
         self.response.out.write("Checked for messages to schedule.  Scheduled " + str(num_notification_events_scheduled) + " notifications.")
 
@@ -263,8 +259,8 @@ class QueueSendNotification(webapp2.RequestHandler):
     def post(self):
         payload = json.loads(self.request.body)
         urlsafe_entity_key = payload["urlsafe_entity_key"]
-        notification_event_key = ndb.Key(urlsafe=urlsafe_entity_key)
-        message_utils.send_notification_for_event_key(notification_event_key)
+        notification_key = ndb.Key(urlsafe=urlsafe_entity_key)
+        notification_utils.send_notification_for_event_key(notification_key)
 
 app = webapp2.WSGIApplication([
     ('/login', LoginPage),
@@ -274,7 +270,7 @@ app = webapp2.WSGIApplication([
     ('/save', SaveRouteAction),
     ('/delete-route', DeleteRouteAction),
     ('/create-notification', CreateNotificationAction),
-    ("/cron/check-message-events", CronCheckNotificationsForSends),
-    ("/queue/send-message", QueueSendNotification),
+    ("/cron/check-notification-events", CronCheckNotificationsForSends),
+    ("/queue/send-notification", QueueSendNotification),
 
 ], debug=True)
