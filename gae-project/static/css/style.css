@@ -245,7 +245,7 @@ background: rgb(0, 128, 120);
 	}
 	
 	div#notification-contact-field {
-		width: 125px;
+		width: 100%;
 	}
 	
 	div#notification-hour-field {

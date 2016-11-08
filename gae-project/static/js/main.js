@@ -327,6 +327,18 @@ enableButtons = function () {
         });
         $(".dtp-close").on("click", showSaveModal);
         $(".dtp-btn-cancel").on("click", showSaveModal);
+        $('#save-route-button').on("click", function() {
+            var routeName = $('#save-route-name').val();
+            var routeTime = $('#route-time').val();
+            if (routeTime == "" || routeName == "") {
+                $('#save-error-msg').removeClass("hidden");
+            } else {
+                $('#save-route-form').submit(function() {
+                    console.log("Saving Form");
+                });
+                $('#save-route-form').trigger("submit");
+            }
+        });
     });
     $(".close-confirmation-dialog").click(function() {
         document.querySelector("#confirmation-dialog").close();
@@ -377,7 +389,7 @@ mdlInitializations = function () {
 
 var map;
 function initMap() {
-    var user_email = $('div[name=user_email').html();
+    var user_email = $('div[name=user_email]').html();
     var stop1 = $('div[name=stop1]').html();
     var stop2 = $('div[name=stop2]').html();
     var stop3 = $('div[name=stop3]').html();
