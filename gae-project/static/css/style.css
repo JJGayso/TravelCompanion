@@ -26,10 +26,6 @@
     color: red;
 }
 
-#edit-route-dialog {
-    width: 500px;
-}
-
 .route-ordered {
     width: auto;
     margin-left: 70px;
@@ -60,9 +56,6 @@
     text-align: center;
 }
 
-#recent-dialog {
-    width: 500px;
-}
 
 .mdl-mini-footer--link-list li, .mdl-mini-footer__link-list li {
     margin: 0px 16px;
@@ -197,22 +190,101 @@ background: rgb(0, 128, 120);
     overflow: auto;
 }
 
-#my-routes-dialog{
-    width: 450px;
-}
+
 
 .recent-route-link, .my-route-link{
     text-decoration: none;
 }
 
-#confirmation-dialog{
-    width: 340px;
-}
+
 
 #notification-action-buttons {
     padding-left: 0;
 }
 
-#notification-minute-field, #notification-hour-field{
-    width: 110px;
+
+
+@media only screen and (min-width: 500px) {
+	#my-routes-dialog{
+    	width: 450px;
+	}
+	
+	#notification-minute-field, #notification-hour-field{
+    	width: 110px;
+	}
+	
+	#confirmation-dialog{
+    	width: 340px;
+	}
+	
+	#recent-dialog {
+    	width: 500px;
+	}
+	
+	#edit-route-dialog {
+    	width: 500px;
+	}
+	
+	#my-routes-dialog{
+    	width: 300px;
+    	height: 500px;
+    	overflow: auto;
+	}
+	
+}
+
+@media only screen and (max-width: 499px) {
+	#map {
+		display: none;
+	}
+	
+	#notification-dialog {
+		width: 325px;
+		height: 450px;
+		overflow: auto;
+	}
+	
+	div#notification-contact-field {
+		width: 125px;
+	}
+	
+	div#notification-hour-field {
+		width: 125px;
+	}
+	
+	div#notification-minute-field {
+		width: 125px;
+	}
+	
+	#my-routes-dialog{
+    	width: 300px;
+    	height: 500px;
+    	overflow: auto;
+	}
+	
+	#edit-route-dialog {
+		width: 300px;
+		height: 500px;
+		overflow: auto;
+	}
+	
+	#recent-dialog {
+		width: 300px;
+		height: 500px;
+		overflow: auto;
+	}
+	
+	.mdl-textfield {
+		width: 150px;
+	}
+	
+	#directions_header {
+		width: 100%;
+		left: 0px;
+	}
+	
+	#directions-panel > div {
+		width: 75%;
+		margin: auto;
+	}
 }
