@@ -111,6 +111,7 @@ enableButtons = function () {
         var stop3_ordered = $('input[name=stop3-checkbox]').is(':checked');
         var stop4_ordered = $('input[name=stop4-checkbox]').is(':checked');
         var stop5_ordered = $('input[name=stop5-checkbox]').is(':checked');
+        
         console.log("Status " + stop1_ordered);
 
         var ordered = [];
@@ -119,33 +120,44 @@ enableButtons = function () {
         ordered.push(stop3_ordered);
         ordered.push(stop4_ordered);
         ordered.push(stop5_ordered);
-
-        var route = [];
-        stop1_val = $('input[name=stop1]').val();
-        stop2_val = $('input[name=stop2]').val();
-        stop3_val = $('input[name=stop3]').val();
-        stop4_val = $('input[name=stop4]').val();
-        stop5_val = $('input[name=stop5]').val();
-
-        route.push(stop1_val);
-        route.push(stop2_val);
-        if (stop3_val != "") {
-            route.push(stop3_val);
+        
+        var falseCount = 0;
+        for (var val of ordered) {
+        	if (val == false) {
+        		falseCount += 1;
+        	}
         }
-		if (stop4_val != "") {
-			route.push(stop4_val);
-		}
-		if (stop5_val != "") {
-			route.push(stop5_val);
-		}
-		
-		var all_permutations = findPermutations(route, ordered);
-		var times = [];
-		for (var perm_index in all_permutations) {
-			console.log(all_permutations[perm_index]);
-			calculateRoute(all_permutations, times, all_permutations[perm_index], setTime);
+        
+        if (falseCount > 3) {
+        	$('#create-error-msg').removeClass("hidden");
+        } else {
+        	var route = [];
+            stop1_val = $('input[name=stop1]').val();
+            stop2_val = $('input[name=stop2]').val();
+            stop3_val = $('input[name=stop3]').val();
+            stop4_val = $('input[name=stop4]').val();
+            stop5_val = $('input[name=stop5]').val();
 
-		}
+            route.push(stop1_val);
+            route.push(stop2_val);
+            if (stop3_val != "") {
+                route.push(stop3_val);
+            }
+    		if (stop4_val != "") {
+    			route.push(stop4_val);
+    		}
+    		if (stop5_val != "") {
+    			route.push(stop5_val);
+    		}
+    		
+    		var all_permutations = findPermutations(route, ordered);
+    		var times = [];
+    		for (var perm_index in all_permutations) {
+    			console.log(all_permutations[perm_index]);
+    			calculateRoute(all_permutations, times, all_permutations[perm_index], setTime);
+
+    		}
+        }
     });
 
     // Password cancel button to close the insert-password-dialog
