@@ -5,6 +5,7 @@ import email
 import os
 
 from google.appengine.api import users
+from google.appengine.api.taskqueue import taskqueue
 from google.appengine.ext import ndb
 import jinja2
 import webapp2
@@ -237,23 +238,12 @@ class CreateNotificationAction(webapp2.RequestHandler):
                                             type=notification_type,
                                             message="")
             new_notification.put()
+            notification_utils.add_notification_to_task_queue(new_notification)
 
             self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(route.key.urlsafe()))
         else:
             self.redirect('/')
 
-
-class CronCheckNotificationsForSends(webapp2.RequestHandler):
-    """ Daily cron job to check for messages that need to be queued up for the day."""
-    def get(self):
-        query = Notification.query(Notification.type != 2).order(Notification.time)
-        num_notification_events_scheduled = 0
-        for notification in query.fetch():
-            num_notification_events_scheduled += 1
-            # Originally we just sent the message during the cron job now we'll schedule a task.
-            notification_utils.add_notification_to_task_queue(notification)
-
-        self.response.out.write("Checked for messages to schedule.  Scheduled " + str(num_notification_events_scheduled) + " notifications.")
 
 class QueueSendNotification(webapp2.RequestHandler):
     def post(self):
@@ -261,6 +251,16 @@ class QueueSendNotification(webapp2.RequestHandler):
         urlsafe_entity_key = payload["urlsafe_entity_key"]
         notification_key = ndb.Key(urlsafe=urlsafe_entity_key)
         notification_utils.send_notification_for_event_key(notification_key)
+        notification = notification_key.get()
+        notification.is_in_task_queue = False
+        notification.put()
+        taskqueue.Queue().delete_tasks_by_name(notification.get_task_name())
+        if notification.type == 0:
+            notification.type = 2
+            notification.put()
+        else:
+            notification_utils.add_notification_to_task_queue(notification)
+
 
 app = webapp2.WSGIApplication([
     ('/login', LoginPage),
@@ -270,7 +270,6 @@ app = webapp2.WSGIApplication([
     ('/save', SaveRouteAction),
     ('/delete-route', DeleteRouteAction),
     ('/create-notification', CreateNotificationAction),
-    ("/cron/check-notification-events", CronCheckNotificationsForSends),
     ("/queue/send-notification", QueueSendNotification),
 
 ], debug=True)

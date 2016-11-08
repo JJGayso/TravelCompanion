@@ -38,3 +38,6 @@ class Notification(ndb.Model):
     type = ndb.IntegerProperty()
     message = ndb.StringProperty()
     is_in_task_queue = ndb.BooleanProperty(default=False)
+    def get_task_name(self):
+        """ Returns a unique name for this text message event."""
+        return self.key.urlsafe()  # Just use the entity key urlsafe string (ugly for display but easy)

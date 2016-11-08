@@ -1,22 +1,22 @@
-from datetime import datetime
 import json
 import logging
+from datetime import datetime, timedelta, tzinfo
 
 from google.appengine.api import mail
 from google.appengine.api import taskqueue
-from google.appengine.api.app_identity import get_application_id
 from google.appengine.api.taskqueue import TaskRetryOptions
-from google.appengine.ext import blobstore
 from google.appengine.ext import deferred
-from google.appengine.ext import ndb
-from twilio.rest.client import TwilioRestClient
+from twilio.rest import TwilioRestClient
+import pytz
 
 import utils
+from pytz import timezone
 from models import Notification
 
 
 def get_parent_key_email_from_notification(notification):
     return notification.key.parent().string_id()
+
 
 def delete_notification(notification):
     if notification.is_in_task_queue:
@@ -30,6 +30,7 @@ def get_all_notifications_for_user(user):
     """ Gets all of the contacts for this user. """
     parent_key = utils.get_parent_key(user)
     return Notification.query(ancestor=parent_key)
+
 
 def get_unsent_notifications_for_user(user):
     query = get_all_notifications_for_user(user).order(-Notification.time)  # Closest to now on top
@@ -93,8 +94,8 @@ def send_notification_for_event_key(notification_key):
     except:
         logging.error("Sending the message failed. Catching the error to avoid the retry.")
 
-def add_notification_to_task_queue(notification):
 
+def add_notification_to_task_queue(notification):
     if notification.is_in_task_queue:
         return
 
@@ -103,8 +104,37 @@ def add_notification_to_task_queue(notification):
 
     # https://cloud.google.com/appengine/docs/python/refdocs/google.appengine.api.taskqueue#google.appengine.api.taskqueue.add
     payload = {"urlsafe_entity_key": notification_key.urlsafe()}
-    taskqueue.add(url='/queue/send-notification',
-                  name=notification.get_task_name(),
+    eta = datetime.now(timezone('US/Eastern'))
+    if eta.hour < notification.time.hour:
+        etaDay = eta.day
+        etaMonth = eta.month
+        etaYear = eta.year
+    elif eta.hour == notification.time.hour:
+        if eta.minute < notification.time.minute:
+            etaDay = eta.day
+            etaMonth = eta.month
+            etaYear = eta.year
+        else:
+            tomorrow = eta + timedelta(days=1)
+            etaDay = tomorrow.day
+            etaMonth = tomorrow.month
+            etaYear = tomorrow.year
+    else:
+        tomorrow = eta + timedelta(days=1)
+        etaDay = tomorrow.day
+        etaMonth = tomorrow.month
+        etaYear = tomorrow.year
+    eta = eta.replace(second=0, hour=notification.time.hour, minute=notification.time.minute, day=etaDay, month=etaMonth,
+                      year=etaYear)
+    try:
+        taskqueue.add(url='/queue/send-notification',
+                  name=notification.get_task_name()+eta.strftime("%m%d%Y%I%M"),
                   payload=json.dumps(payload),
-                  eta=notification.time,
+                  eta=eta,
                   retry_options=TaskRetryOptions(task_retry_limit=1))
+    except:
+        taskqueue.add(url='/queue/send-notification',
+                      name=notification.get_task_name()+eta.strftime("%m%d%Y%I%M")+"2",
+                      payload=json.dumps(payload),
+                      eta=eta,
+                      retry_options=TaskRetryOptions(task_retry_limit=1))
