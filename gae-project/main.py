@@ -13,6 +13,7 @@ from models import Route, Notification, Stop
 import utils
 
 
+
 # Jinja environment instance necessary to use Jinja templates.
 def __init_jinja_env():
     jenv = jinja2.Environment(
