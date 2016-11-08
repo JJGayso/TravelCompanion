@@ -164,13 +164,13 @@ html, body {
     }
 }
 
-.save-route-switch {
+.daily-notification-switch {
     display: inline-block;
     width: initial;
     float: right;
 }
 
-.save-route-switch-label {
+.daily-notification-switch-label {
     left: 0;
     display: inline-block;
 }
@@ -207,4 +207,12 @@ background: rgb(0, 128, 120);
 
 #confirmation-dialog{
     width: 340px;
+}
+
+#notification-action-buttons {
+    padding-left: 0;
+}
+
+#notification-minute-field, #notification-hour-field{
+    width: 110px;
 }

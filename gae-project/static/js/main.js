@@ -305,6 +305,7 @@ enableButtons = function () {
     $("#notification-text-toggle").click(function () {
         if (!$(this).hasClass("mdl-button--colored")) {
             $(this).addClass("mdl-button--colored");
+            $("#notification-type").val("text");
             $("#notification-email-toggle").removeClass("mdl-button--colored");
             $("#notification-contact-label").text("Phone Number");
         }
@@ -313,6 +314,7 @@ enableButtons = function () {
     $("#notification-email-toggle").click(function () {
         if (!$(this).hasClass("mdl-button--colored")) {
             $(this).addClass("mdl-button--colored");
+            $("#notification-type").val("email");
             $("#notification-text-toggle").removeClass("mdl-button--colored");
             $("#notification-contact-label").text("Email Address");
         }

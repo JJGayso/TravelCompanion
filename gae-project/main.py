@@ -69,7 +69,6 @@ class HomeHandler(base_handlers.BasePage):
         my_routes_query = Route.query(ancestor=utils.get_parent_key_for_email(users.get_current_user().email())).filter(
             Route.type == 1).order(Route.name)
         values["my_routes"] = my_routes_query.fetch()
-        values["temp"] = "bob"
 
     def get_template(self):
         return jinja_env.get_template("templates/home.html")
@@ -194,8 +193,10 @@ class SaveRouteAction(webapp2.RequestHandler):
             route.start_time = datetime.datetime.strptime(str(self.request.get('route-time')),
                                                           '%I:%M %p')
             route.put()
+            self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(route.key.urlsafe()))
+        else:
+            self.redirect('/')
 
-        self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(route.key.urlsafe()))
 
 class DeleteRouteAction(webapp2.RequestHandler):
     def get(self):
@@ -209,12 +210,43 @@ class DeleteRouteAction(webapp2.RequestHandler):
             self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(current))
 
 
+class CreateNotificationAction(webapp2.RequestHandler):
+    def post(self):
+        if self.request.get('notification-route-entity-key'):
+            user = users.get_current_user()
+            email = user.email().lower()
+            receiver = self.request.get('notification-contact')
+            if str(self.request.get('daily-notification')) == "on":
+                notification_type = 1
+            else:
+                notification_type = 0
+            route_key = ndb.Key(urlsafe=str(self.request.get('notification-route-entity-key')))
+            route = route_key.get()
+            route_time = route.start_time
+            notification_time = route_time - datetime.timedelta(
+                hours=int(self.request.get("notification-hour"))) - datetime.timedelta(
+                minutes=int(self.request.get("notification-minute")))
+
+            new_notification = Notification(parent=utils.get_parent_key_for_email(email),
+                                            creator=email,
+                                            receiver=receiver,
+                                            time=notification_time,
+                                            type=notification_type,
+                                            message="")
+            new_notification.put()
+
+            self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(route.key.urlsafe()))
+        else:
+            self.redirect('/')
+
+
 app = webapp2.WSGIApplication([
     ('/login', LoginPage),
     ('/', HomeHandler),
     ('/edit-route', CreateRouteAction),
     ('/share', ShareRouteAction),
     ('/save', SaveRouteAction),
-    ('/delete-route', DeleteRouteAction)
+    ('/delete-route', DeleteRouteAction),
+    ('/create-notification', CreateNotificationAction)
 
 ], debug=True)

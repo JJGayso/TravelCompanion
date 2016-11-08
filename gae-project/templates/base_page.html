@@ -304,6 +304,8 @@
     <h4 class="mdl-dialog__title">Create Notification</h4>
     <form action="/create-notification" method="POST">
         <div class="mdl-dialog__content">
+            <input type="hidden" name="notification-route-entity-key" id="notification-route-entity-key" value="{{ entity_key }}"/>
+            <input type="hidden" name="notification-type" id="notification-type"/>
             <div id="type-buttons">
                 <button id="notification-email-toggle" type="button"
                         class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
@@ -315,12 +317,25 @@
             </div>
             <br/>
             <div id="notification-contact-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input id="notification-contact" class="mdl-textfield__input" type="text" name="contact">
-                <label id="notification-contact-label" class="mdl-textfield__label" for="contact">Email Address</label>
+                <input id="notification-contact" class="mdl-textfield__input" type="text" name="notification-contact">
+                <label id="notification-contact-label" class="mdl-textfield__label" for="notification-contact">Email Address</label>
+            </div>
+            <span class="mdl-switch__label daily-notification-switch-label">Daily?</span>
+            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect daily-notification-switch" for="daily-notification-switch">
+                <input type="checkbox" id="daily-notification-switch" class="mdl-switch__input" name="daily-notification">
+            </label>
+            <br/>
+            <div id="notification-hour-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input id="notification-hour" class="mdl-textfield__input" type="text" name="notification-hour">
+                <label id="notification-hour-label" class="mdl-textfield__label" for="notification-hour">Hours Before</label>
+            </div>
+            <div id="notification-minute-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input id="notification-minute" class="mdl-textfield__input" type="text" name="notification-minute">
+                <label id="notification-minute-label" class="mdl-textfield__label" for="notification-minute">Minutes Before</label>
             </div>
         </div>
-        <div class="mdl-dialog__actions">
-            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save Notificatoin</button>
+        <div class="mdl-dialog__actions" id="notification-action-buttons">
+            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save Notification</button>
             <button type="button" class="mdl-button mdl-js-button mdl-button--raised close-notification-dialog">
                 Cancel
             </button>
