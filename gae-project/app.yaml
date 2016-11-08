@@ -13,6 +13,16 @@ handlers:
 - url: /static
   static_dir: static
 
+# Cron job to check for notifications to send
+- url: /cron/.*
+  script: main.app
+  login: admin
+
+# Task Queues to send scheduled notifications
+- url: /queue/.*
+  script: main.app
+  login: admin
+
 # Main handler
 - url: .*
   script: main.app

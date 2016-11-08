@@ -1,3 +1,4 @@
+import json
 from datetime import date
 import datetime
 import email
@@ -239,6 +240,30 @@ class CreateNotificationAction(webapp2.RequestHandler):
         else:
             self.redirect('/')
 
+CRON_JOB_INTERVAL_H = 24
+
+class CronCheckNotificationsForSends(webapp2.RequestHandler):
+    """ Daily cron job to check for messages that need to be queued up for the day."""
+    def get(self):
+        now = datetime.now()
+        next_check = now + datetime.timedelta(hours=(CRON_JOB_INTERVAL_H + 1))
+        query = Notification.query(ndb.AND(Notification.type != 2,
+                                               ndb.AND(Notification.time >= now,
+                                                       Notification.time < next_check))).order(Notification.time)
+        num_notification_events_scheduled = 0
+        for notification in query.fetch():
+            num_notification_events_scheduled += 1
+            # Originally we just sent the message during the cron job now we'll schedule a task.
+            message_utils.add_text_message_event_to_task_queue(text_message_event)
+
+        self.response.out.write("Checked for messages to schedule.  Scheduled " + str(num_notification_events_scheduled) + " notifications.")
+
+class QueueSendNotification(webapp2.RequestHandler):
+    def post(self):
+        payload = json.loads(self.request.body)
+        urlsafe_entity_key = payload["urlsafe_entity_key"]
+        notification_event_key = ndb.Key(urlsafe=urlsafe_entity_key)
+        message_utils.send_notification_for_event_key(notification_event_key)
 
 app = webapp2.WSGIApplication([
     ('/login', LoginPage),
@@ -247,6 +272,8 @@ app = webapp2.WSGIApplication([
     ('/share', ShareRouteAction),
     ('/save', SaveRouteAction),
     ('/delete-route', DeleteRouteAction),
-    ('/create-notification', CreateNotificationAction)
+    ('/create-notification', CreateNotificationAction),
+    ("/cron/check-message-events", CronCheckNotificationsForSends),
+    ("/queue/send-message", QueueSendNotification),
 
 ], debug=True)

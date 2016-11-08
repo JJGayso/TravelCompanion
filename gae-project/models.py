@@ -37,3 +37,4 @@ class Notification(ndb.Model):
     time = ndb.DateTimeProperty()
     type = ndb.IntegerProperty()
     message = ndb.StringProperty()
+    is_in_task_queue = ndb.BooleanProperty(default=False)

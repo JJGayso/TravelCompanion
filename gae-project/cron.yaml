@@ -1,0 +1,4 @@
+cron:
+- description: Check to see if any scheduled notifications need to be sent
+  url: /cron/check-notification-events
+  schedule: every 24 hours
