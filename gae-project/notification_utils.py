@@ -124,17 +124,13 @@ def add_notification_to_task_queue(notification):
         etaDay = tomorrow.day
         etaMonth = tomorrow.month
         etaYear = tomorrow.year
-    eta = eta.replace(second=0, hour=notification.time.hour, minute=notification.time.minute, day=etaDay, month=etaMonth,
+    eta = eta.replace(second=0, hour=notification.time.hour, minute=notification.time.minute, day=etaDay,
+                      month=etaMonth,
                       year=etaYear)
-    try:
-        taskqueue.add(url='/queue/send-notification',
-                  name=notification.get_task_name()+eta.strftime("%m%d%Y%I%M"),
+    notification.time = notification.time.replace(day=eta.day, month=eta.month, year=eta.year)
+    notification.put()
+    taskqueue.add(url='/queue/send-notification',
+                  name=notification.get_task_name() + eta.strftime("%m%d%Y%I%M"),
                   payload=json.dumps(payload),
                   eta=eta,
                   retry_options=TaskRetryOptions(task_retry_limit=1))
-    except:
-        taskqueue.add(url='/queue/send-notification',
-                      name=notification.get_task_name()+eta.strftime("%m%d%Y%I%M")+"2",
-                      payload=json.dumps(payload),
-                      eta=eta,
-                      retry_options=TaskRetryOptions(task_retry_limit=1))

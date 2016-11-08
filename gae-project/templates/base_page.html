@@ -60,7 +60,8 @@
             <nav class="mdl-navigation mdl-layout--large-screen-only">
                 <a name="save-route-link" class="mdl-navigation__link save-route-btn">Save Route</a>
                 <a class="mdl-navigation__link my-routes-btn">My Routes</a>
-                <a class="mdl-navigation__link notification-btn">Notifications</a>
+                <a class="mdl-navigation__link notification-btn">Create Notification</a>
+                <a class="mdl-navigation__link my-notifications-btn">My Notifications</a>
                 <a class="mdl-navigation__link" href="{{ logout_url }}">Sign Out</a>
             </nav>
         </div>
@@ -70,7 +71,8 @@
         <nav class="mdl-navigation">
             <a name="save-route-link" class="mdl-navigation__link save-route-btn">Save Route</a>
             <a class="mdl-navigation__link my-routes-btn">My Routes</a>
-            <a class="mdl-navigation__link notification-btn">Notifications</a>
+            <a class="mdl-navigation__link notification-btn">Create Notification</a>
+            <a class="mdl-navigation__link my-notifications-btn">My Notifications</a>
             <a class="mdl-navigation__link" href="{{ logout_url }}">Sign Out</a>
         </nav>
     </div>
@@ -344,6 +346,51 @@
             </button>
         </div>
     </form>
+</dialog>
+<dialog id='my-notifications-dialog' class="mdl-dialog">
+    <h4 class="mdl-dialog__title">My Notifications</h4>
+    <div class="mdl-dialog__content">
+        <div id="notifications-list" class="mdl-list">
+            {% for notification in my_notifications %}
+            <div class="mdl-list__item notification">
+                <span class="mdl-list__item-primary-content">
+                    <span class="hidden my_notification_entity_key">{{ notification.key.urlsafe() }}</span>
+                    <span class="my_notification_name">{{ notification.key.parent().get().name }} - {% if notification.time.hour == 0%}{{notification.time.hour + 1}}{% elif notification.time.hour > 12%}{{notification.time.hour - 12}}{% else %}{{notification.time.hour}}{% endif %}:{% if notification.time.minute == 0 %}00{%else%}{{notification.time.minute}}{%endif%}{% if notification.time.hour > 11%}PM{% else %}AM{% endif %}</span>
+                </span>
+                <button type="button" class="mdl-button mdl-js-button mdl-button--icon edit-notification">
+                    <a class="mdl-list__item-secondary-action notification-edit">
+                        <span class="hidden my_notification_entity_key">{{ notification.key.urlsafe() }}</span>
+                        <span class="hidden my_notification_time_hour">
+                            {% if notification.time.hour == 0%}
+                                {{notification.time.hour + 1}}
+                            {% elif notification.time.hour > 12%}
+                                {{notification.time.hour - 12}}
+                            {% else %}
+                                {{notification.time.hour}}
+                            {% endif %}
+                        </span>
+                        <span class="hidden my_notification_time_minute">{{ notification.time.minute}}</span>
+                        <span class="hidden my_notification_time_half">{% if notification.time.hour > 11%}PM{% else %}AM{% endif %}</span>
+                        <span class=" hidden my_notification_name">{{ notification.key.parent().get().name }}</span>
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                </button>
+                <button type="button" class="mdl-button mdl-js-button mdl-button--icon delete-notification">
+                    <span class="mdl-list__item-secondary-action notification-delete">
+                        <span class="hidden my_notification_entity_key">{{ notification.key.urlsafe() }}</span>
+                        <span class="hidden current_entity_key">{{entity_key}}</span>
+                        <i class="fa fa-trash" aria-hidden="true"></i></span>
+                </button>
+            </div>
+            <hr/>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="mdl-dialog__actions">
+        <button type="button" class="mdl-button mdl-js-button mdl-button--raised close-my-notifications-btn">
+            Close
+        </button>
+    </div>
 </dialog>
 {% endblock %}
 </body>

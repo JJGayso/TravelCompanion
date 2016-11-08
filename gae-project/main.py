@@ -1,4 +1,5 @@
 import json
+import logging
 from datetime import date
 import datetime
 import email
@@ -73,6 +74,9 @@ class HomeHandler(base_handlers.BasePage):
         my_routes_query = Route.query(ancestor=utils.get_parent_key_for_email(users.get_current_user().email())).filter(
             Route.type == 1).order(Route.name)
         values["my_routes"] = my_routes_query.fetch()
+        my_notifications_query = Notification.query(ancestor=utils.get_parent_key_for_email(users.get_current_user().email())).filter(
+            Notification.type != 2)
+        values["my_notifications"] = my_notifications_query.fetch()
 
     def get_template(self):
         return jinja_env.get_template("templates/home.html")
@@ -231,7 +235,7 @@ class CreateNotificationAction(webapp2.RequestHandler):
                 hours=int(self.request.get("notification-hour"))) - datetime.timedelta(
                 minutes=int(self.request.get("notification-minute")))
 
-            new_notification = Notification(parent=utils.get_parent_key_for_email(email),
+            new_notification = Notification(parent=route_key,
                                             creator=email,
                                             receiver=receiver,
                                             time=notification_time,
@@ -244,6 +248,24 @@ class CreateNotificationAction(webapp2.RequestHandler):
         else:
             self.redirect('/')
 
+class DeleteNotificationAction(webapp2.RequestHandler):
+    def get(self):
+        current = self.request.get("current")
+        to_delete = self.request.get("key")
+        to_delete_key = ndb.Key(urlsafe=to_delete)
+        being_deleted = to_delete_key.get()
+        extra = being_deleted.get_task_name() + being_deleted.time.strftime("%m%d%Y%I%M")
+        logging.info(extra)
+        new_notification = Notification(parent=current,
+                                        creator=extra,
+                                        receiver=extra,
+                                        time=being_deleted.time,
+                                        type=1,
+                                        message="")
+        new_notification.put()
+        taskqueue.Queue().delete_tasks_by_name(being_deleted.get_task_name() + being_deleted.time.strftime("%m%d%Y%I%M"))
+        to_delete_key.delete()
+        self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(current))
 
 class QueueSendNotification(webapp2.RequestHandler):
     def post(self):
@@ -269,6 +291,7 @@ app = webapp2.WSGIApplication([
     ('/share', ShareRouteAction),
     ('/save', SaveRouteAction),
     ('/delete-route', DeleteRouteAction),
+    ('/delete-notification', DeleteNotificationAction),
     ('/create-notification', CreateNotificationAction),
     ("/queue/send-notification", QueueSendNotification),
 
