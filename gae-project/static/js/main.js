@@ -233,7 +233,7 @@ enableButtons = function () {
                 if (entity_key != "") {
                     $('input[name=save_entity_key]').val(entity_key);
                 }
-                $("#name").val("");
+                $("#save-route-name").val("");
                 $("#route-time").val("");
                 var name = $(".name").html();
                 var time = $(".route-time").html();
@@ -307,11 +307,18 @@ enableButtons = function () {
         document.querySelector('#my-routes-dialog').close();
         document.querySelector('#save-route-dialog').showModal();
         $("#save-route-dialog .mdl-dialog__title").html("Edit Route");
-        $("#name").val($(this).find(".my_route_name").html());
-        $("#route-time").val($.trim($(this).find(".my_route_time_hour").html()) + ":" + $.trim($(this).find(".my_route_time_minute").html()) + " " + $.trim($(this).find(".my_route_time_half").html()));
+        $("#save-route-name").val($(this).find(".my_route_name").html());
+        var time = $.trim($(this).find(".my_route_time_hour").html()) + ":";
+        if($.trim($(this).find(".my_route_time_minute").html()) == "0"){
+            time = time + "00";
+        } else {
+            time = time + $.trim($(this).find(".my_route_time_minute").html())
+        }
+        time = time + " " + $.trim($(this).find(".my_route_time_half").html());
+        $("#route-time").val(time);
         $("#save-entity-key").val($(this).find(".my_route_entity_key").html());
         document.querySelector('#name-field').MaterialTextfield
-            .change($("#name").val());
+            .change($("#save-route-name").val());
         document.querySelector('#route-time-field').MaterialTextfield
             .change($("#route-time").val());
         var dateinput = $('input[name=route-time]');
