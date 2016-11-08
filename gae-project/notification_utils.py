@@ -55,7 +55,7 @@ def send_notification(notification):
 
     # Send the message only to the appropriate contacts.
     if not '@' in notification.receiver:
-        to_number = notification.receiver
+        to_number = "+1" + notification.receiver
         # Twilio library code:  https://github.com/twilio/twilio-python
         # Twilio library docs: http://twilio-python.readthedocs.io/en/latest/
         rv = client.messages.create(to=to_number,
