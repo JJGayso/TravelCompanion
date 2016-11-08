@@ -22,6 +22,7 @@ class Stop(ndb.Model):
     route_key = ndb.KeyProperty(kind=Route)
     order_number = ndb.IntegerProperty()
     stop_name = ndb.StringProperty()
+    ordered = ndb.BooleanProperty()
 #     streetOne = ndb.StringProperty()
 #     streetTwo = ndb.StringProperty()
 #     city = ndb.StringProperty()

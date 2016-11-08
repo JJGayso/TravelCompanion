@@ -108,6 +108,7 @@
 <dialog id='edit-route-dialog' class="mdl-dialog">
     <h4 class="mdl-dialog__title" id="edit-route-title">Create Route</h4>
     <form id="create-route-form" action="/edit-route" method="POST">
+    	<input class="hidden" id="edit-route-entity-key" name="edit-route-entity-key">
         <div class="mdl-dialog__content">
             <h5 id="destinations_label">Destinations</h5>
             <h5 id="ordered_label">Ordered?</h5>
@@ -117,7 +118,7 @@
                 <input id="stop1" class="mdl-textfield__input" type="text" name="stop1">
                 <label class="mdl-textfield__label" for="stop1">Stop 1</label>
             </div>
-            <label class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop1-checkbox">
+            <label id="stop1-label-checkbox" class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop1-checkbox">
                 <input type="checkbox" id="stop1-checkbox" class="mdl-checkbox__input" name="stop1-checkbox" checked>
             </label>
             <br/>
@@ -125,7 +126,7 @@
                 <input id="stop2" class="mdl-textfield__input" type="text" name="stop2">
                 <label class="mdl-textfield__label" for="stop2">Stop 2</label>
             </div>
-            <label class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop2-checkbox">
+            <label id="stop2-label-checkbox" class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop2-checkbox">
                 <input type="checkbox" id="stop2-checkbox" class="mdl-checkbox__input" name="stop2-checkbox" checked>
             </label>
             <br/>
@@ -133,7 +134,7 @@
                 <input id="stop3" class="mdl-textfield__input" type="text" name="stop3">
                 <label class="mdl-textfield__label" for="stop3">Stop 3</label>
             </div>
-            <label class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop3-checkbox">
+            <label id="stop3-label-checkbox" class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop3-checkbox">
                 <input type="checkbox" id="stop3-checkbox" class="mdl-checkbox__input" name="stop3-checkbox" checked>
             </label>
             <br/>
@@ -141,15 +142,15 @@
                 <input id="stop4" class="mdl-textfield__input" type="text" name="stop4">
                 <label class="mdl-textfield__label" for="stop4">Stop 4</label>
             </div>
-            <label class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop4-checkbox">
+            <label id="stop4-label-checkbox" class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop4-checkbox">
                 <input type="checkbox" id="stop4-checkbox" class="mdl-checkbox__input" name="stop4-checkbox" checked>
             </label>
             <br/>
             <div id="stop5-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input id="stop5" class="mdl-textfield__input" type="text" name="stop5">
-                <label class="mdl-textfield__label" for="stop5">Stop 3</label>
+                <label class="mdl-textfield__label" for="stop5">Stop 5</label>
             </div>
-            <label class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop5-checkbox">
+            <label id="stop5-label-checkbox" class="mdl-checkbox mdl-js-checkbox route-ordered" for="stop5-checkbox">
                 <input type="checkbox" id="stop5-checkbox" class="mdl-checkbox__input" name="stop5-checkbox" checked>
             </label>
             <p id="create-error-msg" class="hidden" style="color: red;">Travel Companion Only Supports 3 Unordered Stops! :)</p>
@@ -306,7 +307,7 @@
 </dialog>
 <dialog id='notification-dialog' class="mdl-dialog">
     <h4 class="mdl-dialog__title">Create Notification</h4>
-    <form action="/create-notification" method="POST">
+    <form id="create-notification-form" action="/create-notification" method="POST">
         <div class="mdl-dialog__content">
             <input type="hidden" name="notification-route-entity-key" id="notification-route-entity-key" value="{{ entity_key }}"/>
             <input type="hidden" name="notification-type" id="notification-type"/>
@@ -338,9 +339,10 @@
                 <input id="notification-minute" class="mdl-textfield__input" type="text" name="notification-minute">
                 <label id="notification-minute-label" class="mdl-textfield__label" for="notification-minute">Minutes Before</label>
             </div>
+            <p id="notification-error-msg" class="hidden" style="color: red;">Fill Out All Fields!</p>
         </div>
         <div class="mdl-dialog__actions" id="notification-action-buttons">
-            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save Notification</button>
+            <button id="create-notification-button" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Save Notification</button>
             <button type="button" class="mdl-button mdl-js-button mdl-button--raised close-notification-dialog">
                 Cancel
             </button>
