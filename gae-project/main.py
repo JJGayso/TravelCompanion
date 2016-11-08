@@ -192,7 +192,7 @@ class SaveRouteAction(webapp2.RequestHandler):
         if self.request.get('save_entity_key'):
             route_key = ndb.Key(urlsafe=self.request.get('save_entity_key'))
             route = route_key.get()
-            route.name = self.request.get('name')
+            route.name = self.request.get('save-route-name')
             route.type = 1
             route.start_time = datetime.datetime.strptime(str(self.request.get('route-time')),
                                                           '%I:%M %p')
