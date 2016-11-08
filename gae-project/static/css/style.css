@@ -287,4 +287,8 @@ background: rgb(0, 128, 120);
 		width: 75%;
 		margin: auto;
 	}
+	
+	#right-panel {
+		width: 375px;
+	}
 }
