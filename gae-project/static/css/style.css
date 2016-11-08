@@ -255,6 +255,18 @@ background: rgb(0, 128, 120);
 	div#notification-minute-field {
 		width: 125px;
 	}
+
+    #directions_header{
+        line-height: .5;
+    }
+
+    #directions-panel{
+        top: 68px;
+    }
+
+    #create-route-text, #recent-route-text, #share-route-text, #edit-route-text{
+        display: none;
+    }
 	
 	#my-routes-dialog{
     	width: 300px;
