@@ -64,15 +64,74 @@ enableButtons = function () {
                 console.log("Edit");
                 $('#create-route-button').html("Edit Route");
                 $("#edit-route-title").html("Edit Route");
-                var entity_key = $('div[name=entity_key]').html()
-                console.log(entity_key);
 
                 document.querySelector('#edit-route-dialog').showModal();
+                           
                 var stop1 = $("#stop1").html();
                 var stop2 = $("#stop2").html();
                 var stop3 = $("#stop3").html();
                 var stop4 = $("#stop4").html();
                 var stop5 = $("#stop5").html();
+                
+                var stop1_checkbox = $('div[name=stop1_checkbox]').html();
+                var stop2_checkbox = $('div[name=stop2_checkbox]').html();
+                var stop3_checkbox = $('div[name=stop3_checkbox]').html();
+                var stop4_checkbox = $('div[name=stop4_checkbox]').html();
+                var stop5_checkbox = $('div[name=stop5_checkbox]').html();
+                
+                if (stop1_checkbox == "on") {
+                	$('#stop1-checkbox').prop('checked', true);
+                	$('#stop1-checkbox').addClass('is-checked');
+                	$('#stop1-label-checkbox').addClass('is-checked');
+                } else {
+                	$('#stop1-checkbox').prop('checked', false);
+                	$('#stop1-checkbox').removeClass('is-checked');
+                	$('#stop1-label-checkbox').removeClass('is-checked');
+                }
+                
+                if (stop2_checkbox == "on") {
+                	$('#stop2-checkbox').prop('checked', true);
+                	$('#stop2-checkbox').addClass('is-checked');
+                	$('#stop2-label-checkbox').addClass('is-checked');
+                } else {
+                	$('#stop2-checkbox').prop('checked', false);
+                	$('#stop2-checkbox').removeClass('is-checked');
+                	$('#stop2-label-checkbox').removeClass('is-checked');
+                }
+                
+                if (stop3_checkbox == "on" || stop3_checkbox == "") {
+                	$('#stop3-checkbox').prop('checked', true);
+                	$('#stop3-checkbox').addClass('is-checked');
+                	$('#stop3-label-checkbox').addClass('is-checked');
+                } else {
+                	$('#stop3-checkbox').prop('checked', false);
+                	$('#stop3-checkbox').removeClass('is-checked');
+                	$('#stop3-label-checkbox').removeClass('is-checked');
+                }
+                
+                if (stop4_checkbox == "on" || stop4_checkbox == "") {
+                	$('#stop4-checkbox').prop('checked', true);
+                	$('#stop4-checkbox').addClass('is-checked');
+                	$('#stop4-label-checkbox').addClass('is-checked');
+                } else {
+                	$('#stop4-checkbox').prop('checked', false);
+                	$('#stop4-checkbox').removeClass('is-checked');
+                	$('#stop4-label-checkbox').removeClass('is-checked');
+                }
+                
+                if (stop5_checkbox == "on" || stop5_checkbox == "") {
+                	$('#stop5-checkbox').prop('checked', true);
+                	$('#stop5-checkbox').addClass('is-checked');
+                	$('#stop5-label-checkbox').addClass('is-checked');
+                } else {
+                	$('#stop5-checkbox').prop('checked', false);
+                	$('#stop5-checkbox').removeClass('is-checked');
+                	$('#stop5-label-checkbox').removeClass('is-checked');
+                }
+                
+                var entity_key = $('div[name=entity_key]').html()
+                console.log(entity_key);
+                $('#edit-route-entity-key').val(entity_key);
 
                 document.querySelector('#stop1-field').MaterialTextfield
                     .change(stop1);
