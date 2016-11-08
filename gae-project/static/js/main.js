@@ -468,7 +468,7 @@ function initMap() {
             $("#map").css("width", "100%");
         }
     }
-    sleep(0);
+    sleep(0.005);
     $("#map").css("height", $(".mdl-layout__content").height());
     $("#right-panel").css("height", $(".mdl-layout__content").height());
 
@@ -623,13 +623,17 @@ function getTime(permutations, route, times, request, callback) {
 		        }
 	        }
 	        console.log(value);
-	        callback(permutations, route, times, value);
+	        var timeWithRoute = {
+	        		"time": value,
+	        		"a_route": route
+	        }
+	        callback(permutations, route, times, timeWithRoute);
 	    }
 	});
 }
 
-function setTime(permutations, route, times, time) {
-	times.push(time);
+function setTime(permutations, route, times, timeWithRoute) {
+	times.push(timeWithRoute);
 	if (times.length == permutations.length) {
 		finishCalculation(permutations, times)
 	}
@@ -637,16 +641,16 @@ function setTime(permutations, route, times, time) {
 
 function finishCalculation(permutations, times) {
 	var index = 0;
-	var smallest = times[0];
+	var smallest = times[0].time;
 	for (var i = 1; i < times.length; i++) {
-	  if (times[i] < smallest) {
-	    smallest = times[i];
+	  if (times[i].time < smallest) {
+	    smallest = times[i].time;
 	    index = i;
 	  }
 	}
 	
 	console.log(index);
-	var bestRoute = permutations[index];
+	var bestRoute = times[index].a_route;
 	$('input[name=stop1]').val(bestRoute[0]);
 	$('input[name=stop2]').val(bestRoute[1]);
 	if (bestRoute.length > 2) {
