@@ -93,9 +93,6 @@
                 <a class="recent-btn">
                     <li><i class="fa fa-clock-o" aria-hidden="true"></i><br/><span id="recent-route-text">Recent Routes</span></li>
                 </a>
-                <a class="share-btn">
-                    <li><i class="fa fa-share-square-o" aria-hidden="true"></i><br/><span id="share-route-text">Share Route</span></li>
-                </a>
             </ul>
         </div>
     </footer>
@@ -160,33 +157,6 @@
                     class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Create Route
             </button>
             <button type="button" class="mdl-button mdl-js-button mdl-button--raised close-edit-route-dialog">
-                Cancel
-            </button>
-        </div>
-    </form>
-</dialog>
-<dialog id='share-dialog' class="mdl-dialog">
-    <h4 class="mdl-dialog__title">Share Route</h4>
-    <form action="/share" method="POST">
-        <div class="mdl-dialog__content">
-            <div id="share-buttons">
-                <button id="email-toggle" type="button"
-                        class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-                    Email
-                </button>
-                <button id="text-toggle" type="button" class="mdl-button mdl-js-button mdl-button--raised">
-                    Text
-                </button>
-            </div>
-            <br/>
-            <div id="contact-field" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input id="contact" class="mdl-textfield__input" type="text" name="contact">
-                <label id="contact-label" class="mdl-textfield__label" for="contact">Email Address</label>
-            </div>
-        </div>
-        <div class="mdl-dialog__actions">
-            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Share</button>
-            <button type="button" class="mdl-button mdl-js-button mdl-button--raised close-share-dialog">
                 Cancel
             </button>
         </div>
@@ -289,7 +259,7 @@
     </div>
 </dialog>
 <dialog id='confirmation-dialog' class="mdl-dialog">
-    <h4 class="mdl-dialog__title">Share Route</h4>
+    <h4 class="mdl-dialog__title">Are You Sure?</h4>
     <div class="mdl-dialog__content">
         <div class="hidden to_delete_entity_key"></div>
         <div class="hidden current_entity_key">{{entity_key}}</div>
@@ -359,24 +329,6 @@
                     <span class="hidden my_notification_entity_key">{{ notification.key.urlsafe() }}</span>
                     <span class="my_notification_name">{{ notification.key.parent().get().name }} - {% if notification.time.hour == 0%}{{notification.time.hour + 1}}{% elif notification.time.hour > 12%}{{notification.time.hour - 12}}{% else %}{{notification.time.hour}}{% endif %}:{% if notification.time.minute == 0 %}00{%else%}{{notification.time.minute}}{%endif%}{% if notification.time.hour > 11%}PM{% else %}AM{% endif %}</span>
                 </span>
-                <button type="button" class="mdl-button mdl-js-button mdl-button--icon edit-notification">
-                    <a class="mdl-list__item-secondary-action notification-edit">
-                        <span class="hidden my_notification_entity_key">{{ notification.key.urlsafe() }}</span>
-                        <span class="hidden my_notification_time_hour">
-                            {% if notification.time.hour == 0%}
-                                {{notification.time.hour + 1}}
-                            {% elif notification.time.hour > 12%}
-                                {{notification.time.hour - 12}}
-                            {% else %}
-                                {{notification.time.hour}}
-                            {% endif %}
-                        </span>
-                        <span class="hidden my_notification_time_minute">{{ notification.time.minute}}</span>
-                        <span class="hidden my_notification_time_half">{% if notification.time.hour > 11%}PM{% else %}AM{% endif %}</span>
-                        <span class=" hidden my_notification_name">{{ notification.key.parent().get().name }}</span>
-                        <i class="fa fa-pencil" aria-hidden="true"></i>
-                    </a>
-                </button>
                 <button type="button" class="mdl-button mdl-js-button mdl-button--icon delete-notification">
                     <span class="mdl-list__item-secondary-action notification-delete">
                         <span class="hidden my_notification_entity_key">{{ notification.key.urlsafe() }}</span>

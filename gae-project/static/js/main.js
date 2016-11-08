@@ -232,23 +232,6 @@ enableButtons = function () {
         document.querySelector('#edit-route-dialog').close();
     });
 
-    $(".share-btn")
-        .click(
-            function () {
-                document.querySelector('#share-dialog').showModal();
-                var contact = $(this).find(".contact").html();
-
-                // Note that I had to use change the mdl way to get the input label to float up.
-                // See: https://github.com/google/material-design-lite/issues/1287
-                document.querySelector('#contact-field').MaterialTextfield
-                    .change(contact);
-            });
-
-    // Password cancel button to close the insert-password-dialog
-    $('.close-share-dialog').click(function () {
-        document.querySelector('#share-dialog').close();
-    });
-
     $("#text-toggle").click(function () {
         if (!$(this).hasClass("mdl-button--colored")) {
             $(this).addClass("mdl-button--colored");

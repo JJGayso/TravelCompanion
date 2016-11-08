@@ -5,7 +5,7 @@
     position: relative !important;
 }
 
-.save-route-btn, #title{
+.save-route-btn, #title {
     cursor: pointer;
     cursor: hand;
 }
@@ -48,14 +48,13 @@
     display: inline-block;
 }
 
-#email-toggle, #notification-email-toggle{
+#email-toggle, #notification-email-toggle {
     margin-right: 15px;
 }
 
-#share-buttons, #recent-close-btn, #type-buttons {
+#recent-close-btn, #type-buttons {
     text-align: center;
 }
-
 
 .mdl-mini-footer--link-list li, .mdl-mini-footer__link-list li {
     margin: 0px 16px;
@@ -171,66 +170,57 @@ html, body {
 .dtp div.dtp-date, .dtp div.dtp-time {
     background: rgb(0, 150, 136);
 }
+
 .dtp > .dtp-content > .dtp-date-view > header.dtp-header {
     background: rgb(0, 128, 120);
 }
 
 .dtp .dtp-actual-meridien a.selected {
-    background: rgb(83,109,254);
+    background: rgb(83, 109, 254);
 }
 
-.saved-route, .recent-route, .my-routes-btn, .notification-btn, .my-notifications-btn{
+.saved-route, .recent-route, .my-routes-btn, .notification-btn, .my-notifications-btn {
     cursor: pointer;
     cursor: hand;
 }
 
-
-
-#saved-routes-list, #notifications-list{
+#saved-routes-list, #notifications-list {
     overflow: auto;
 }
 
-
-
-.recent-route-link, .my-route-link{
+.recent-route-link, .my-route-link {
     text-decoration: none;
 }
-
-
 
 #notification-action-buttons {
     padding-left: 0;
 }
 
+#my-routes-dialog, #my-notifications-dialog {
+    width: 450px;
+}
 
+#notification-minute-field, #notification-hour-field {
+    width: 110px;
+}
 
-@media only screen and (min-width: 500px) {
-    #my-routes-dialog, #my-notifications-dialog{
-        width: 450px;
-    }
+#confirmation-dialog {
+    width: 340px;
+}
 
-    #notification-minute-field, #notification-hour-field{
-        width: 110px;
-    }
+#recent-dialog {
+    width: 500px;
+}
 
-    #confirmation-dialog{
-        width: 340px;
-    }
+#edit-route-dialog {
+    width: 500px;
+}
 
-    #recent-dialog {
-        width: 500px;
-    }
-
-    #edit-route-dialog {
-        width: 500px;
-    }
-
-    #my-routes-dialog, #my-notifications-dialog{
-        width: 300px;
-        height: 500px;
-        overflow: auto;
-    }
-
+#my-routes-dialog, #my-notifications-dialog {
+    width: 300px;
+    height: auto;
+    max-height: 75%;
+    overflow: auto;
 }
 
 @media only screen and (max-width: 499px) {
@@ -256,19 +246,19 @@ html, body {
         width: 125px;
     }
 
-    #directions_header{
+    #directions_header {
         line-height: .5;
     }
 
-    #directions-panel{
+    #directions-panel {
         top: 68px;
     }
 
-    #create-route-text, #recent-route-text, #share-route-text, #edit-route-text{
+    #create-route-text, #recent-route-text, #edit-route-text {
         display: none;
     }
 
-    #my-routes-dialog, #my-notifications-dialog{
+    #my-routes-dialog, #my-notifications-dialog {
         width: 300px;
         height: 500px;
         overflow: auto;
