@@ -31,6 +31,7 @@ enableButtons = function () {
         .click(
             function () {
                 console.log("Create");
+                $("#create-error-msg").addClass("hidden");
                 $('#create-route-button').html("Create Route");
                 $("#edit-route-title").html("Create Route");
                 document.querySelector('#edit-route-dialog').showModal();
@@ -62,6 +63,7 @@ enableButtons = function () {
         .click(
             function () {
                 console.log("Edit");
+                $("#create-error-msg").addClass("hidden");
                 $('#create-route-button').html("Edit Route");
                 $("#edit-route-title").html("Edit Route");
 
@@ -197,6 +199,7 @@ enableButtons = function () {
         
         if (falseCount > 3) {
         	$('#create-error-msg').removeClass("hidden");
+            $("#create-error-msg").html("Travel Companion Only Supports 3 Unordered Stops! :)");
         } else {
         	var route = [];
             stop1_val = $('input[name=stop1]').val();
@@ -270,6 +273,7 @@ enableButtons = function () {
         .click(
             function () {
                 document.querySelector('#save-route-dialog').showModal();
+                $('#save-error-msg').addClass("hidden");
                 $("#save-route-dialog .mdl-dialog__title").html("Save Route");
                 var entity_key = $('div[name=entity_key]').html();
                 if (entity_key != "") {
@@ -277,7 +281,7 @@ enableButtons = function () {
                 }
                 $("#save-route-name").val("");
                 $("#route-time").val("");
-                var name = $(".name").html();
+                var name = $(".save-route-name").html();
                 var time = $(".route-time").html();
                 // Note that I had to use change the mdl way to get the input label to float up.
                 // See: https://github.com/google/material-design-lite/issues/1287
@@ -348,6 +352,7 @@ enableButtons = function () {
     $(".saved-route .route-edit").click(function() {
         document.querySelector('#my-routes-dialog').close();
         document.querySelector('#save-route-dialog').showModal();
+        $('#save-error-msg').addClass("hidden");
         $("#save-route-dialog .mdl-dialog__title").html("Edit Route");
         $("#save-route-name").val($(this).find(".my_route_name").html());
         var time = $.trim($(this).find(".my_route_time_hour").html()) + ":";
@@ -417,6 +422,7 @@ enableButtons = function () {
 
     $(".notification-btn").click(function(){
         document.querySelector("#notification-dialog").showModal();
+        $('#notification-error-msg').addClass("hidden");
     });
     $(".close-notification-dialog").click(function(){
         document.querySelector("#notification-dialog").close();
@@ -747,7 +753,10 @@ function getTime(permutations, route, times, request, callback) {
 	        		"a_route": route
 	        }
 	        callback(permutations, route, times, timeWithRoute);
-	    }
+	    } else if(status == "ZERO_RESULTS"){
+            $('#create-error-msg').removeClass("hidden");
+            $("#create-error-msg").html("No Route Found. Please Try Again :)");
+        }
 	});
 }
 
