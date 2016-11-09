@@ -45,7 +45,9 @@ def get_sent_notifications_for_user(user, limit=20):
 def send_notification(notification):
     # Get the Twilio account information needed to send this text message event.
     creators_email = str(notification.creator)
-    body = "TEST NOTIFICATION"
+    route = notification.key.parent
+    route_name = route.name
+    body = "Don't forget to check your route " + route_name + " on Travel Companion! Find it at " + "www.travel-companion.me/?route=" + route.key
 
     account_sid = "AC56dcdc34222550e22aa248491d16af63"
     auth_token = "32718999e68e03a0b87e4e5787c29e7c"
@@ -67,7 +69,7 @@ def send_notification(notification):
         try:
             message = mail.EmailMessage(
                 sender="email_service@travel-companion-146516.appspotmail.com",
-                subject="Message From " + creators_email + " Via Travel Companion")
+                subject="Message From Travel Companion! Your Personal Travel Companion!")
             message.to = notification.receiver
             message.body = body
             message.send()
