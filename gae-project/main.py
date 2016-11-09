@@ -17,7 +17,6 @@ from models import Route, Notification, Stop
 import utils
 
 
-
 # Jinja environment instance necessary to use Jinja templates.
 def __init_jinja_env():
     jenv = jinja2.Environment(
@@ -53,7 +52,7 @@ class HomeHandler(base_handlers.BasePage):
             stop1 = stops_query[0]
             values["stop1"] = stop1.stop_name
             if stop1.ordered:
-               values["stop1_checkbox"] = "on"
+                values["stop1_checkbox"] = "on"
             else:
                 values["stop1_checkbox"] = "off"
             if (len(stops_query) > 1):
@@ -94,7 +93,8 @@ class HomeHandler(base_handlers.BasePage):
         my_routes_query = Route.query(ancestor=utils.get_parent_key_for_email(users.get_current_user().email())).filter(
             Route.type == 1).order(Route.name)
         values["my_routes"] = my_routes_query.fetch()
-        my_notifications_query = Notification.query(ancestor=utils.get_parent_key_for_email(users.get_current_user().email())).filter(
+        my_notifications_query = Notification.query(
+            ancestor=utils.get_parent_key_for_email(users.get_current_user().email())).filter(
             Notification.type != 2)
         values["my_notifications"] = my_notifications_query.fetch()
 
@@ -117,7 +117,7 @@ class CreateRouteAction(webapp2.RequestHandler):
             route_key = ndb.Key(urlsafe=str(self.request.get('edit-route-entity-key')))
             new_route = route_key.get()
             routeStops = Stop.query(ancestor=route_key).order(Stop.order_number).fetch()
-            
+
             dictionary = {}
             Stop1 = self.request.get('stop1')
             if self.request.get('stop1-checkbox') == 'on':
@@ -125,7 +125,7 @@ class CreateRouteAction(webapp2.RequestHandler):
             else:
                 Checkbox1 = False
             dictionary["Stop1"] = Stop1
-            dictionary["Checkbox-Stop1"] =  Checkbox1
+            dictionary["Checkbox-Stop1"] = Checkbox1
             lastStop = self.request.get('stop2')
             Stop2 = lastStop
             if self.request.get('stop2-checkbox') == 'on':
@@ -133,7 +133,7 @@ class CreateRouteAction(webapp2.RequestHandler):
             else:
                 Checkbox2 = False
             dictionary["Stop2"] = Stop2
-            dictionary["Checkbox-Stop2"] =  Checkbox2
+            dictionary["Checkbox-Stop2"] = Checkbox2
             Stop3 = ""
             Stop4 = ""
             Stop5 = ""
@@ -145,9 +145,9 @@ class CreateRouteAction(webapp2.RequestHandler):
                     Checkbox3 = True
                 else:
                     Checkbox3 = False
-                dictionary["Stop3"] =  Stop3
-                dictionary["Checkbox-Stop3"] =  Checkbox3
-                
+                dictionary["Stop3"] = Stop3
+                dictionary["Checkbox-Stop3"] = Checkbox3
+
             if self.request.get('stop4'):
                 lastStop = self.request.get('stop4')
                 Stop4 = lastStop
@@ -155,9 +155,9 @@ class CreateRouteAction(webapp2.RequestHandler):
                     Checkbox4 = True
                 else:
                     Checkbox4 = False
-                dictionary["Stop4"] =  Stop4
-                dictionary["Checkbox-Stop4"] =  Checkbox4
-                
+                dictionary["Stop4"] = Stop4
+                dictionary["Checkbox-Stop4"] = Checkbox4
+
             if self.request.get('stop5'):
                 lastStop = self.request.get('stop5')
                 Stop5 = lastStop
@@ -166,17 +166,23 @@ class CreateRouteAction(webapp2.RequestHandler):
                 else:
                     Checkbox5 = False
                 dictionary["Stop5"] = Stop5
-                dictionary["Checkbox-Stop5"] =  Checkbox5
-                
+                dictionary["Checkbox-Stop5"] = Checkbox5
+
             new_route.name = Stop1 + " to " + lastStop
-            
-            i = 1
-            for stop in routeStops:
-                stop.ordered = dictionary["Checkbox-Stop" + str(i)]
-                stop.stop_name = dictionary["Stop" + str(i)]
-                stop.put()
-                i += 1
-            
+
+            for i in range(1, (len(dictionary.keys()) / 2) + 1):
+                if i < len(routeStops) + 1:
+                    routeStops[i - 1].ordered = dictionary["Checkbox-Stop" + str(i)]
+                    routeStops[i - 1].stop_name = dictionary["Stop" + str(i)]
+                    routeStops[i - 1].put()
+                else:
+                    new_stop = Stop(parent=new_route.key,
+                                    route_key=new_route.key,
+                                    order_number=i,
+                                    stop_name=dictionary["Stop" + str(i)],
+                                    ordered=dictionary["Checkbox-Stop" + str(i)])
+                    new_stop.put()
+
             new_route.put()
         else:
             firstStop = self.request.get('stop1')
@@ -266,6 +272,7 @@ class CreateRouteAction(webapp2.RequestHandler):
 
         self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(new_route.key.urlsafe()))
 
+
 class SaveRouteAction(webapp2.RequestHandler):
     def post(self):
         if self.request.get('save_entity_key'):
@@ -323,15 +330,18 @@ class CreateNotificationAction(webapp2.RequestHandler):
         else:
             self.redirect('/')
 
+
 class DeleteNotificationAction(webapp2.RequestHandler):
     def get(self):
         current = self.request.get("current")
         to_delete = self.request.get("key")
         to_delete_key = ndb.Key(urlsafe=to_delete)
         being_deleted = to_delete_key.get()
-        taskqueue.Queue().delete_tasks_by_name(being_deleted.get_task_name() + being_deleted.time.strftime("%m%d%Y%I%M"))
+        taskqueue.Queue().delete_tasks_by_name(
+            being_deleted.get_task_name() + being_deleted.time.strftime("%m%d%Y%I%M"))
         to_delete_key.delete()
         self.redirect('/'.join(self.request.referer.split("/")[:3]) + "?route=" + str(current))
+
 
 class QueueSendNotification(webapp2.RequestHandler):
     def post(self):
