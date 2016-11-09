@@ -45,9 +45,9 @@ def get_sent_notifications_for_user(user, limit=20):
 def send_notification(notification):
     # Get the Twilio account information needed to send this text message event.
     creators_email = str(notification.creator)
-    route = notification.key.parent
+    route = notification.key.parent().get()
     route_name = route.name
-    body = "Don't forget to check your route " + route_name + " on Travel Companion! Find it at " + "www.travel-companion.me/?route=" + route.key
+    body = "Don't forget to check your route " + route_name + " on Travel Companion! Find it at " + "www.travel-companion.me/?route=" + route.key.urlsafe()
 
     account_sid = "AC56dcdc34222550e22aa248491d16af63"
     auth_token = "32718999e68e03a0b87e4e5787c29e7c"
@@ -91,10 +91,10 @@ def send_notification_now(notification):
 
 def send_notification_for_event_key(notification_key):
     notification = notification_key.get()
-    try:
-        send_notification(notification)
-    except:
-        logging.error("Sending the message failed. Catching the error to avoid the retry.")
+    #try:
+    send_notification(notification)
+    #except:
+    #    logging.error("Sending the message failed. Catching the error to avoid the retry.")
 
 
 def add_notification_to_task_queue(notification):
